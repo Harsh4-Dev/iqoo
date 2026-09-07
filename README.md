@@ -26,6 +26,11 @@ The design documents that specify the real build live alongside it:
 |---|---|
 | [`SlateAI_iQOO_Pitch.md`](SlateAI_iQOO_Pitch.md) | **Why** — the premise, SlateCore, the scoring strategy, the risk register |
 | [`SlateAI_Feature_Spec.md`](SlateAI_Feature_Spec.md) | **What ships** — four pillars, scope tiers, build order, hour-by-hour plan |
+| [`VIDEO_SCRIPT.md`](VIDEO_SCRIPT.md) | **The launch film** — timecoded edit, voice-over, b-roll shot list, music and transition direction |
+
+The launch keynote itself lives at [`deck/`](deck/) — twenty self-running slides at
+1920×1080 with the device morphing between them, built to be screen-recorded. Press
+**F** for fullscreen, **H** to hide the controls, **C** to toggle burn-in captions.
 
 ---
 
