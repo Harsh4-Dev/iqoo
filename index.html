@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EduQoo — one phone, a whole classroom, zero internet</title>
+<meta name="description" content="EduQoo turns one iQOO phone into an entire school's AI infrastructure: a local agent runtime driving a tutor, a grounded notebook, a live quiz system and a classroom server that thirty students reach from any browser — with no installs, no data plan and no internet.">
+<meta name="theme-color" content="#FBF8F2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0A1211" media="(prefers-color-scheme: dark)">
+
+<meta property="og:title" content="EduQoo — one phone. A whole classroom. Zero internet.">
+<meta property="og:description" content="A tappable prototype of a local agent runtime for the disconnected classroom. Built for the iQOO Hackathon, Track 02 · Smart Education.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://harsh4-dev.github.io/iqoo/">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230B1A19'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23E29A2E'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Caveat:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/phone.css">
+<link rel="stylesheet" href="assets/css/doodle.css">
+</head>
+<body>
+
+<!-- the hand-drawn wobble, defined once -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <filter id="ddRough" x="-20%" y="-20%" width="140%" height="140%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.016" numOctaves="3" seed="7" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="2.1" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</defs></svg>
+
+<!-- ============================ NAV ============================ -->
+<header class="nav">
+  <div class="wrap nav__in">
+    <a class="brand" href="#top"><span class="brand__dot"></span>EduQoo<small>SlateCore</small></a>
+    <span class="nav__spacer"></span>
+    <nav class="nav__links">
+      <a class="nav__link" href="#prototype">Prototype</a>
+      <a class="nav__link" href="#pillars">Pillars</a>
+      <a class="nav__link" href="#runtime">Runtime</a>
+      <a class="nav__link" href="#hardware">The phone</a>
+      <a class="nav__link" href="#demo">Demo</a>
+    </nav>
+    <button class="icon-btn" id="themeBtn" aria-label="Toggle blackboard mode" title="Notebook / blackboard"></button>
+    <a class="btn btn--primary" href="https://github.com/Harsh4-Dev/iqoo" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19.5c-4.6 1.4-4.6-2.4-6.5-2.9m13 5.4v-3.6a3.1 3.1 0 0 0-.9-2.4c2.9-.3 6-1.4 6-6.4a5 5 0 0 0-1.4-3.5 4.6 4.6 0 0 0-.1-3.5s-1.1-.3-3.6 1.4a12.4 12.4 0 0 0-6.6 0C6.4 1.9 5.3 2.2 5.3 2.2a4.6 4.6 0 0 0-.1 3.5A5 5 0 0 0 3.8 9.3c0 4.9 3 6 5.9 6.4a3.1 3.1 0 0 0-.9 2.3v3.6"/></svg>
+      GitHub
+    </a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============================ HERO ============================ -->
+<section class="hero">
+  <div class="wrap">
+    <span class="hero__badge"><b>iQOO Hackathon</b> Track 02 · Smart Education · Chennai City Battle</span>
+    <h1>One phone. A whole classroom.<br><em>Zero internet required.</em></h1>
+    <p class="lede">A tutor, a grounded notebook, a live quiz system and a classroom server — all running on the AI already inside one iQOO phone. Thirty students reach it from any browser, with no installs, no data plan and no account.</p>
+    <div class="hero__cta">
+      <a class="btn btn--primary" href="#prototype">Open the prototype</a>
+      <a class="btn btn--ghost" href="#runtime">How SlateCore works</a>
+    </div>
+    <div class="hero__stats">
+      <div class="stat"><b>1</b><span>capable device per room</span></div>
+      <div class="stat"><b>0</b><span>installs, accounts, data</span></div>
+      <div class="stat"><b>T0</b><span>the design target</span></div>
+      <div class="stat"><b>2B</b><span>params, on-device</span></div>
+      <div class="stat"><b>7</b><span>tools in the registry</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= THE PROTOTYPE ========================= -->
+<section class="stage" id="prototype">
+  <div class="stage__grid">
+    <div class="doodle-layer" id="doodles" aria-hidden="true"></div>
+
+    <aside class="rail rail--left"></aside>
+
+    <div class="phone-col">
+      <!-- ============ THE DEVICE ============ -->
+      <div class="phone">
+        <span class="phone__vol phone__vol--up"></span>
+        <span class="phone__vol phone__vol--down"></span>
+        <span class="phone__btn phone__btn--power"></span>
+
+        <div class="screen">
+          <div class="island"><span class="island__txt"><i></i>class.local · 8 joined</span></div>
+
+          <div class="statusbar">
+            <span id="clock">10:08</span>
+            <span class="statusbar__r">
+              <span id="sig"></span>
+              <svg class="bat" viewBox="0 0 26 14" fill="none" stroke="currentColor" stroke-width="1.4">
+                <rect x="1" y="1.5" width="20" height="11" rx="3"/>
+                <rect x="3" y="3.5" width="14" height="7" rx="1.5" fill="currentColor" stroke="none"/>
+                <path d="M23 5.5v3" stroke-linecap="round"/>
+              </svg>
+            </span>
+          </div>
+
+          <div class="app">
+            <div class="viewport" id="viewport"></div>
+
+            <button class="rtchip" data-act="trace"><i></i>SlateCore</button>
+            <div class="toast" id="toast"></div>
+            <div class="scrim" id="scrim"></div>
+
+            <!-- runtime inspector -->
+            <div class="sheet" id="sheet" role="dialog" aria-label="SlateCore runtime trace">
+              <div class="sheet__grab"><i></i></div>
+              <div class="sheet__h">
+                <b>SlateCore<small>local agent runtime · this turn</small></b>
+                <button class="vhead__back" data-act="closeSheet" aria-label="Close">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+                </button>
+              </div>
+              <div class="sheet__body" id="traceBody"></div>
+            </div>
+
+            <nav class="tabbar" id="tabbar"></nav>
+            <div class="homebar"><i></i></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="stage__caption">
+        Fully interactive — nothing here is a screenshot. Keys: <kbd>1</kbd>–<kbd>5</kbd> switch tabs, <kbd>T</kbd> cycles the connectivity tier, <kbd>R</kbd> flips student / teacher.
+      </p>
+    </div>
+
+    <aside class="rail rail--right"></aside>
+  </div>
+</section>
+
+<!-- ============================ PILLARS ============================ -->
+<section class="section section--alt" id="pillars">
+  <div class="wrap">
+    <div class="section__head section__head--center reveal">
+      <span class="eyebrow">Four surfaces, one runtime</span>
+      <h2>Not four apps. Four sets of<br>tool definitions.</h2>
+      <p class="lede">Every feature is a tool plus a prompt spec, never a new subsystem. That is the only reason a full education system is credible in thirty hours — and it is the argument that turns ambition from a red flag into a design claim.</p>
+    </div>
+
+    <div class="grid grid--4">
+      <article class="card pillar reveal">
+        <span class="pillar__no">01</span>
+        <span class="pillar__ico tint-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.4 9.6a13 13 0 0 1 15.2 0"/><path d="M7.6 13.2a8.4 8.4 0 0 1 8.8 0"/><path d="M10.7 16.7a3.6 3.6 0 0 1 2.6 0"/><path d="M12 20h.01"/></svg></span>
+        <h3>ClassDrop</h3>
+        <p>The teacher's phone raises an access point with no uplink behind it and serves a web client. Students scan a QR and land in the class in their browser. Notes, PDFs, worksheets, quizzes and audio push in real time, with delivery receipts.</p>
+        <div class="pillar__meta">AirDrop for a room where nobody has AirDrop</div>
+      </article>
+
+      <article class="card pillar reveal">
+        <span class="pillar__no">02</span>
+        <span class="pillar__ico tint-violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5h6a2.6 2.6 0 0 1 2 2.5v12a2 2 0 0 0-2-1.7H4z"/><path d="M20 4.5h-6a2.6 2.6 0 0 0-2 2.5v12a2 2 0 0 1 2-1.7h6z"/></svg></span>
+        <h3>StudyDesk</h3>
+        <p>Import a chapter and it becomes a queryable study companion whose answers are grounded strictly in that source, with the line cited. Ask something outside it and the answer is <em>"that isn't in your material."</em></p>
+        <div class="pillar__meta">NotebookLM, minus the notebook leaving the phone</div>
+      </article>
+
+      <article class="card pillar reveal">
+        <span class="pillar__no">03</span>
+        <span class="pillar__ico tint-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 3.5h-4a1.5 1.5 0 0 0-1.5 1.5v14a1.5 1.5 0 0 0 1.5 1.5h15a1.5 1.5 0 0 0 1.5-1.5V10"/><path d="M7.5 11.6 11 15l9.5-10"/></svg></span>
+        <h3>ClassTest</h3>
+        <p>Questions auto-generate from any indexed source under a hard schema, get verified — grounding first, then Symja for anything numeric — and land on every joined browser at once. Grading is local, so the heatmap builds instantly at T0.</p>
+        <div class="pillar__meta">A wrong answer key is worse than no quiz</div>
+      </article>
+
+      <article class="card pillar reveal">
+        <span class="pillar__no">04</span>
+        <span class="pillar__ico tint-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 12.2c0 4-3.8 7.2-8.5 7.2a10 10 0 0 1-2.6-.34L4 21l1.3-3.7A6.8 6.8 0 0 1 3.5 12.2C3.5 8.2 7.3 5 12 5s8.5 3.2 8.5 7.2Z"/></svg></span>
+        <h3>StepTutor</h3>
+        <p>It checks whether each line of your working is equivalent to the one above it and flags the first line where that stops being true. Then it plays an animated walkthrough, narrated in Tamil or Hindi, rendered frame-by-frame from the CAS trace.</p>
+        <div class="pillar__meta">It tells you which line, then shows you</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ TIERS ============================ -->
+<section class="section" id="tiers">
+  <div class="wrap">
+    <div class="section__head reveal">
+      <span class="eyebrow">The premise</span>
+      <h2>Bad internet is the country.<br>Not <span class="mark">no</span> internet.</h2>
+      <p class="lede">One bar, 2G fallback, packet loss, a data pack that ran out on the 20th, a hostel basement, a village at six in the evening. Apps do not fail cleanly there — they hang, retry and spin, and the student watches a loader. So connectivity is treated as a dial, not a switch, and the app is built to be <em>best</em> at the bottom of it.</p>
+    </div>
+
+    <div class="tiers reveal">
+      <div class="tier tier--hero">
+        <div class="tier__bar"><i style="width:100%"></i></div>
+        <h3>T0 — Dark <span>no network at all</span></h3>
+        <p>Every feature completes, fully. Nothing degrades, nothing queues, nothing spins. This is the design target, not the fallback — and it is what the demo opens on, with airplane mode visibly switched on.</p>
+        <span class="tier__tag tint-green">the design target</span>
+      </div>
+      <div class="tier">
+        <div class="tier__bar"><i style="width:52%;background:var(--amber)"></i></div>
+        <h3>T1 — Weak <span>2G · one bar</span></h3>
+        <p>Text and deltas sync opportunistically; media queues. Everything is compressed and resumable, and the UI never blocks on any of it. The student never learns that the network is bad.</p>
+        <span class="tier__tag tint-amber">faster, not possible</span>
+      </div>
+      <div class="tier">
+        <div class="tier__bar"><i style="width:100%;background:var(--blue)"></i></div>
+        <h3>T2 — Good <span>real bandwidth, briefly</span></h3>
+        <p>Burst sync. Genuinely hard questions may escalate to cloud — but only when the local verifier reports low confidence <em>and</em> the network is actually good. Local-first, cloud-optional, which is also how the sponsor's AI credits get used honestly.</p>
+        <span class="tier__tag tint-blue">richer, still optional</span>
+      </div>
+    </div>
+
+    <p class="lede reveal" style="margin-top:26px;max-width:70ch"><b>The design rule:</b> every feature must complete at T0. T1 and T2 make it faster or richer — never <em>possible</em>. Flip the strip on the phone above and check that claim yourself.</p>
+  </div>
+</section>
+
+<!-- ============================ RUNTIME ============================ -->
+<section class="section section--ink" id="runtime">
+  <div class="wrap">
+    <div class="section__head reveal">
+      <span class="eyebrow">The technical heart</span>
+      <h2>SlateCore — a local agent runtime.</h2>
+      <p class="lede">Everyone at a hackathon can call a local model. Almost nobody builds the harness that makes a 2B model reliable enough to be trusted with a child's homework. That harness is the project; the education system is what it is pointed at.</p>
+    </div>
+
+    <pre class="arch reveal">┌───────────────────────────────────────────────────────────────┐
+│                          SlateCore                            │
+│                                                               │
+│  ROUTER          local-first · confidence-gated escalation    │
+│      ↓                                                        │
+│  CONTEXT BUDGETER   token accounting · attention budget       │
+│      ↓                                                        │
+│  ASSEMBLER    system │ core memory │ retrieved │ scratchpad   │
+│      ↓                                                        │
+│  PLANNER LOOP        step limit · timeout · cancel            │
+│      ↓                                                        │
+│  TOOL REGISTRY   typed Kotlin schema → JSON Schema            │
+│   ├─ cas.check()        Symja — is line N+1 equivalent?       │
+│   ├─ retrieve()         SQLite vector store, 768-dim          │
+│   ├─ ocr()              ML Kit                                │
+│   ├─ speak()            Android TTS, regional language        │
+│   ├─ quiz.generate()    schema-constrained                    │
+│   ├─ class.broadcast()  push to every joined device           │
+│   └─ progress.write()   per-student long-term memory          │
+│      ↓                                                        │
+│  TWO-PASS EXECUTOR    pass 1 unconstrained → tool calls       │
+│                       pass 2 schema-constrained → answer      │
+│      ↓                                                        │
+│  VERIFIER    CAS ground truth · grounding check · confidence  │
+│      ↓                                                        │
+│  MEMORY   core (pinned) │ working (compacted) │ archival      │
+└───────────────────────────────────────────────────────────────┘
+       Gemma 4 E2B via LiteRT-LM  ·  Symja CAS  ·  SQLite</pre>
+
+    <div class="grid grid--3" style="margin-top:30px">
+      <article class="card reveal" style="background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.10)">
+        <span class="eyebrow" style="color:var(--amber)">Hard part 01</span>
+        <h3 style="margin-top:10px">Constrained decoding is the foundation</h3>
+        <p style="color:rgba(255,255,255,.62)">LiteRT-LM enforces the JSON schema at the decoding level — the engine guarantees compliance instead of you parsing free text and hoping. On Gemma 4 edge builds that lifted a 24-way classification task by +0.35 and JSON generation by +0.90, for roughly 0.06s of latency. It buys about a model generation of reliability for free, which is why 2B is enough here.</p>
+      </article>
+
+      <article class="card reveal" style="background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.10)">
+        <span class="eyebrow" style="color:var(--amber)">Hard part 02</span>
+        <h3 style="margin-top:10px">Tool Suppression, and the fix</h3>
+        <p style="color:rgba(255,255,255,.62)">Enable schema constraints and tool calling in the same pass and open-weight models quietly stop invoking tools — the grammar mask makes tool-call tokens unreachable while the output stays schema-valid. SlateCore uses transparent two-pass execution: pass 1 decides and runs tools, pass 2 formats under the schema. Open the runtime chip on the phone and you can watch both passes.</p>
+      </article>
+
+      <article class="card reveal" style="background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.10)">
+        <span class="eyebrow" style="color:var(--amber)">Hard part 03</span>
+        <h3 style="margin-top:10px">A finite attention budget</h3>
+        <p style="color:rgba(255,255,255,.62)">Context length degrades quality through lost-in-the-middle effects long before the hard token limit. So: ~120 tokens of pinned core memory, working memory compacted on fill, raw tool results cleared once consumed, a scratchpad written to disk <em>outside</em> the window, top-k retrieval from today's chapter only, and seven deliberately non-overlapping tools.</p>
+      </article>
+    </div>
+
+    <p class="pullquote reveal" style="margin-top:44px">The language model never decides whether the maths is right. <em>A computer algebra system does.</em></p>
+    <p class="lede reveal" style="margin-top:16px;max-width:62ch">The model only phrases the explanation. We will not hallucinate at a child learning calculus — and that is a property of the architecture, not a promise about the prompt.</p>
+  </div>
+</section>
+
+<!-- ============================ HARDWARE ============================ -->
+<section class="section" id="hardware">
+  <div class="wrap">
+    <div class="section__head reveal">
+      <span class="eyebrow">Why this has to be the phone</span>
+      <h2>The architecture <span class="mark">requires</span> the device.</h2>
+      <p class="lede">A quarter of the hackathon score is device telemetry, and it is the quarter you cannot fake. Native Kotlin and Jetpack Compose — not Flutter, not a web wrapper — because everything load-bearing here lives at the native layer.</p>
+    </div>
+
+    <div class="grid grid--2 reveal">
+      <article class="card">
+        <h3>Accelerator access</h3>
+        <p>LiteRT / QNN delegates, NNAPI and constrained decoding are native-layer concerns. A cross-platform wrapper hands them to you at arm's length or not at all — and constrained decoding is load-bearing for the whole verifier story, so arm's length is not an option.</p>
+      </article>
+      <article class="card">
+        <h3>Radios and services</h3>
+        <p>The embedded Ktor server, the local-only hotspot and a sustained inference loop all need real foreground-service lifecycle and real permission handling. The phone is not running the app — the phone <em>is</em> the server the whole room is talking to.</p>
+      </article>
+      <article class="card">
+        <h3>Camera, mic and TTS with no bridge tax</h3>
+        <p>CameraX and Android <code>TextToSpeech</code> called directly, with no serialisation hop per frame. The regional-language voice packs are downloaded once and then work with the radios off — which is the only reason the Tamil audio survives airplane mode.</p>
+      </article>
+      <article class="card">
+        <h3>Real utilisation, not simulated</h3>
+        <p>Camera, mic, TTS, an on-device model, the hotspot radio and a foreground service, all doing genuine sustained work. The telemetry is real because the design needs it to be — not because the metric was gamed.</p>
+      </article>
+    </div>
+
+    <div class="section__head reveal" style="margin-top:64px">
+      <span class="eyebrow">The honest part</span>
+      <h2>What we deliberately do not build.</h2>
+      <p class="lede">A clean "no, and here's why" beats a broken yes. These are roadmap, and saying so out loud is how you show you know where the edge is.</p>
+    </div>
+    <dl class="spec reveal">
+      <div class="spec__row"><dt>Generative video</dt><dd>Not feasible on-device, and it would hallucinate maths. The walkthrough is <em>rendered</em> from the CAS trace instead, which is why it cannot show a wrong step.</dd></div>
+      <div class="spec__row"><dt>Tamil handwriting OCR</dt><dd>ML Kit Text Recognition v2 has no Tamil script model. Tamil is spoken output only, and we say so rather than promising it.</dd></div>
+      <div class="spec__row"><dt>Live continuous camera explanation</dt><dd>Thermal throttling on a phone that has been building for twenty-eight hours. Single-shot inference only.</dd></div>
+      <div class="spec__row"><dt>Auto-grading handwritten long-form answers</dt><dd>Unreliable, and a wrong grade on a child's work is a real harm — not a rounding error.</dd></div>
+      <div class="spec__row"><dt>Cloud accounts, login, multi-school sync</dt><dd>Contradicts the entire premise. There is no account because there is no server that outlives the class.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ============================ DEMO ============================ -->
+<section class="section section--alt" id="demo">
+  <div class="wrap">
+    <div class="section__head reveal">
+      <span class="eyebrow">Two minutes thirty</span>
+      <h2>The demo, beat by beat.</h2>
+      <p class="lede">Rehearsed aloud, timed, four times. It opens by killing the network and closes on the line that is the whole thesis.</p>
+    </div>
+
+    <dl class="spec reveal">
+      <div class="spec__row"><dt><code>0:00</code> Kill the network</dt><dd>Airplane mode on, visibly. Hotspot back on. <em>"That is a local network with nothing behind it."</em></dd></div>
+      <div class="spec__row"><dt><code>0:15</code> Recruit the jury</dt><dd>QR on screen. <em>"Please take out your own phones and scan this."</em> They land in the classroom in a browser, no install. This is the moment they remember.</dd></div>
+      <div class="spec__row"><dt><code>0:45</code> Distribute</dt><dd>Photograph a board. Clean notes appear. Tap Push — every device in the room, including the judges', refreshes.</dd></div>
+      <div class="spec__row"><dt><code>1:15</code> Tutor, at real difficulty</dt><dd>A worked integral with a planted error on line 3. It flags line 3 and explains in Tamil. <em>"The model did not decide that. A computer algebra system did."</em></dd></div>
+      <div class="spec__row"><dt><code>1:45</code> Show the runtime</dt><dd>One tap reveals the trace: tools called, tokens spent, verifier verdict, confidence. <em>"Two-pass execution, because schema constraints suppress tool calls if you don't separate them."</em></dd></div>
+      <div class="spec__row"><dt><code>2:10</code> Office Kit</dt><dd>Pull the analytics CSV to the laptop while the phone stays on the hotspot.</dd></div>
+      <div class="spec__row"><dt><code>2:25</code> Close</dt><dd><em>"One phone. Thirty students. No installs, no data, no internet — and when the network comes back, it only gets better. It was never required."</em></dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ============================ FOOTER ============================ -->
+<footer class="footer">
+  <div class="wrap footer__in">
+    <span class="brand" style="font-size:.95rem"><span class="brand__dot"></span>EduQoo</span>
+    <span>Prototype for the iQOO Hackathon · Track 02 Smart Education. Finale-portable under Track 09 or Track 06.</span>
+    <span class="nav__spacer"></span>
+    <a href="https://github.com/Harsh4-Dev/iqoo">Source</a>
+    <a href="https://iqoo.reskilll.com/" target="_blank" rel="noopener">Hackathon</a>
+  </div>
+</footer>
+
+</main>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/qr.js"></script>
+<script src="assets/js/icons.js"></script>
+<script src="assets/js/doodles.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

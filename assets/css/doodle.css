@@ -1,0 +1,161 @@
+/* ============================================================
+   EduQoo — the doodle layer
+   Hand-drawn SVG scenes that swap with the on-screen app view.
+   Strokes draw themselves on; a turbulence filter adds the wobble.
+   ============================================================ */
+
+/* ---- one scene ---- */
+.dscene {
+  position: absolute; inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 420ms var(--ease);
+}
+.dscene.is-live { opacity: 1; }
+
+.dscene svg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  overflow: visible;
+}
+
+/* ---- stroke defaults ---- */
+.dd {
+  fill: none;
+  stroke: var(--stroke);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: .58;
+}
+.dd--thin  { stroke-width: 1.2; opacity: .42; }
+.dd--bold  { stroke-width: 2.4; opacity: .72; }
+.dd--ghost { opacity: .24; stroke-dasharray: 4 5; }
+
+.dd--amber  { stroke: var(--amber);  opacity: .82; }
+.dd--green  { stroke: var(--green);  opacity: .82; }
+.dd--red    { stroke: var(--red);    opacity: .86; }
+.dd--violet { stroke: var(--violet); opacity: .82; }
+.dd--blue   { stroke: var(--blue);   opacity: .82; }
+
+.ddf { fill: var(--stroke); stroke: none; opacity: .5; }
+
+/* the wobble is applied once, at group level, for performance */
+.rough { filter: url(#ddRough); }
+.ddf--amber  { fill: var(--amber);  opacity: .18; }
+.ddf--green  { fill: var(--green);  opacity: .16; }
+.ddf--red    { fill: var(--red);    opacity: .16; }
+.ddf--violet { fill: var(--violet); opacity: .16; }
+.ddf--blue   { fill: var(--blue);   opacity: .16; }
+
+/* ---- handwriting labels inside SVG ---- */
+.ddt {
+  font-family: var(--font-hand);
+  font-size: 19px;
+  fill: var(--stroke);
+  opacity: .72;
+  stroke: none;
+  letter-spacing: .012em;
+}
+.ddt--sm  { font-size: 15px; opacity: .6; }
+.ddt--lg  { font-size: 25px; opacity: .8; }
+.ddt--amber  { fill: var(--amber-2);  opacity: .95; }
+.ddt--green  { fill: var(--green-2);  opacity: .95; }
+.ddt--red    { fill: var(--red);      opacity: .95; }
+.ddt--violet { fill: var(--violet);   opacity: .95; }
+.ddt--blue   { fill: var(--blue);     opacity: .95; }
+:root[data-theme="dark"] .ddt--amber { fill: var(--amber); }
+:root[data-theme="dark"] .ddt--green { fill: var(--green); }
+
+.ddm {
+  font-family: var(--font-math);
+  font-size: 17px;
+  fill: var(--stroke);
+  opacity: .7; stroke: none;
+}
+
+/* ---- draw-on animation --------------------------------------
+   Every animated path carries pathLength="1", so one keyframe
+   set covers paths of any real length.
+   -------------------------------------------------------------- */
+.draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.dscene.is-live .draw {
+  animation: ddDraw 900ms var(--ease-out) forwards;
+  animation-delay: var(--d, 0ms);
+}
+@keyframes ddDraw { to { stroke-dashoffset: 0; } }
+
+/* fills + text fade in instead of drawing */
+.pop { opacity: 0; }
+.dscene.is-live .pop {
+  animation: ddPop 460ms var(--ease-out) forwards;
+  animation-delay: var(--d, 0ms);
+}
+@keyframes ddPop {
+  0%   { opacity: 0; transform: scale(.9); }
+  100% { opacity: var(--o, .72); transform: none; }
+}
+.dscene.is-live .ddf.pop  { animation-name: ddPopF; }
+@keyframes ddPopF { to { opacity: var(--o, .16); } }
+
+/* subtle idle float so the sketch feels alive */
+.float { animation: ddFloat 7s var(--ease-soft) infinite; transform-origin: center; }
+.float--b { animation-duration: 9s; animation-delay: -2.5s; }
+.float--c { animation-duration: 11s; animation-delay: -5s; }
+@keyframes ddFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-7px) rotate(.5deg); }
+}
+
+/* travelling dash — used for signal / data-flow lines */
+.flow {
+  stroke-dasharray: 5 7;
+  animation: ddFlow 1.4s linear infinite;
+}
+@keyframes ddFlow { to { stroke-dashoffset: -24; } }
+
+/* pulsing broadcast rings */
+.ring { transform-origin: center; opacity: 0; }
+.dscene.is-live .ring { animation: ddRing 3s var(--ease-out) infinite; animation-delay: var(--d, 0ms); }
+@keyframes ddRing {
+  0%   { transform: scale(.35); opacity: .6; }
+  100% { transform: scale(1.15); opacity: 0; }
+}
+
+/* blinking cross for the error beat */
+.blink { animation: ddBlink 1.5s var(--ease-soft) infinite; }
+@keyframes ddBlink { 0%,100% { opacity: .95; } 50% { opacity: .35; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .dscene.is-live .draw { animation: none; stroke-dashoffset: 0; }
+  .dscene.is-live .pop  { animation: none; opacity: .7; }
+  .dscene.is-live .ring { animation: none; opacity: .2; }
+  .float, .flow, .blink { animation: none; }
+}
+
+/* ---- inline note diagrams (in the rails) ---- */
+.note__svg .dd { opacity: .55; }
+.note__svg .ddt { font-size: 15px; }
+
+/* ---- section decorations ---- */
+.deco {
+  position: absolute; pointer-events: none; z-index: 0;
+  opacity: .5;
+}
+.deco--tl { top: -18px; left: -34px; }
+.deco--tr { top: -26px; right: -20px; }
+.deco--br { bottom: -20px; right: -26px; }
+.section--ink .dd  { stroke: var(--paper); opacity: .3; }
+.section--ink .ddt { fill: var(--paper); opacity: .5; }
+
+/* arrow that points at the phone from a note */
+.point {
+  position: absolute; top: 8px; pointer-events: none;
+  color: var(--stroke); opacity: .35;
+}
+.rail--left  .point { right: -52px; }
+.rail--right .point { left: -52px; }
+@media (max-width: 1180px) { .point { display: none; } }
