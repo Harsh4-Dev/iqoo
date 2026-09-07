@@ -140,9 +140,11 @@ GitHub Pages, published by [`.github/workflows/pages.yml`](.github/workflows/pag
 every push to `main`. There is no build step — the workflow uploads the repository root as-is
 and deploys it. `.nojekyll` is present so nothing is preprocessed.
 
-**One-time setup:** the workflow asks GitHub to enable Pages for you on its first run. If that
-step fails (the token isn't always permitted to), set it by hand once:
-**Settings → Pages → Source → GitHub Actions**, then re-run the workflow.
+**One-time setup, required before the first successful run:**
+**Settings → Pages → Build and deployment → Source → GitHub Actions.**
+GitHub's default workflow token is not permitted to enable Pages on its own, so this one switch
+cannot be automated. Flip it, re-run the workflow (Actions → Deploy to GitHub Pages → Run
+workflow), and every push to `main` publishes from then on.
 
 CSS and JS are requested with a `?v=` query string. Bump it in `index.html` and
 `deck/index.html` whenever you change an asset, so nobody gets a stale file from cache.

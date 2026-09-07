@@ -31,14 +31,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # ONE-TIME SETUP, before this ever succeeds:
+      #   Settings -> Pages -> Build and deployment -> Source: GitHub Actions
+      # The default GITHUB_TOKEN is not allowed to turn Pages on by itself,
+      # so there is no way to automate that first switch. Flip it once, then
+      # re-run this workflow and every push to main publishes from here on.
       - name: Configure Pages
         uses: actions/configure-pages@v5
-        with:
-          # Turns Pages on for the repo if it isn't already, so the first
-          # run works without visiting Settings. If the token isn't allowed
-          # to do that, this step fails and you enable it once by hand:
-          # Settings -> Pages -> Source: GitHub Actions.
-          enablement: true
 
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
