@@ -244,7 +244,7 @@ const DATA = {
     ],
   },
 
-  /* SlateCore tool registry, as shown in the trace inspector */
+  /* EduQoo Core tool registry, as shown in the trace inspector */
   tools: [
     { n: 'cas.check',        s: 'lines[] → firstBreak', c: '#D14C27' },
     { n: 'cas.solveSteps',   s: 'problem → step[]',      c: '#D14C27' },

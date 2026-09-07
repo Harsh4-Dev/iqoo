@@ -483,7 +483,7 @@ const NOTES = {
             s += hLine(37 + i * 68, 40, 140, 64, { cls: 'dd--thin dd--ghost', d: 300 + i * 60 });
           });
           s += hRect(58, 66, 164, 32, { r: 5, cls: 'dd--amber dd--bold', d: 560 });
-          s += txt(140, 87, 'SlateCore runtime', { anchor: 'middle', cls: 'ddt--sm ddt--amber', d: 640 });
+          s += txt(140, 87, 'EduQoo Core runtime', { anchor: 'middle', cls: 'ddt--sm ddt--amber', d: 640 });
           return s; } },
     ],
   },

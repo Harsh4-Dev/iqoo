@@ -111,7 +111,7 @@ don't tidy it.
 | 21 | 2:13.0 | 7.5 | **DECK 13** — the verifier | dissolve 0.5s | vo_17 |
 | 22 | 2:20.5 | 9.0 | **DECK 14** — ClassDrop | *morph* | vo_18 |
 | 23 | 2:29.5 | 6.0 | **B-ROLL 5** — a stranger scans the QR | cut | vo_19 |
-| 24 | 2:35.5 | 10.5 | **DECK 15** — SlateCore | dissolve 0.8s | vo_20 |
+| 24 | 2:35.5 | 10.5 | **DECK 15** — EduQoo Core | dissolve 0.8s | vo_20 |
 | 25 | 2:46.0 | 10.0 | **DECK 16** — two-pass | cut | vo_21 |
 | 26 | 2:56.0 | 10.0 | **DECK 17** — it has to be the phone | dissolve 0.6s | vo_22 |
 | 27 | 3:06.0 | 7.0 | **B-ROLL 6** — iQOO macro | cut | vo_23 |
@@ -193,7 +193,7 @@ Feed these straight to ElevenLabs, one render per numbered line.
 > Any phone in the room. Any laptop. Anything with a browser.
 
 **vo_20** — `2:35.5`
-> Underneath all four is the part that actually matters. SlateCore — a local agent runtime. A typed tool registry, a context budgeter, a two-pass executor and a verifier layer, running a two-billion-parameter model on the phone's own silicon.
+> Underneath all four is the part that actually matters. EduQoo Core — a local agent runtime. A typed tool registry, a context budgeter, a two-pass executor and a verifier layer, running a two-billion-parameter model on the phone's own silicon.
 
 **vo_21** — `2:46`
 > Here is a failure mode almost nobody accounts for. Turn on schema constraints and tool calling in the same pass, and open-weight models quietly stop calling tools — the grammar mask makes the tool tokens unreachable. The output still validates. It just silently stopped working. So we decouple them: pass one runs the tools, pass two formats the answer.

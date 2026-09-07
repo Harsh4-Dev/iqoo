@@ -1,0 +1,50 @@
+name: Deploy to GitHub Pages
+
+# The site is plain static files at the repository root — no build step,
+# no bundler, no dependencies. This workflow just uploads the tree and
+# publishes it.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Least privilege: read the repo, write a Pages deployment.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time. Don't cancel a run that's mid-publish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+        with:
+          # Turns Pages on for the repo if it isn't already, so the first
+          # run works without visiting Settings. If the token isn't allowed
+          # to do that, this step fails and you enable it once by hand:
+          # Settings -> Pages -> Source: GitHub Actions.
+          enablement: true
+
+      - name: Upload site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

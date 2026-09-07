@@ -19,10 +19,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Caveat:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="assets/css/tokens.css">
-<link rel="stylesheet" href="assets/css/site.css">
-<link rel="stylesheet" href="assets/css/phone.css">
-<link rel="stylesheet" href="assets/css/doodle.css">
+<link rel="stylesheet" href="assets/css/tokens.css?v=4">
+<link rel="stylesheet" href="assets/css/site.css?v=4">
+<link rel="stylesheet" href="assets/css/phone.css?v=4">
+<link rel="stylesheet" href="assets/css/doodle.css?v=4">
 </head>
 <body>
 
@@ -37,7 +37,7 @@
 <!-- ============================ NAV ============================ -->
 <header class="nav">
   <div class="wrap nav__in">
-    <a class="brand" href="#top"><span class="brand__dot"></span>EduQoo<small>SlateCore</small></a>
+    <a class="brand" href="#top"><span class="brand__dot"></span>EduQoo<small>Local agent runtime</small></a>
     <span class="nav__spacer"></span>
     <nav class="nav__links">
       <a class="nav__link" href="#prototype">Prototype</a>
@@ -65,7 +65,7 @@
     <p class="lede">A tutor, a grounded notebook, a live quiz system and a classroom server — all running on the AI already inside one iQOO phone. Thirty students reach it from any browser, with no installs, no data plan and no account.</p>
     <div class="hero__cta">
       <a class="btn btn--primary" href="#prototype">Open the prototype</a>
-      <a class="btn btn--ghost" href="#runtime">How SlateCore works</a>
+      <a class="btn btn--ghost" href="#runtime">How EduQoo Core works</a>
     </div>
     <div class="hero__stats">
       <div class="stat"><b>1</b><span>capable device per room</span></div>
@@ -109,15 +109,15 @@
           <div class="app">
             <div class="viewport" id="viewport"></div>
 
-            <button class="rtchip" data-act="trace"><i></i>SlateCore</button>
+            <button class="rtchip" data-act="trace"><i></i>EduQoo Core</button>
             <div class="toast" id="toast"></div>
             <div class="scrim" id="scrim"></div>
 
             <!-- runtime inspector -->
-            <div class="sheet" id="sheet" role="dialog" aria-label="SlateCore runtime trace">
+            <div class="sheet" id="sheet" role="dialog" aria-label="EduQoo Core runtime trace">
               <div class="sheet__grab"><i></i></div>
               <div class="sheet__h">
-                <b>SlateCore<small>local agent runtime · this turn</small></b>
+                <b>EduQoo Core<small>local agent runtime · this turn</small></b>
                 <button class="vhead__back" data-act="closeSheet" aria-label="Close">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
                 </button>
@@ -224,38 +224,49 @@
   <div class="wrap">
     <div class="section__head reveal">
       <span class="eyebrow">The technical heart</span>
-      <h2>SlateCore — a local agent runtime.</h2>
+      <h2>EduQoo Core — a local agent runtime.</h2>
       <p class="lede">Everyone at a hackathon can call a local model. Almost nobody builds the harness that makes a 2B model reliable enough to be trusted with a child's homework. That harness is the project; the education system is what it is pointed at.</p>
     </div>
 
-    <pre class="arch reveal">┌───────────────────────────────────────────────────────────────┐
-│                          SlateCore                            │
-│                                                               │
-│  ROUTER          local-first · confidence-gated escalation    │
-│      ↓                                                        │
-│  CONTEXT BUDGETER   token accounting · attention budget       │
-│      ↓                                                        │
-│  ASSEMBLER    system │ core memory │ retrieved │ scratchpad   │
-│      ↓                                                        │
-│  PLANNER LOOP        step limit · timeout · cancel            │
-│      ↓                                                        │
-│  TOOL REGISTRY   typed Kotlin schema → JSON Schema            │
-│   ├─ cas.check()        Symja — is line N+1 equivalent?       │
-│   ├─ retrieve()         SQLite vector store, 768-dim          │
-│   ├─ ocr()              ML Kit                                │
-│   ├─ speak()            Android TTS, regional language        │
-│   ├─ quiz.generate()    schema-constrained                    │
-│   ├─ class.broadcast()  push to every joined device           │
-│   └─ progress.write()   per-student long-term memory          │
-│      ↓                                                        │
-│  TWO-PASS EXECUTOR    pass 1 unconstrained → tool calls       │
-│                       pass 2 schema-constrained → answer      │
-│      ↓                                                        │
-│  VERIFIER    CAS ground truth · grounding check · confidence  │
-│      ↓                                                        │
-│  MEMORY   core (pinned) │ working (compacted) │ archival      │
-└───────────────────────────────────────────────────────────────┘
-       Gemma 4 E2B via LiteRT-LM  ·  Symja CAS  ·  SQLite</pre>
+    <div class="rt reveal">
+      <div class="rt__title">EduQoo&nbsp;Core <span>local agent runtime · one process, on the phone</span></div>
+
+      <ol class="rt__stack">
+        <li class="rt__row"><b>Router</b><p>Local-first. Escalates to cloud only when the verifier reports low confidence <em>and</em> the network is genuinely good.</p></li>
+        <li class="rt__row"><b>Context budgeter</b><p>Token accounting against a finite attention budget, with remaining capacity fed back after every tool call.</p></li>
+        <li class="rt__row"><b>Assembler</b><p>system │ core memory │ retrieved chunks │ scratchpad</p></li>
+        <li class="rt__row"><b>Planner loop</b><p>Step limit, timeout, cancel. It is allowed to give up.</p></li>
+
+        <li class="rt__row rt__row--key">
+          <b>Tool registry</b>
+          <p>Typed Kotlin schema compiled to JSON Schema. Seven tools, deliberately non-overlapping — near-duplicates make a small model burn turns choosing.</p>
+          <ul class="rt__tools">
+            <li class="rt__tool"><code>cas.check()</code><span>Symja — is line N+1 equivalent to line N?</span></li>
+            <li class="rt__tool"><code>retrieve()</code><span>SQLite vector store, 768-dim, plus an FTS table</span></li>
+            <li class="rt__tool"><code>ocr()</code><span>ML Kit — Latin and Devanagari only</span></li>
+            <li class="rt__tool"><code>speak()</code><span>Android TTS, regional language, offline voice pack</span></li>
+            <li class="rt__tool"><code>quiz.generate()</code><span>schema-constrained at the decoder</span></li>
+            <li class="rt__tool"><code>class.broadcast()</code><span>push to every joined device over SSE</span></li>
+            <li class="rt__tool"><code>progress.write()</code><span>per-student long-term memory</span></li>
+          </ul>
+        </li>
+
+        <li class="rt__row rt__row--key">
+          <b>Two-pass executor</b>
+          <p><b>Pass 1</b> unconstrained — the model decides which tools to call, and they run.
+             <b>Pass 2</b> fully schema-constrained — the results are in context and the model only formats the answer.</p>
+        </li>
+
+        <li class="rt__row rt__row--key">
+          <b>Verifier</b>
+          <p>CAS ground truth for anything mathematical, a grounding check against the retrieved chunk for anything factual, schema validation for structure. Nothing reaches a student unchecked.</p>
+        </li>
+
+        <li class="rt__row"><b>Memory</b><p>core (pinned, ~120 tokens) │ working (compacted on fill) │ archival</p></li>
+      </ol>
+
+      <div class="rt__foot">Gemma 4 E2B via LiteRT-LM &nbsp;·&nbsp; Symja CAS &nbsp;·&nbsp; SQLite &nbsp;·&nbsp; Ktor CIO in a foreground service</div>
+    </div>
 
     <div class="grid grid--3" style="margin-top:30px">
       <article class="card reveal" style="background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.10)">
@@ -267,7 +278,7 @@
       <article class="card reveal" style="background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.10)">
         <span class="eyebrow" style="color:var(--amber)">Hard part 02</span>
         <h3 style="margin-top:10px">Tool Suppression, and the fix</h3>
-        <p style="color:rgba(255,255,255,.62)">Enable schema constraints and tool calling in the same pass and open-weight models quietly stop invoking tools — the grammar mask makes tool-call tokens unreachable while the output stays schema-valid. SlateCore uses transparent two-pass execution: pass 1 decides and runs tools, pass 2 formats under the schema. Open the runtime chip on the phone and you can watch both passes.</p>
+        <p style="color:rgba(255,255,255,.62)">Enable schema constraints and tool calling in the same pass and open-weight models quietly stop invoking tools — the grammar mask makes tool-call tokens unreachable while the output stays schema-valid. EduQoo Core uses transparent two-pass execution: pass 1 decides and runs tools, pass 2 formats under the schema. Open the runtime chip on the phone and you can watch both passes.</p>
       </article>
 
       <article class="card reveal" style="background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.10)">
@@ -373,10 +384,10 @@
 
 </main>
 
-<script src="assets/js/data.js"></script>
-<script src="assets/js/qr.js"></script>
-<script src="assets/js/icons.js"></script>
-<script src="assets/js/doodles.js"></script>
-<script src="assets/js/app.js"></script>
+<script src="assets/js/data.js?v=4"></script>
+<script src="assets/js/qr.js?v=4"></script>
+<script src="assets/js/icons.js?v=4"></script>
+<script src="assets/js/doodles.js?v=4"></script>
+<script src="assets/js/app.js?v=4"></script>
 </body>
 </html>

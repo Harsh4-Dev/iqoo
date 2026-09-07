@@ -142,7 +142,7 @@
     <div class="scrim is-on"></div>
     <div class="sheet is-up">
       <div class="sheet__grab"><i></i></div>
-      <div class="sheet__h"><b>SlateCore<small>local agent runtime · this turn</small></b></div>
+      <div class="sheet__h"><b>EduQoo Core<small>local agent runtime · this turn</small></b></div>
       <div class="sheet__body">
         <div class="pass">
           <div class="pass__c pass__c--1"><b>Pass 1</b><small>unconstrained · decides which tools to call</small></div>
@@ -439,8 +439,8 @@
     S({ mood: 'ink', t: 10500, dd: 'blank', pos: 'midl', phone: { s: 0.92, x: -660, y: 0 }, scr: 'trace', sheet: true,
         arch: true,
         kicker: 'The technical heart',
-        title: 'SlateCore.<br><em>A local agent<br>runtime.</em>',
-        cc: 'Underneath all four is the part that actually matters. SlateCore — a local agent runtime. A typed tool registry, a context budgeter, a two-pass executor and a verifier layer, running a two-billion-parameter model on the phone\'s own silicon.' }),
+        title: 'EduQoo Core.<br><em>A local agent<br>runtime.</em>',
+        cc: 'Underneath all four is the part that actually matters. EduQoo Core — a local agent runtime. A typed tool registry, a context budgeter, a two-pass executor and a verifier layer, running a two-billion-parameter model on the phone\'s own silicon.' }),
 
     S({ mood: 'ink', t: 10000, dd: 'twopass', pos: 'tl',
         kicker: 'The failure mode nobody mentions',

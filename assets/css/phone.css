@@ -7,10 +7,13 @@
    1. Hardware
    ------------------------------------------------------------ */
 .phone {
-  --w: min(372px, 100%);
+  --w: 372px;
   position: relative;
-  width: var(--w);
-  height: calc(var(--w) * 2.128);   /* 20:9.4 ish */
+  width: min(var(--w), 100%);
+  /* aspect-ratio, not a height calc: a percentage inside a custom
+     property would resolve against height and collapse the device. */
+  aspect-ratio: 372 / 792;
+  height: auto;
   flex: none;
   border-radius: var(--r-phone);
   padding: 11px;
@@ -807,7 +810,7 @@
 .capture__corners i:nth-child(4) { bottom: 10px; right: 10px; border-left: 0; border-top: 0; }
 
 /* ------------------------------------------------------------
-   11. SlateCore trace inspector (bottom sheet)
+   11. EduQoo Core trace inspector (bottom sheet)
    ------------------------------------------------------------ */
 .sheet {
   position: absolute; left: 0; right: 0; bottom: 0; z-index: 40;
@@ -950,5 +953,5 @@
 
 /* phone scaling on small screens */
 @media (max-width: 420px) {
-  .phone { --w: min(340px, calc(100vw - 36px)); }
+  .phone { --w: 340px; }
 }

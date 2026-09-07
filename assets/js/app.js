@@ -50,7 +50,7 @@
   resetTutor(); resetNb(); resetQuiz(); resetCls();
 
   /* ============================================================
-     TRACE — the SlateCore inspector
+     TRACE — the EduQoo Core inspector
      ============================================================ */
   const Trace = {
     calls: [],
@@ -186,7 +186,7 @@
     return `${connStrip()}${roleBar()}
       <div class="greet">
         <h2>${greeting()}, ${teacher ? D.teacher.name : D.student.name}</h2>
-        <p>${teacher ? D.teacher.school + ' · ' + (S.cls.live ? S.cls.joined + ' joined' : 'class not started') : D.student.grade + ' · ' + D.chapter.sub}</p>
+        <p>${teacher ? D.teacher.school + ' · ' + (S.cls.live ? S.cls.joined + ' joined' : 'class not started') : D.student.grade + ' · ' + D.chapter.title + ' · Ch. 7'}</p>
       </div>
       <div class="tiles">${TILES[S.role].map(t => `
         <button class="tile" data-act="go" data-v="${t.id}">
@@ -692,7 +692,7 @@
       'Symja verifying every numeric key',
     ];
     if (out) out.innerHTML = `<div class="ingest" style="margin-top:12px">
-        <div class="ingest__t">SlateCore</div>
+        <div class="ingest__t">EduQoo Core</div>
         <div class="ingest__steps">${notes.map((s, i) => `<div class="istep" data-i="${i}"><i>${I('check')}</i>${s}</div>`).join('')}</div>
       </div>`;
 

@@ -24,9 +24,13 @@ The design documents that specify the real build live alongside it:
 
 | File | What it argues |
 |---|---|
-| [`SlateAI_iQOO_Pitch.md`](SlateAI_iQOO_Pitch.md) | **Why** — the premise, SlateCore, the scoring strategy, the risk register |
+| [`SlateAI_iQOO_Pitch.md`](SlateAI_iQOO_Pitch.md) | **Why** — the premise, EduQoo Core, the scoring strategy, the risk register |
 | [`SlateAI_Feature_Spec.md`](SlateAI_Feature_Spec.md) | **What ships** — four pillars, scope tiers, build order, hour-by-hour plan |
 | [`VIDEO_SCRIPT.md`](VIDEO_SCRIPT.md) | **The launch film** — timecoded edit, voice-over, b-roll shot list, music and transition direction |
+
+> The two design documents were written before the product was named, so they still use the
+> working names **SlateAI** and **SlateCore**. Everywhere else — the site, the prototype, the
+> keynote and the film — the product is **EduQoo** and the runtime is **EduQoo Core**.
 
 The launch keynote itself lives at [`deck/`](deck/) — twenty self-running slides at
 1920×1080 with the device morphing between them, built to be screen-recorded. Press
@@ -38,7 +42,7 @@ The launch keynote itself lives at [`deck/`](deck/) — twenty self-running slid
 
 The teacher's iQOO phone raises an access point with no uplink behind it and serves a web
 client from an embedded Ktor server. Thirty students join in a browser by scanning a QR — no
-install, no Play Store, no account, no data plan. On that one phone runs **SlateCore**: a local
+install, no Play Store, no account, no data plan. On that one phone runs **EduQoo Core**: a local
 agent runtime with a typed tool registry, schema-constrained decoding, two-pass execution and a
 verifier layer, driving a 2B model entirely on the device's own silicon. Four surfaces sit on
 top of it.
@@ -67,7 +71,7 @@ T2 (good signal) make it faster or richer, never *possible*.
    them. Push live, watch the heatmap build, then export the CSV — it is a real file.
 5. **Classroom →** start the class. The QR is genuinely scannable. Capture the board, push the
    notes, then flip to **Student** to read them.
-6. **The `SlateCore` chip** at the bottom right of the phone opens the runtime trace: two-pass
+6. **The `EduQoo Core` chip** at the bottom right of the phone opens the runtime trace: two-pass
    execution, the tool call log, the context budget and the verifier's verdict for the last turn.
 
 Keyboard: <kbd>1</kbd>–<kbd>5</kbd> switch tabs, <kbd>T</kbd> cycles the tier,
@@ -85,7 +89,7 @@ generation of reliability for about 0.06s of latency — which is why 2B is enou
 **2 · Tool Suppression, and the fix.**
 Enable schema constraints and tool calling in the *same* pass and open-weight models quietly
 stop invoking tools: the grammar mask makes tool-call tokens unreachable while the output stays
-schema-valid. SlateCore uses transparent two-pass execution — pass 1 decides and runs tools,
+schema-valid. EduQoo Core uses transparent two-pass execution — pass 1 decides and runs tools,
 pass 2 formats under the schema. You can watch both passes in the trace inspector.
 
 **3 · The model never adjudicates mathematics.**
@@ -132,7 +136,16 @@ and animates itself on when its screen becomes active.
 
 ## Deployment
 
-GitHub Pages, from the default branch root. `.nojekyll` is present so nothing is preprocessed.
+GitHub Pages, published by [`.github/workflows/pages.yml`](.github/workflows/pages.yml) on
+every push to `main`. There is no build step — the workflow uploads the repository root as-is
+and deploys it. `.nojekyll` is present so nothing is preprocessed.
+
+**One-time setup:** the workflow asks GitHub to enable Pages for you on its first run. If that
+step fails (the token isn't always permitted to), set it by hand once:
+**Settings → Pages → Source → GitHub Actions**, then re-run the workflow.
+
+CSS and JS are requested with a `?v=` query string. Bump it in `index.html` and
+`deck/index.html` whenever you change an asset, so nobody gets a stale file from cache.
 
 ---
 
