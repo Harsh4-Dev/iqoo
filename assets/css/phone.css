@@ -955,3 +955,119 @@
 @media (max-width: 420px) {
   .phone { --w: 340px; }
 }
+
+/* ------------------------------------------------------------
+   13. Camera scan — the MVP path
+   Point the phone at a page, read the handwritten steps, confirm
+   what we read, then check them line by line.
+   ------------------------------------------------------------ */
+.scan {
+  border-radius: 16px; overflow: hidden;
+  border: 1px solid var(--hairline); background: var(--card);
+  box-shadow: var(--sh-1);
+}
+
+/* the viewfinder: a photo of a ruled page */
+.scan__frame {
+  position: relative; height: 162px; overflow: hidden;
+  background:
+    repeating-linear-gradient(180deg, transparent 0 27px, rgba(43,90,140,.16) 27px 28px),
+    linear-gradient(170deg, #fdfaf1, #f2ead8);
+  padding: 16px 18px;
+}
+:root[data-theme="dark"] .scan__frame {
+  background:
+    repeating-linear-gradient(180deg, transparent 0 27px, rgba(120,170,220,.14) 27px 28px),
+    linear-gradient(170deg, #22262a, #171b1f);
+}
+.scan__frame::after {
+  content: ""; position: absolute; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--green), transparent);
+  box-shadow: 0 0 12px var(--green);
+  animation: scan 2.4s var(--ease-soft) infinite;
+}
+.scan.is-done .scan__frame::after { display: none; }
+
+.scan__corners i { position: absolute; width: 18px; height: 18px; border: 2px solid var(--green); }
+.scan__corners i:nth-child(1) { top: 9px;  left: 9px;  border-right: 0; border-bottom: 0; }
+.scan__corners i:nth-child(2) { top: 9px;  right: 9px; border-left: 0;  border-bottom: 0; }
+.scan__corners i:nth-child(3) { bottom: 9px; left: 9px;  border-right: 0; border-top: 0; }
+.scan__corners i:nth-child(4) { bottom: 9px; right: 9px; border-left: 0;  border-top: 0; }
+
+/* the handwriting on the page */
+.scan__ink {
+  position: relative; z-index: 1;
+  font-family: var(--font-hand);
+  font-size: 25px; line-height: 28px;
+  color: #23364a; letter-spacing: .01em;
+}
+:root[data-theme="dark"] .scan__ink { color: #cfe0f0; }
+.scan__ink span { display: block; position: relative; padding-left: 4px; }
+
+/* a detection box drawn around one read line */
+.scan__box {
+  position: absolute; left: -6px; right: -6px; top: -4px; bottom: -3px;
+  border: 1.5px solid var(--green); border-radius: 5px;
+  opacity: 0; transform: scale(.97);
+  transition: opacity .3s var(--ease), transform .3s var(--ease-out),
+              border-color .4s var(--ease), background .4s var(--ease);
+}
+.scan__ink span.is-found .scan__box { opacity: 1; transform: none; }
+.scan__ink span.is-bad .scan__box {
+  border-color: var(--red); border-width: 2px;
+  background: color-mix(in srgb, var(--red) 14%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--red) 18%, transparent);
+}
+/* the tag rides at the right-hand end of its own box, vertically centred,
+   so consecutive lines never stack their labels on top of each other */
+.scan__tag {
+  position: absolute; right: -2px; top: 50%; transform: translateY(-50%);
+  font-family: var(--font-ui); font-size: 7.5px; font-weight: 800;
+  letter-spacing: .06em; text-transform: uppercase;
+  padding: 1.5px 5px; border-radius: 4px 3px 3px 4px;
+  background: var(--green); color: #fff;
+  opacity: 0; transition: opacity .3s var(--ease);
+  pointer-events: none;
+}
+.scan__ink span.is-found .scan__tag { opacity: 1; }
+.scan__ink span.is-bad .scan__tag { background: var(--red); }
+
+.scan__hud {
+  display: flex; align-items: center; gap: 7px;
+  padding: 9px 12px; border-top: 1px solid var(--hairline);
+  font-size: 10px; font-weight: 700; color: var(--ink-40);
+}
+.scan__hud .spacer { flex: 1 1 auto; }
+.scan__hud b { color: var(--green-2); font-family: var(--font-mono); }
+.scan__hud svg { width: 12px; height: 12px; }
+
+/* confirm-what-we-read */
+.ocr { display: flex; flex-direction: column; gap: 6px; }
+.ocr__row {
+  display: flex; align-items: center; gap: 9px;
+  padding: 9px 11px; border-radius: 11px;
+  border: 1px solid var(--hairline); background: var(--card);
+  animation: bubIn .34s var(--ease-out) both;
+}
+.ocr__row.is-low { border-color: var(--amber); background: var(--amber-soft); }
+.ocr__n {
+  width: 16px; flex: none; text-align: center;
+  font-family: var(--font-mono); font-size: 9.5px; color: var(--ink-20); font-weight: 600;
+}
+.ocr__t {
+  flex: 1 1 auto; min-width: 0;
+  font-family: var(--font-math); font-size: 14px; color: var(--ink);
+}
+.ocr__c {
+  flex: none; font-family: var(--font-mono); font-size: 9px; font-weight: 600;
+  padding: 2px 6px; border-radius: 5px;
+  background: var(--green-soft); color: var(--green-2);
+}
+.ocr__row.is-low .ocr__c { background: color-mix(in srgb, var(--amber) 26%, transparent); color: var(--amber-2); }
+.ocr__edit {
+  flex: none; width: 22px; height: 22px; border-radius: 6px; cursor: pointer;
+  border: 1px solid var(--hairline); background: var(--card);
+  display: grid; place-items: center; color: var(--ink-40);
+}
+.ocr__edit svg { width: 11px; height: 11px; }
+.ocr__edit:hover { background: var(--paper-2); color: var(--ink); }

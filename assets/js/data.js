@@ -100,6 +100,26 @@ const DATA = {
      --------------------------------------------------------- */
   problems: [
     {
+      id: 'p0',
+      title: 'Linear equation',
+      level: 'Class 7 · scanned from the page',
+      scan: true,
+      lines: [
+        { x: '3x + 5 = 20',  cas: null },
+        { x: '3x = 25',      cas: 'Simplify[ (3x + 5 - 20) - (3x - 25) ]', got: '10',  ok: false },
+        { x: 'x = 25/3',     cas: 'Simplify[ (3x - 25) - (3x - 25) ]',      got: '0',   ok: true },
+      ],
+      badLine: 1,
+      why: 'Moving the +5 across the equals sign means subtracting 5 from both sides, not adding it. 20 − 5 is 15, so line 2 should read 3x = 15.',
+      fix: '3x = 15',
+      steps: [
+        { e: '3x + 5 = 20',  h: '+ 5', cc: 'We start with 3x plus 5 equals 20.' },
+        { e: '3x + 5 − 5 = 20 − 5', h: '− 5', cc: 'To move the 5, subtract it from both sides.' },
+        { e: '3x = 15',      h: '15',  cc: 'The left side loses the 5. The right side becomes 15, not 25.' },
+        { e: 'x = 5',        h: '5',   cc: 'Divide both sides by 3. x is 5.' },
+      ],
+    },
+    {
       id: 'p1',
       title: 'Indefinite integral',
       level: 'Class 12 · Ex 7.1',
@@ -143,6 +163,26 @@ const DATA = {
 
   /* Narration per step, per language. Index matches problem.steps. */
   narration: {
+    p0: {
+      en: [
+        'We start with three x plus five equals twenty.',
+        'To move the five across, you subtract it from both sides.',
+        'The left side loses the five. The right side becomes fifteen, not twenty-five.',
+        'Divide both sides by three. x is five.',
+      ],
+      hi: [
+        'हम शुरू करते हैं: 3x जमा 5 बराबर 20।',
+        '5 को दूसरी तरफ ले जाने के लिए उसे दोनों तरफ से घटाइए।',
+        'बाईं ओर से 5 हट जाता है। दाईं ओर 15 बचता है, 25 नहीं।',
+        'दोनों ओर 3 से भाग दीजिए। x बराबर 5।',
+      ],
+      ta: [
+        '3x கூட்டல் 5 சமம் 20 என்பதிலிருந்து தொடங்குகிறோம்.',
+        '5 ஐ மறுபக்கம் கொண்டு செல்ல, இரு பக்கமும் அதைக் கழிக்க வேண்டும்.',
+        'இடது பக்கம் 5 நீங்குகிறது. வலது பக்கம் 15 ஆகும், 25 அல்ல.',
+        'இரு பக்கமும் 3 ஆல் வகுக்கவும். x சமம் 5.',
+      ],
+    },
     p1: {
       en: [
         'We start from the integral of two x plus three.',
@@ -166,6 +206,27 @@ const DATA = {
   },
 
   langNames: { en: 'English', hi: 'हिन्दी', ta: 'தமிழ்' },
+
+  /* ---------------------------------------------------------
+     Camera scan. What ML Kit hands back from a photo of the
+     page, per line, with the confidence that drives whether we
+     ask the student to confirm it.
+     --------------------------------------------------------- */
+  scan: {
+    pipeline: [
+      ['Detecting the page', 'CameraX · edge detect'],
+      ['Reading the ink', 'ML Kit · Digital Ink'],
+      ['Splitting into steps', 'line segmentation'],
+      ['Parsing to expressions', 'symbolic parser'],
+    ],
+    read: [
+      { t: '3x + 5 = 20', c: 0.97 },
+      { t: '3x = 25',     c: 0.94 },
+      { t: 'x = 25/3',    c: 0.71 },
+    ],
+    /* the threshold below which we stop and ask */
+    confirmBelow: 0.90,
+  },
 
   /* ---------------------------------------------------------
      ClassTest — generated from the chapter, then verified.

@@ -27,38 +27,71 @@
       <div class="seg__thumb"></div>
       <button class="seg__i is-on">Student</button><button class="seg__i">Teacher</button>
     </div></div>
-    <div class="greet"><h2>Good evening, Aditi</h2><p>Class 12 · NCERT Chapter 7</p></div>
+    <div class="greet"><h2>Good evening, Aditi</h2><p>Class 7 · Linear equations</p></div>
     <div class="tiles">
-      <div class="tile"><span class="tile__ico tint-amber">${I('chat')}</span><b>Tutor</b><small>Paste your working. It finds the line you went wrong on.</small><span class="tile__badge">CAS-verified</span></div>
+      <div class="tile"><span class="tile__ico tint-amber">${I('camera')}</span><b>Tutor</b><small>Photograph your working. It finds the line you went wrong on.</small><span class="tile__badge">Camera · on-device</span></div>
       <div class="tile"><span class="tile__ico tint-violet">${I('book')}</span><b>Notebook</b><small>Ask today's chapter. Answers cite the line.</small><span class="tile__badge">Grounded</span></div>
       <div class="tile"><span class="tile__ico tint-green">${I('check2')}</span><b>Quiz</b><small>Live from the teacher, or take it offline.</small><span class="tile__badge">On-device</span></div>
       <div class="tile"><span class="tile__ico tint-blue">${I('users')}</span><b>Classroom</b><small>Notes pushed straight to your browser.</small><span class="tile__badge">No install</span></div>
     </div>
-    <div class="claim"><b>Everything above runs on this phone.</b> Your homework never leaves the device.</div>`;
+    <div class="claim"><b>Everything above runs on this phone.</b> The camera, the solver, the model and the voice. Your homework never leaves the device.</div>`;
 
   SCR.tutor = `
     <div class="vhead"><span class="vhead__back">${I('arrowL')}</span>
-      <div class="vhead__t">Tutor<small>Class 12 · Ex 7.1</small></div></div>
+      <div class="vhead__t">Tutor<small>Class 7 · scanned from the page</small></div></div>
+    <div class="scan is-done">
+      <div class="scan__frame">
+        <span class="scan__corners"><i></i><i></i><i></i><i></i></span>
+        <div class="scan__ink">
+          <span class="is-found">3x + 5 = 20<i class="scan__box"></i><i class="scan__tag">step 1</i></span>
+          <span class="is-found is-bad">3x = 25<i class="scan__box"></i><i class="scan__tag">error</i></span>
+          <span class="is-found">x = 25/3<i class="scan__box"></i><i class="scan__tag">step 3</i></span>
+        </div>
+      </div>
+      <div class="scan__hud">${I('camera')}<span>3 steps found</span><span class="spacer"></span><b>on-device</b></div>
+    </div>
+    <div style="height:12px"></div>
     <div class="work">
-      <div class="work__h"><span>Your working</span><span class="mono">3 lines</span></div>
-      <div class="line"><span class="line__n">1</span><span class="line__x">∫(2x + 3) dx</span><span class="line__s"><i style="width:5px;height:5px;border-radius:50%;background:currentColor;display:block"></i></span></div>
-      <div class="line is-ok"><span class="line__n">2</span><span class="line__x">= x² + 3x + C</span><span class="line__s">${I('check')}</span></div>
-      <div class="casrow"><b>Symja</b> Simplify[ D[x^2+3x+C, x] - (2x+3) ]<br>→ <span class="yes">0</span> — equivalent to line 1</div>
-      <div class="line is-bad"><span class="line__n">3</span><span class="line__x">= x² + 3x</span><span class="line__s">${I('x')}</span></div>
-      <div class="casrow"><b>Symja</b> Simplify[ (x^2+3x) - (x^2+3x+C) ]<br>→ <span class="no">-C</span> — <b>not</b> equivalent to line 2</div>
+      <div class="work__h"><span>What we read</span><span class="mono">3 lines</span></div>
+      <div class="line"><span class="line__n">1</span><span class="line__x">3x + 5 = 20</span><span class="line__s"><i style="width:5px;height:5px;border-radius:50%;background:currentColor;display:block"></i></span></div>
+      <div class="line is-bad"><span class="line__n">2</span><span class="line__x">3x = 25</span><span class="line__s">${I('x')}</span></div>
+      <div class="casrow"><b>solver</b> (3x + 5 − 20) − (3x − 25)<br>→ <span class="no">10</span> — <b>not</b> equivalent to line 1</div>
+      <div class="line is-ok"><span class="line__n">3</span><span class="line__x">x = 25/3</span><span class="line__s">${I('check')}</span></div>
     </div>
     <div class="divider"><span>What went wrong</span><i></i></div>
-    <div class="thread"><div class="bub bub--ai">Line <b>3</b> is where it stops being true. The constant of integration was dropped between line 2 and line 3.
-      <div class="verdict verdict--no">${I('x')}Symja · not equivalent</div></div></div>`;
+    <div class="thread"><div class="bub bub--ai">Line <b>2</b> is where it stops being true. Moving the +5 across the equals sign means subtracting 5 from both sides. 20 − 5 is 15.
+      <div class="verdict verdict--no">${I('x')}solver · not equivalent</div></div></div>`;
+
+  SCR.confirm = `
+    <div class="vhead"><span class="vhead__back">${I('arrowL')}</span>
+      <div class="vhead__t">Tutor<small>Confirm what we read</small></div></div>
+    <div class="scan is-done">
+      <div class="scan__frame">
+        <span class="scan__corners"><i></i><i></i><i></i><i></i></span>
+        <div class="scan__ink">
+          <span class="is-found">3x + 5 = 20<i class="scan__box"></i><i class="scan__tag">step 1</i></span>
+          <span class="is-found">3x = 25<i class="scan__box"></i><i class="scan__tag">step 2</i></span>
+          <span class="is-found">x = 25/3<i class="scan__box"></i><i class="scan__tag">step 3</i></span>
+        </div>
+      </div>
+      <div class="scan__hud">${I('camera')}<span>3 steps found</span><span class="spacer"></span><b>on-device</b></div>
+    </div>
+    <div class="divider"><span>Is this what you wrote?</span><i></i></div>
+    <div class="ocr">
+      <div class="ocr__row"><span class="ocr__n">1</span><span class="ocr__t">3x + 5 = 20</span><span class="ocr__c">97%</span></div>
+      <div class="ocr__row"><span class="ocr__n">2</span><span class="ocr__t">3x = 25</span><span class="ocr__c">94%</span></div>
+      <div class="ocr__row is-low"><span class="ocr__n">3</span><span class="ocr__t">x = 25/3</span><span class="ocr__c">71%</span></div>
+    </div>
+    <p class="hint" style="margin-top:12px">${I('shield')}<span>Line 3 came back under the 90% threshold, so it is flagged for the student to check. Nothing is judged until they say we read it right.</span></p>`;
 
   SCR.player = `
     <div class="vhead"><span class="vhead__back">${I('arrowL')}</span>
-      <div class="vhead__t">Tutor<small>Narrated walkthrough</small></div></div>
+      <div class="vhead__t">Tutor<small>Narrated walkthrough · தமிழ்</small></div></div>
     <div class="player">
       <div class="player__stage">
-        <div class="player__ghost">= x² + 3x</div>
-        <div class="player__expr">= x² + 3x + <mark>C</mark></div>
-        <div class="player__cc"><b>தமிழ்</b> · இப்போது தொகையீட்டு மாறிலி C ஐச் சேர்க்கவும். வரி மூன்றில் நீங்கள் விட்டது இதுதான்.</div>
+        <div class="player__ghost">3x + 5 − 5 = 20 − 5</div>
+        <div class="player__expr">3x = <mark>15</mark></div>
+        <div class="player__cc"><b>தமிழ்</b> · இடது பக்கம் 5 நீங்குகிறது. வலது பக்கம் 15 ஆகும், 25 அல்ல.</div>
       </div>
       <div class="player__bar"><i class="is-done"></i><i class="is-done"></i><i class="is-done"></i><i class="is-now" style="--stepms:3400ms"></i></div>
       <div class="player__ctl"><span class="player__pp">${I('pause')}</span><span>Step 4 of 4</span><span class="spacer"></span>
@@ -67,7 +100,7 @@
     <div style="display:flex;gap:5px;margin-top:12px">
       <span class="lang">English</span><span class="lang">हिन्दी</span><span class="lang is-on">தமிழ்</span>
     </div>
-    <p class="hint" style="margin-top:10px">${I('shield')}<span>Every frame is rendered from the CAS solution trace, so the animation <b>cannot</b> show a wrong step.</span></p>`;
+    <p class="hint" style="margin-top:10px">${I('shield')}<span>Every frame is rendered from the solver trace, so the animation <b>cannot</b> show a wrong step.</span></p>`;
 
   SCR.notebook = `
     <div class="vhead"><span class="vhead__back">${I('arrowL')}</span>
@@ -130,11 +163,11 @@
 
   SCR.trace = `
     <div class="vhead"><span class="vhead__back">${I('arrowL')}</span>
-      <div class="vhead__t">Tutor<small>Class 12 · Ex 7.1</small></div></div>
-    <div class="work" style="opacity:.35">
+      <div class="vhead__t">Tutor<small>Class 7 · scanned from the page</small></div></div>
+    <div class="work" style="opacity:.3">
       <div class="work__h"><span>Your working</span><span class="mono">3 lines</span></div>
-      <div class="line is-ok"><span class="line__n">2</span><span class="line__x">= x² + 3x + C</span><span class="line__s">${I('check')}</span></div>
-      <div class="line is-bad"><span class="line__n">3</span><span class="line__x">= x² + 3x</span><span class="line__s">${I('x')}</span></div>
+      <div class="line"><span class="line__n">1</span><span class="line__x">3x + 5 = 20</span><span class="line__s"><i style="width:5px;height:5px;border-radius:50%;background:currentColor;display:block"></i></span></div>
+      <div class="line is-bad"><span class="line__n">2</span><span class="line__x">3x = 25</span><span class="line__s">${I('x')}</span></div>
     </div>`;
 
   /* the trace sheet is rendered as a real overlay on top of SCR.trace */
@@ -151,9 +184,9 @@
         </div>
         <div class="divider"><span>Tool calls</span><i></i></div>
         <div class="tools">
-          <div class="tcall"><i class="tcall__d" style="background:#D14C27"></i><b>cas.solveSteps</b><span>∫(2x + 3) dx</span><em>61ms</em></div>
-          <div class="tcall"><i class="tcall__d" style="background:#D14C27"></i><b>cas.check</b><span>line 2</span><em>44ms</em></div>
-          <div class="tcall"><i class="tcall__d" style="background:var(--red)"></i><b>cas.check</b><span>line 3 — broke</span><em>38ms</em></div>
+          <div class="tcall"><i class="tcall__d" style="background:#D14C27"></i><b>ink.read</b><span>page.jpg → 3 lines</span><em>610ms</em></div>
+          <div class="tcall"><i class="tcall__d" style="background:#D14C27"></i><b>solve.check</b><span>line 2 — broke</span><em>44ms</em></div>
+          <div class="tcall"><i class="tcall__d" style="background:var(--red)"></i><b>solve.steps</b><span>3x + 5 = 20</span><em>38ms</em></div>
           <div class="tcall"><i class="tcall__d" style="background:#23955F"></i><b>speak</b><span>தமிழ் · Android TTS</span><em>340ms</em></div>
         </div>
         <div class="divider"><span>Context budget</span><i></i></div>
@@ -229,7 +262,7 @@
     const x = 170;
     const rows = [['∫(2x + 3) dx', null], ['= x² + 3x + C', true], ['= x² + 3x', false]];
     rows.forEach((r, i) => {
-      const y = 706 + i * 82;
+      const y = 690 + i * 78;
       s += hLine(x, y + 14, x + 380, y + 14, { cls: 'dd--thin dd--ghost', d: 200 + i * 130 });
       s += `<text class="ddm pop" x="${x + 10}" y="${y}" style="--d:${240 + i * 130}ms;font-size:38px">${r[0]}</text>`;
       if (r[1] === true) s += hTick(x + 430, y - 10, 17, { cls: 'dd--green dd--bold', d: 380 + i * 130 });
@@ -237,7 +270,7 @@
         s += hX(x + 432, y - 10, 17, { cls: 'dd--red dd--bold', d: 380 + i * 130 });
         s += hCircle(x + 432, y - 10, 40, { cls: 'dd--red dd--bold blink', d: 700 });
         s += hArrow(x + 556, y + 52, x + 522, y + 20, x + 480, y - 4, { cls: 'dd--red', d: 880 });
-        s += txt(x + 512, y + 92, 'first break = the error', { cls: 'ddt--red ddt--lg', d: 960 });
+        s += txt(x + 512, y + 62, 'first break = the error', { cls: 'ddt--red ddt--lg', d: 960 });
       }
     });
     return s;
@@ -245,7 +278,7 @@
 
   DS.pipeline = () => {
     seed(113); let s = '';
-    const y = 842;
+    const y = 812;
     s += hRect(180, y - 60, 96, 128, { r: 6, d: 120 });
     s += txt(228, y + 108, 'chapter', { anchor: 'middle', cls: 'ddt--sm', d: 220 });
     s += hArrow(292, y, 322, y - 14, 352, y, { d: 260 });
@@ -257,7 +290,7 @@
     s += hArrow(700, y, 730, y - 14, 758, y, { d: 980 });
     s += DD.hRect ? '' : '';
     s += path(`M772,${y - 56} a52,22 0 1 0 104,0 a52,22 0 1 0 -104,0 M772,${y - 56} L772,${y + 62} a52,22 0 0 0 104,0 L876,${y - 56}`, { cls: 'dd--violet', d: 1020 });
-    s += txt(824, y + 128, 'SQLite · on the phone', { anchor: 'middle', cls: 'ddt--sm ddt--violet', d: 1120 });
+    s += txt(824, y + 108, 'SQLite · on the phone', { anchor: 'middle', cls: 'ddt--sm ddt--violet', d: 1120 });
     return s;
   };
 
@@ -279,14 +312,14 @@
 
   DS.hotspot = () => {
     seed(131); let s = '';
-    s += path('M240,300 q-26,-48 22,-58 q10,-48 62,-30 q30,-40 74,-4 q52,-12 48,40 q40,18 12,52 z', { cls: 'dd--thin', d: 200 });
-    s += hX(330, 286, 40, { cls: 'dd--red dd--bold blink', d: 500 });
-    s += txt(330, 400, 'no uplink', { anchor: 'middle', cls: 'ddt--red ddt--lg', d: 640 });
-    const cx = 330, cy = 700;
+    s += path('M120,300 q-26,-48 22,-58 q10,-48 62,-30 q30,-40 74,-4 q52,-12 48,40 q40,18 12,52 z', { cls: 'dd--thin', d: 200 });
+    s += hX(210, 286, 40, { cls: 'dd--red dd--bold blink', d: 500 });
+    s += txt(46, 400, 'no uplink', { cls: 'ddt--red ddt--lg', d: 640 });
+    const cx = 210, cy = 700;
     [110, 168, 226].forEach((r, i) =>
       s += path(`M${cx - r * 0.72},${cy - r * 0.72} A${r},${r} 0 0 1 ${cx + r * 0.72},${cy - r * 0.72}`, { cls: 'dd--green', d: 400 + i * 160 }));
-    s += txt(cx, cy + 258, 'startLocalOnlyHotspot()', { anchor: 'middle', cls: 'ddt--green', d: 900 });
-    s += txt(cx, cy + 302, 'mDNS → class.local', { anchor: 'middle', cls: 'ddt--sm', d: 980 });
+    s += txt(46, cy + 130, 'startLocalOnlyHotspot()', { cls: 'ddt--sm ddt--green', d: 900 });
+    s += txt(46, cy + 168, 'mDNS → class.local', { cls: 'ddt--sm', d: 980 });
     return s;
   };
 
@@ -305,24 +338,24 @@
     s += hRect(1002, 700, 380, 168, { r: 14, cls: 'dd--violet dd--bold', d: 940 });
     s += txt(1192, 768, 'PASS 2', { anchor: 'middle', cls: 'ddt--lg ddt--violet', d: 1000 });
     s += txt(1192, 814, 'schema-constrained · formats only', { anchor: 'middle', cls: 'ddt--sm', d: 1040 });
-    s += txt(960, 956, 'decoupled, so neither suppresses the other', { anchor: 'middle', cls: 'ddt--lg', d: 1140 });
+    s += txt(960, 908, 'decoupled, so neither suppresses the other', { anchor: 'middle', cls: 'ddt--lg', d: 1140 });
     return s;
   };
 
   DS.hardware = () => {
     seed(139); let s = '';
     const pins = [
-      [470, 452, 'left',  'On-device model', 'Gemma 4 E2B · LiteRT-LM'],
-      [470, 638, 'left',  'Constrained decoding', 'grammar-masked at the decoder'],
-      [470, 824, 'left',  'Camera + ML Kit OCR', 'board → text, on the device'],
-      [1450, 452, 'right', 'Hotspot radio', 'an AP with no uplink'],
-      [1450, 638, 'right', 'Foreground service', 'Ktor CIO · the phone is the server'],
-      [1450, 824, 'right', 'Android TTS', 'Tamil + Hindi voice packs, offline'],
+      [470, 512, 'left',  'On-device model', 'Gemma 4 E2B · LiteRT-LM'],
+      [470, 666, 'left',  'Constrained decoding', 'grammar-masked at the decoder'],
+      [470, 820, 'left',  'Camera + ML Kit OCR', 'board → text, on the device'],
+      [1450, 512, 'right', 'Hotspot radio', 'an AP with no uplink'],
+      [1450, 666, 'right', 'Foreground service', 'Ktor CIO · the phone is the server'],
+      [1450, 820, 'right', 'Android TTS', 'Tamil + Hindi voice packs, offline'],
     ];
     pins.forEach((p, i) => {
       const left = p[2] === 'left';
       const ax = left ? p[0] + 40 : p[0] - 40;
-      const mid = 638;
+      const mid = 666;
       const bx = left ? 748 : 1172;
       s += hLine(ax, p[1], bx, p[1] + (p[1] < mid ? 70 : p[1] > mid ? -70 : 0), { cls: 'dd--thin dd--amber', d: 300 + i * 120, bow: 26 });
       s += hCircle(bx, p[1] + (p[1] < mid ? 70 : p[1] > mid ? -70 : 0), 9, { cls: 'dd--amber dd--bold', d: 400 + i * 120 });
@@ -342,6 +375,174 @@
     return s;
   };
 
+
+  /* ---------- NO SERVER : nothing leaves the phone ---------- */
+  DS.noserver = () => {
+    seed(211); let s = '';
+    // a rack and a cloud, both struck out
+    s += hRect(210, 640, 150, 210, { r: 10, cls: 'dd--bold', d: 120 });
+    for (let i = 0; i < 4; i++) {
+      s += hLine(228, 676 + i * 48, 342, 676 + i * 48, { cls: 'dd--thin', d: 200 + i * 70 });
+      s += hCircle(330, 676 + i * 48, 6, { cls: 'dd--thin', d: 220 + i * 70 });
+    }
+    s += txt(285, 894, 'a server somewhere', { anchor: 'middle', cls: 'ddt--sm', d: 520 });
+    s += hX(285, 742, 108, { cls: 'dd--red dd--bold', d: 620 });
+
+    s += path('M470,690 q-26,-46 22,-56 q10,-46 60,-28 q30,-40 72,-4 q50,-12 46,38 q40,18 12,50 z', { cls: 'dd--thin', d: 320 });
+    s += txt(560, 810, 'an API key', { anchor: 'middle', cls: 'ddt--sm', d: 560 });
+    s += hX(560, 706, 62, { cls: 'dd--red dd--bold', d: 700 });
+
+    // the counter
+    s += txt(880, 720, '0', { cls: 'ddt--red', d: 820, rot: -4 });
+    s += `<text class="ddt ddt--red pop" x="880" y="760" style="--d:820ms;font-size:150px" text-anchor="middle">0</text>`;
+    s += txt(880, 826, 'network requests, start to finish', { anchor: 'middle', cls: 'ddt--sm ddt--red', d: 960 });
+    s += hCircle(880, 720, 128, { cls: 'dd--red dd--bold', d: 1000 });
+    return s;
+  };
+
+  /* ---------- MODEL CARD : what is actually loaded ---------- */
+  DS.modelcard = () => {
+    seed(223); let s = '';
+    const x = 1080, y = 250;
+    s += hRect(x, y, 620, 640, { r: 18, cls: 'dd--bold', d: 120 });
+    s += txt(x + 34, y + 76, 'Gemma 4 E2B', { cls: 'ddt--lg ddt--amber', d: 220 });
+    s += hLine(x + 30, y + 96, x + 330, y + 98, { cls: 'dd--amber', d: 300 });
+
+    // the stack of layers
+    for (let i = 0; i < 9; i++) {
+      s += hRect(x + 36, y + 132 + i * 40, 250, 28, { r: 4, cls: 'dd--thin', d: 360 + i * 55 });
+    }
+    s += txt(x + 161, y + 542, 'transformer blocks', { anchor: 'middle', cls: 'ddt--sm', d: 900 });
+
+    const facts = [
+      ['~2B', 'parameters'],
+      ['4-bit', 'quantised weights'],
+      ['LiteRT-LM', 'runtime, kept warm'],
+      ['on disk', 'ships with the app'],
+    ];
+    facts.forEach((f, i) => {
+      const fy = y + 150 + i * 100;
+      s += txt(x + 330, fy, f[0], { cls: 'ddt--lg ddt--green', d: 480 + i * 110 });
+      s += txt(x + 330, fy + 34, f[1], { cls: 'ddt--sm', d: 520 + i * 110 });
+    });
+    s += hArrow(x + 310, y + 300, x + 322, y + 292, x + 326, y + 286, { cls: 'dd--green', d: 1000 });
+    return s;
+  };
+
+  /* ---------- SILICON : the decode path ---------- */
+  DS.silicon = () => {
+    seed(227); let s = '';
+    const y = 700;
+    const boxes = [
+      [150, 210, 'your question', ''],
+      [410, 190, 'tokenizer', ''],
+      [650, 250, 'LiteRT-LM', 'graph + grammar mask'],
+      [950, 300, 'the accelerator', 'GPU / NPU delegate'],
+      [1310, 230, 'tokens back', ''],
+    ];
+    boxes.forEach((b, i) => {
+      const hot = i === 3;
+      s += hRect(b[0], y - 60, b[1], b[3] ? 132 : 104, { r: 12, cls: hot ? 'dd--amber dd--bold' : 'dd--bold', d: 140 + i * 150 });
+      s += txt(b[0] + b[1] / 2, y - 4, b[2], { anchor: 'middle', cls: hot ? 'ddt--lg ddt--amber' : 'ddt--lg', d: 200 + i * 150 });
+      if (b[3]) s += txt(b[0] + b[1] / 2, y + 32, b[3], { anchor: 'middle', cls: 'ddt--sm', d: 240 + i * 150 });
+      if (i < boxes.length - 1) {
+        const nx = boxes[i + 1][0];
+        s += hArrow(b[0] + b[1], y - 8, (b[0] + b[1] + nx) / 2, y - 20, nx - 8, y - 8, { cls: 'dd--thin', d: 300 + i * 150 });
+      }
+    });
+    s += hArcs(1250, 636, [70, 110], { cls: 'dd--amber dd--thin', d: 900 });
+    s += txt(1250, 600, 'this is the part the phone is built for', { anchor: 'middle', cls: 'ddt--amber', d: 1000 });
+
+    // thermal honesty — kept clear of the caption track
+    s += hRect(152, 796, 30, 78, { r: 15, cls: 'dd--red', d: 1050 });
+    s += hCircle(167, 878, 24, { cls: 'dd--red', d: 1080 });
+    s += txt(212, 846, 'one inference at a time. we never run the loop twice back to back.', { cls: 'ddt--sm ddt--red', d: 1140 });
+    return s;
+  };
+
+  /* ---------- GRAMMAR : constrained decoding ---------- */
+  DS.grammar = () => {
+    seed(229); let s = '';
+    const rootX = 1010, rootY = 300;
+    s += hCircle(rootX, rootY, 16, { cls: 'dd--bold', d: 120 });
+    s += txt(rootX - 40, rootY - 34, 'next token', { anchor: 'end', cls: 'ddt--sm', d: 200 });
+
+    const level = (px, py, n, depth) => {
+      const out = [];
+      for (let i = 0; i < n; i++) {
+        const x = px + 190 + depth * 40;
+        const y = py - (n - 1) * 90 / 2 + i * 90;
+        out.push([x, y, i]);
+      }
+      return out;
+    };
+
+    // depth 1
+    const l1 = level(rootX, rootY, 4, 0);
+    l1.forEach((p, i) => {
+      const ok = i === 1;
+      s += hLine(rootX + 18, rootY, p[0] - 16, p[1], { cls: ok ? 'dd--green dd--bold' : 'dd--ghost', d: 240 + i * 90, bow: 14 });
+      s += hCircle(p[0], p[1], 15, { cls: ok ? 'dd--green dd--bold' : 'dd--ghost', d: 300 + i * 90 });
+      if (!ok) s += hX(p[0], p[1], 22, { cls: 'dd--red', d: 560 + i * 80 });
+    });
+
+    // depth 2 off the surviving node
+    const src = l1[1];
+    const l2 = level(src[0], src[1], 3, 1);
+    l2.forEach((p, i) => {
+      const ok = i === 2;
+      s += hLine(src[0] + 18, src[1], p[0] - 16, p[1], { cls: ok ? 'dd--green dd--bold' : 'dd--ghost', d: 700 + i * 90, bow: 12 });
+      s += hCircle(p[0], p[1], 15, { cls: ok ? 'dd--green dd--bold' : 'dd--ghost', d: 760 + i * 90 });
+      if (!ok) s += hX(p[0], p[1], 22, { cls: 'dd--red', d: 900 + i * 80 });
+    });
+
+    s += txt(1180, 640, 'the grammar deletes the branches', { anchor: 'middle', cls: 'ddt--lg', d: 1120 });
+    s += txt(1180, 686, 'before the model can pick one', { anchor: 'middle', cls: 'ddt--lg ddt--red', d: 1180 });
+    s += txt(1180, 760, 'a malformed answer is not unlikely.', { anchor: 'middle', cls: 'ddt--sm', d: 1260 });
+    s += txt(1180, 796, 'it is unreachable.', { anchor: 'middle', cls: 'ddt--sm ddt--green', d: 1320 });
+    return s;
+  };
+
+
+  /* ---------- NOTEBOOK : the error, as she wrote it ---------- */
+  DS.notebook = () => {
+    seed(311); let s = '';
+    // ruled page
+    s += hRect(1060, 190, 700, 700, { r: 10, cls: 'dd--bold', d: 100 });
+    for (let i = 0; i < 8; i++) s += hLine(1092, 300 + i * 78, 1728, 300 + i * 78, { cls: 'dd--thin dd--ghost', d: 180 + i * 40 });
+    s += hLine(1150, 200, 1150, 880, { cls: 'dd--thin dd--red', d: 200 });
+
+    s += `<text class="ddt pop" x="1190" y="368" style="--d:520ms;font-size:56px">3x + 5 = 20</text>`;
+    s += `<text class="ddt pop" x="1190" y="446" style="--d:820ms;font-size:56px">3x = 25</text>`;
+    s += `<text class="ddt pop" x="1190" y="524" style="--d:1000ms;font-size:56px;opacity:.45">x = 25/3</text>`;
+
+    s += hRect(1168, 400, 330, 62, { r: 8, cls: 'dd--red dd--bold', d: 1200 });
+    s += hArrow(1620, 500, 1580, 466, 1516, 436, { cls: 'dd--red', d: 1360 });
+    s += txt(1630, 520, 'she added the 5', { cls: 'ddt--red ddt--lg', d: 1420 });
+    s += txt(1630, 566, 'instead of subtracting it', { cls: 'ddt--sm ddt--red', d: 1480 });
+    return s;
+  };
+
+  /* ---------- OFFICE KIT : the phone hands the class to the laptop ---------- */
+  DS.officekit = () => {
+    seed(313); let s = '';
+    s += hRect(180, 560, 120, 200, { r: 14, cls: 'dd--bold', d: 120 });
+    s += txt(240, 802, 'the phone', { anchor: 'middle', cls: 'ddt--sm', d: 240 });
+
+    s += hArrow(316, 640, 400, 616, 488, 640, { cls: 'dd--amber dd--bold', d: 340 });
+    s += txt(402, 594, 'Office Kit', { anchor: 'middle', cls: 'ddt--amber', d: 420 });
+    s += txt(402, 690, 'clipboard · file transfer', { anchor: 'middle', cls: 'ddt--sm', d: 470 });
+
+    s += hRect(500, 540, 320, 200, { r: 8, cls: 'dd--bold', d: 520 });
+    s += hLine(470, 758, 850, 758, { cls: 'dd--bold', d: 580 });
+    for (let i = 0; i < 5; i++) {
+      s += hLine(530, 580 + i * 30, 790, 580 + i * 30, { cls: 'dd--thin dd--ghost', d: 640 + i * 60 });
+    }
+    s += txt(660, 812, 'class-report.csv', { anchor: 'middle', cls: 'ddt--sm ddt--green', d: 940 });
+    s += txt(660, 872, 'which concept, how many students, which line', { anchor: 'middle', cls: 'ddt--sm', d: 1000 });
+    return s;
+  };
+
   DS.wordmark = () => {
     seed(151); let s = '';
     s += hCircle(960, 540, 330, { cls: 'dd--ghost', d: 200 });
@@ -355,119 +556,151 @@
   const S = (o) => o;
 
   const SLIDES = [
-    S({ mood: 'ink', t: 8000, dd: 'signal', pos: 'left',
-        kicker: '', title: 'It is 6:40 in the<br>evening.',
-        sub: 'A village two hours outside Chennai. One bar of signal, and a data pack that ran out on the twentieth.',
-        cc: 'It is 6:40 in the evening, in a village two hours outside Chennai. There is one bar of signal, and a data pack that ran out on the twentieth.' }),
 
-    S({ mood: 'ink', t: 7000, dd: 'signal', pos: 'left',
-        title: 'The app doesn\'t fail.<br><em>It spins.</em>',
-        sub: 'Bad connectivity does not produce an error message. It produces a child watching a loader.',
-        cc: 'The app does not fail. It spins. Bad connectivity does not produce an error message — it produces a child watching a loader.' }),
+    /* ---------------- ACT I — the page she handed in ---------------- */
+    S({ mood: 'ink', t: 8500, dd: 'notebook', pos: 'left',
+        title: "She wrote<br><mark>3x = 25</mark>.",
+        sub: "The line above it was 3x + 5 = 20. She moved the five across and added it instead of subtracting it. Everything after that line is wrong, and none of it is her fault.",
+        cc: "She wrote three x equals twenty-five. The line above it was three x plus five equals twenty. She moved the five across and added it instead of subtracting. Everything after that is wrong, and none of it is really her fault." }),
 
-    S({ mood: 'paper', t: 8000, dd: 'dial', pos: 'left',
-        kicker: 'The premise',
-        title: 'Bad internet is<br><mark>the country</mark>.',
-        sub: '"No internet" is a niche. One bar is the national condition. So we treat connectivity as a dial, not a switch — and we build to be best at the bottom of it.',
-        cc: 'So here is the premise. "No internet" is a niche. Bad internet is the country. We treat connectivity as a dial, not a switch, and we build to be best at the bottom of it.' }),
+    S({ mood: 'ink', t: 7500, dd: 'notebook', pos: 'left',
+        title: "Nobody in the room<br>has time to<br><em>notice.</em>",
+        sub: "Sixty students, one teacher, forty minutes. The book comes back with a cross on the answer and no mark against line two.",
+        cc: "And nobody in that room has time to notice. Sixty students, one teacher, forty minutes. The book comes back with a cross next to the answer and no mark against line two." }),
 
-    S({ mood: 'paper', t: 7500, dd: 'fanout', pos: 'left',
-        kicker: 'The economics',
-        title: 'One school can buy<br><mark>one</mark> ₹40,000 phone.',
-        sub: 'It cannot buy thirty. So the classroom needs exactly one smart thing in the room — and everything else is a browser it already has.',
-        cc: 'And here is the economics. A government school can buy one forty-thousand-rupee phone. It cannot buy thirty. So the room needs exactly one smart thing in it.' }),
+    S({ mood: 'paper', t: 7500, dd: 'dial', pos: 'left',
+        kicker: 'And no, you cannot just call an API',
+        title: "One bar. And a data<br>pack that ran out<br>on <mark>the twentieth</mark>.",
+        sub: "Anything that needs a round trip is a tutor that spins. So we built for the bottom of the bar.",
+        cc: "And no, you cannot just call an API here. One bar of signal, and a data pack that ran out on the twentieth. Anything that needs a round trip is a tutor that spins. So we built for the bottom of the bar and treated signal as a bonus." }),
 
-    S({ mood: 'ink', t: 6500, dd: 'wordmark', pos: 'center',
+    S({ mood: 'paper', t: 7000, dd: 'fanout', pos: 'left',
+        kicker: 'And then the maths of it',
+        title: "A school can buy<br><mark>one</mark> good phone.",
+        sub: "Not thirty. So we stopped designing for thirty devices and started designing for one.",
+        cc: "And then there's the maths of it. A government school can buy one good phone. It can't buy thirty. So we stopped designing for thirty devices and started designing for one." }),
+
+    /* ---------------- ACT II — the reveal ---------------- */
+    S({ mood: 'ink', t: 6000, dd: 'wordmark', pos: 'center',
         wordmark: true,
-        cc: 'This is EduQoo.' }),
+        cc: "This is EduQoo." }),
 
     S({ mood: 'ink', t: 8000, dd: 'hotspot', pos: 'right', phone: { s: 0.86, x: -430, y: 0 }, scr: 'home',
         kicker: 'EduQoo',
-        title: 'One phone.<br>A whole classroom.<br><em>Zero internet required.</em>',
-        sub: 'A tutor, a grounded notebook, a live quiz system and a classroom server — all running on the AI already inside one iQOO phone.',
-        cc: 'One phone. A whole classroom. Zero internet required. A tutor, a grounded notebook, a live quiz system and a classroom server — all running on the AI already inside one iQOO phone.' }),
+        title: "It reads the page,<br>finds the wrong step,<br><em>and says why.</em>",
+        sub: "A math tutor that runs entirely on one iQOO phone. Camera in, spoken correction out, in the child's own language.",
+        cc: "It reads the page, finds the wrong step, and says why. A math tutor running entirely on one iQOO phone. Camera in, spoken correction out, in the child's own language." }),
 
-    S({ mood: 'paper', t: 9500, dd: 'ladder', pos: 'tl', phone: { s: 0.94, x: 480, y: 0 }, scr: 'tutor',
-        kicker: 'Pillar 01 — StepTutor',
-        title: 'It doesn\'t grade.<br>It finds <mark>the break</mark>.',
-        sub: 'It does not know methods. It checks whether line n is still equivalent to line n minus one.',
-        cc: 'StepTutor does not grade. It finds the break. It does not know methods — it checks whether each line is still equivalent to the line above it. The first place that stops being true is the error.' }),
+    /* ---------------- ACT III — the model lives here ---------------- */
+    S({ mood: 'ink', t: 8500, dd: 'noserver', pos: 'tl', phone: { s: 0.85, x: 470, y: 0 }, scr: 'home',
+        kicker: 'Before anything else',
+        title: "No server.<br>No API key.<br><mark>No request.</mark>",
+        cc: "Before anything else, the thing that makes this different. There is no server. No API key. Not one network request. Everything you are about to see happens between the camera and the silicon." }),
 
-    S({ mood: 'ink', t: 8500, dd: 'blank', pos: 'left', phone: { s: 1.9, x: 620, y: 300 }, scr: 'tutor',
-        kicker: 'The guarantee',
-        title: 'A computer algebra<br>system decides.<br><em>The model only<br>phrases it.</em>',
-        hand: 'we will not hallucinate at a child learning calculus',
-        cc: 'And notice what decided that. A computer algebra system — Symja — running on the phone. The language model never adjudicates the mathematics. It only phrases the explanation. We will not hallucinate at a child learning calculus.' }),
+    S({ mood: 'paper', t: 9000, dd: 'modelcard', pos: 'left',
+        kicker: "What's actually running",
+        title: "Two billion<br>parameters, sitting<br><mark>on the phone</mark>.",
+        sub: "Gemma-2-2B, quantised to four bits, loaded through MediaPipe LLM Inference and kept warm. The weights ship inside the APK.",
+        cc: "What's actually running is Gemma-2-2B. Two billion parameters, quantised to four bits, loaded through MediaPipe LLM Inference and kept warm in memory so the first explanation isn't the slow one. The weights ship inside the APK. Nothing gets fetched, ever." }),
+
+    S({ mood: 'ink', t: 9500, dd: 'silicon', pos: 'tl',
+        kicker: 'Where the maths actually happens',
+        title: "The phone isn't the<br>screen here.<br><em>It's the compute.</em>",
+        cc: "And this is where the iQOO earns its place. The phone isn't the screen in this project, it's the compute. Inference targets the Snapdragon NPU, so decoding runs on silicon built for it instead of grinding the CPU flat. That's the difference between an answer in two seconds and an answer in twenty. It's also why we only ever run one inference at a time. Heat is real." }),
+
+    S({ mood: 'ink', t: 9500, dd: 'grammar', pos: 'left',
+        kicker: 'The trick that makes 2B enough',
+        title: "We don't ask nicely.<br>We make the wrong<br>token <mark>unreachable</mark>.",
+        cc: "Now, two billion parameters is small. Here's the trick that makes it enough. We don't ask the model nicely for a valid answer. We mask the decoder to a grammar as it goes, so the wrong token is deleted before it can be picked. A malformed answer isn't unlikely, it's unreachable." }),
+
+    S({ mood: 'ink', t: 9000, dd: 'twopass', pos: 'tl',
+        kicker: 'And the bug that comes with it',
+        title: "Turn both on and it<br><mark>stops calling tools</mark>.",
+        cc: "Except switching that on breaks something else, quietly. Constrain the grammar and enable tool calling in the same pass, and the mask puts the tool tokens out of reach. The model stops calling tools. The output still validates, so nothing looks wrong. It has just stopped working. So we split it in two. Pass one runs the tools, pass two writes the answer." }),
+
+    /* ---------------- ACT IV — the MVP path ---------------- */
+    S({ mood: 'paper', t: 9000, dd: 'blank', pos: 'left', phone: { s: 0.96, x: 478, y: 0 }, scr: 'confirm',
+        kicker: 'Stage one — point it at the page',
+        title: "It reads the ink,<br>then <mark>asks</mark>.",
+        sub: "ML Kit reads each handwritten step on the device and returns a confidence. Line three came back at 71%, under the threshold, so it stops and asks her to confirm before it judges anything.",
+        cc: "So. Point it at the page. ML Kit reads each handwritten step on the device and hands back a confidence for every line. Line three came back at seventy-one per cent, under our threshold, so it stops and asks her to confirm. The machine never judges work it isn't sure it read." }),
+
+    S({ mood: 'ink', t: 8500, dd: 'blank', pos: 'left', phone: { s: 1.7, x: 600, y: 250 }, scr: 'tutor',
+        kicker: 'Stage two — the whole product, really',
+        title: "A red boundary,<br>on <mark>line two</mark>.",
+        sub: "Not a cross next to the answer. A boundary drawn on the exact step where her working stopped being true.",
+        cc: "And there it is. Not a cross next to the answer — a red boundary drawn on the exact step where her working stopped being true. Line two. That is the whole product." }),
+
+    S({ mood: 'paper', t: 9000, dd: 'ladder', pos: 'tl', phone: { s: 0.94, x: 480, y: 0 }, scr: 'tutor',
+        kicker: 'And notice who decided that',
+        title: "A solver did.<br><em>Not the model.</em>",
+        hand: "we're not going to hallucinate at a child learning maths",
+        cc: "And notice who decided that. A symbolic solver, running on the phone, asking one question per line — is this step still equal to the one above it. The language model never gets a vote on whether the maths is right. It only writes the sentence that explains it. We're not going to hallucinate at a child learning maths." }),
 
     S({ mood: 'paper', t: 8500, dd: 'speaker', pos: 'right', phone: { s: 0.96, x: -170, y: 0 }, scr: 'player',
-        kicker: 'Rendered, not generated',
-        title: 'Then it shows you —<br>in <mark>Tamil</mark>.',
-        sub: 'Every frame comes from the CAS solution trace, so the animation cannot show a wrong step. Android TTS speaks it. The voice pack is on the device.',
-        cc: 'Then it shows you. Every frame of that walkthrough is rendered from the solve trace, so it cannot show a wrong step — and it speaks, in Tamil or Hindi, from a voice pack that lives on the phone.' }),
+        kicker: 'Stage three — out loud',
+        title: "In <mark>Tamil</mark>.<br>Because that's the<br>language she thinks in.",
+        sub: "The model turns the solver trace into one sentence per step. Android TTS speaks it from a voice pack on the device. Airplane mode is still on.",
+        cc: "Then it says it out loud, in Tamil, because that's the language she thinks in. An explanation in a second language isn't an explanation. The model turns the solver trace into one sentence per step, and Android TTS speaks it from a pack sitting on the device. Airplane mode is still on." }),
 
-    S({ mood: 'paper', t: 9000, dd: 'pipeline', pos: 'tl', phone: { s: 0.94, x: 480, y: 0 }, scr: 'notebook',
-        kicker: 'Pillar 02 — StudyDesk',
-        title: 'Answers that cite<br>the line they<br>came from.',
-        sub: 'Chunked, embedded and indexed entirely on the phone. Retrieval pulls four chunks from today\'s chapter — never the whole book.',
-        cc: 'The second pillar is StudyDesk. Import a chapter and it is chunked, embedded and indexed entirely on the phone. Every answer cites the line it came from.' }),
+    S({ mood: 'ink', t: 9000, dd: 'officekit', pos: 'right',
+        kicker: 'And for the teacher',
+        title: "Every flagged line<br>is a <mark>data point</mark>.",
+        sub: "Each error writes a concept tag to a local record. The class aggregates into a per-concept heatmap, and the CSV lands on the laptop over Office Kit.",
+        cc: "And every line we flag is a data point. Each error writes a concept tag to a local record, the class aggregates into a per-concept heatmap, and the teacher pulls the CSV to a laptop over Office Kit. She walks out knowing that two thirds of the room can't transpose a term yet." }),
 
-    S({ mood: 'warm', t: 7500, dd: 'blank', pos: 'left', phone: { s: 1.75, x: 420, y: 250 }, scr: 'refuse',
-        kicker: 'The honesty',
-        title: 'Refusing is<br><mark>the feature</mark>.',
-        sub: 'Ask it something outside the chapter and it says so, instead of inventing. That is the only version of a small model you can hand to a child.',
-        cc: 'And when you ask it something that is not in your material, it says so. It does not invent. Refusing is the feature — it is the only version of a small model you can hand to a child.' }),
+    /* ---------------- ACT V — the system around it ---------------- */
+    S({ mood: 'paper', t: 8000, dd: 'pipeline', pos: 'tl', phone: { s: 0.94, x: 480, y: 0 }, scr: 'notebook',
+        kicker: 'The same runtime, pointed elsewhere',
+        title: "Answers that cite<br>the line they<br>came from.",
+        sub: "Chunked, embedded and indexed on the phone. Four passages from today's chapter, never the whole book.",
+        cc: "The same runtime pointed at a chapter instead of a page gives you a notebook you can question. Chunked, embedded and indexed here, and every answer cites the line it came from." }),
 
-    S({ mood: 'paper', t: 8500, dd: 'blank', pos: 'left', phone: { s: 0.96, x: 478, y: 0 }, scr: 'quiz',
-        kicker: 'Pillar 03 — ClassTest',
-        title: 'Thirty phones.<br>One question.<br><em>Zero round trips.</em>',
-        sub: 'The question lands on every joined browser at once. Grading is a local function call, so the heatmap builds instantly — with the radios off.',
-        cc: 'The third pillar is ClassTest. One question lands on thirty browsers at once, grading happens locally in each one, and the teacher walks out knowing exactly what to reteach.' }),
+    S({ mood: 'warm', t: 7000, dd: 'blank', pos: 'left', phone: { s: 1.75, x: 420, y: 250 }, scr: 'refuse',
+        kicker: "And when it doesn't know",
+        title: "It says so.",
+        sub: "Ask about something outside the material and it tells you that, rather than making something up.",
+        hand: "a model you can trust is one that will disappoint you",
+        cc: "And when it doesn't know, it says so, rather than making something up. A small model you can actually trust is one that's willing to disappoint you." }),
 
-    S({ mood: 'paper', t: 7500, dd: 'verifier', pos: 'left',
-        kicker: 'The verifier',
-        title: 'Seven generated.<br><mark>Five</mark> survive.',
-        sub: 'One failed the grounding check against its source line. One had an answer key Symja disagreed with. Both were thrown away before any student saw them.',
-        cc: 'Seven questions were generated. Five survived. One failed its grounding check; one had an answer key the CAS disagreed with. A wrong answer key is worse than no quiz.' }),
+    S({ mood: 'ink', t: 8000, dd: 'hotspot', pos: 'right', phone: { s: 0.96, x: -400, y: 0 }, scr: 'classroom',
+        kicker: 'And when there are thirty of them',
+        title: "The phone<br><mark>is</mark> the server.",
+        sub: "It raises an access point with nothing behind it and serves the class from its own storage. Students scan a QR and they're in.",
+        hand: "no install · no account · no data plan",
+        cc: "And when there are thirty of them, the phone raises an access point with nothing behind it and serves the whole class from its own storage. They scan a QR and they're in, in whatever browser they already have." }),
 
-    S({ mood: 'ink', t: 9000, dd: 'hotspot', pos: 'right', phone: { s: 0.96, x: -400, y: 0 }, scr: 'classroom',
-        kicker: 'Pillar 04 — ClassDrop',
-        title: 'The phone<br><mark>is</mark> the server.',
-        sub: 'An access point with no uplink behind it, an embedded Ktor server, and mDNS resolving class.local. Students scan a QR and land in the class in their browser.',
-        hand: 'no install · no account · no data plan',
-        cc: 'The fourth pillar is ClassDrop. The phone raises an access point with nothing behind it and serves the client itself. Students scan a QR and land in the class, in a browser. No install. No account. No data plan.' }),
-
-    S({ mood: 'ink', t: 10500, dd: 'blank', pos: 'midl', phone: { s: 0.92, x: -660, y: 0 }, scr: 'trace', sheet: true,
+    S({ mood: 'ink', t: 9000, dd: 'blank', pos: 'midl', phone: { s: 0.92, x: -660, y: 0 }, scr: 'trace', sheet: true,
         arch: true,
-        kicker: 'The technical heart',
-        title: 'EduQoo Core.<br><em>A local agent<br>runtime.</em>',
-        cc: 'Underneath all four is the part that actually matters. EduQoo Core — a local agent runtime. A typed tool registry, a context budgeter, a two-pass executor and a verifier layer, running a two-billion-parameter model on the phone\'s own silicon.' }),
+        kicker: 'Holding it together',
+        title: "EduQoo Core.",
+        sub: "One runtime. Everything else is a tool registered against it.",
+        cc: "Holding all of it together is EduQoo Core. A tool registry, a context budgeter, the two-pass executor, and a verifier that checks everything before a student sees it. Wrapped around a model that never leaves the phone." }),
 
-    S({ mood: 'ink', t: 10000, dd: 'twopass', pos: 'tl',
-        kicker: 'The failure mode nobody mentions',
-        title: 'Constraints and tools<br>fight each other.',
-        cc: 'Here is a failure mode almost nobody accounts for. Turn on schema constraints and tool calling in the same pass, and open-weight models quietly stop calling tools — the grammar mask makes the tool tokens unreachable. The output still validates. It just silently stopped working. So we decouple them: pass one runs the tools, pass two formats the answer.' }),
+    S({ mood: 'ink', t: 9500, dd: 'hardware', pos: 'tl2', phone: { s: 0.88, x: 0, y: -10 }, scr: 'home',
+        kicker: 'Why it had to be this device',
+        title: "Six things.",
+        hand: "and not one of them reachable through a wrapper",
+        cc: "Which is why it had to be this device, and why it had to be native. The model on the NPU, the masked decoder, the camera, the hotspot radio, the foreground service holding it up, and the offline voice packs. Six things you don't get at arm's length through a wrapper." }),
 
-    S({ mood: 'ink', t: 10000, dd: 'hardware', pos: 'tl2', phone: { s: 0.88, x: 0, y: -10 }, scr: 'home',
-        kicker: 'Not a wrapper. Not a web app.',
-        title: 'It has to be<br><mark>the phone</mark>.',
-        cc: 'And this is why it has to be a phone, natively. The accelerator delegates, the constrained decoder, the hotspot radio, the foreground service, the camera, the offline voice packs — all of it lives at the native layer. The device utilisation is real because the architecture requires it.' }),
+    /* ---------------- ACT VI — close ---------------- */
+    S({ mood: 'paper', t: 8500, dd: 'blank', pos: 'center',
+        kicker: 'The published rubric',
+        title: "Six dimensions.<br><mark>Two</mark> are measured<br>off the device.",
+        sub: "Creative phone use and Office Kit are scored from telemetry, not opinion.",
+        chips: ['End product 30%', 'Novelty 20%', 'Phone use 15%', 'Depth 15%', 'Office Kit 10%', 'Demo 10%'],
+        cc: "The rubric has six dimensions, and two of them are measured off the device rather than judged. Creative phone use, and Office Kit. Camera, voice and on-device AI are all in the critical path here, so those numbers are real rather than staged." }),
 
-    S({ mood: 'paper', t: 8000, dd: 'blank', pos: 'center',
-        kicker: 'iQOO Hackathon · Track 02',
-        title: 'Four surfaces.<br>One runtime.<br><mark>Thirty hours</mark>.',
-        chips: ['Local-first, cloud-optional', 'Office Kit CSV export', 'OpenAI-compatible endpoint', 'Finale-portable to Track 06'],
-        cc: 'Four surfaces, one runtime, thirty hours. Local-first and cloud-optional, so the sponsor credits get used honestly. And one route turns the whole thing into a portable offline AI server that ships with an education client.' }),
+    S({ mood: 'ink', t: 9000, dd: 'wordmark', pos: 'center', wordmark: true,
+        closing: "One phone. One page.<br>The exact line she got wrong.",
+        hand: "no server, no signal, no account. it was never the point.",
+        cc: "One phone. One page. The exact line she got wrong, and why, in the language she thinks in. No server, no signal, no account. It was never the point." }),
 
-    S({ mood: 'ink', t: 9500, dd: 'wordmark', pos: 'center', wordmark: true,
-        closing: 'One phone. Thirty students.<br>No installs, no data, no internet.',
-        hand: 'and when the network comes back, it only gets better — it was never required',
-        cc: 'One phone. Thirty students. No installs, no data, no internet. And when the network comes back, it only gets better. It was never required.' }),
-
-    S({ mood: 'paper', t: 7000, dd: 'blank', pos: 'center',
-        title: 'EduQoo',
-        sub: 'harsh4-dev.github.io/iqoo',
-        chips: ['Tap the prototype', 'Read the spec', 'github.com/Harsh4-Dev/iqoo'],
-        cc: '' }),
+    S({ mood: 'paper', t: 6500, dd: 'blank', pos: 'center',
+        title: "EduQoo",
+        sub: "harsh4-dev.github.io/iqoo",
+        chips: ['Tap the prototype', 'Read the architecture', 'github.com/Harsh4-Dev/iqoo'],
+        cc: "" }),
   ];
 
   /* ============================================================

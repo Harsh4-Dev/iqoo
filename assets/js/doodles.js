@@ -456,9 +456,9 @@ const NOTES = {
 
   home: {
     left: [
-      { k: 'The economics', h: 'One capable phone. Not thirty.',
-        p: 'An Indian government school can buy <b>one</b> ₹40,000 device. It cannot buy thirty. So the classroom needs exactly one smart thing in the room, and everything else is a browser it already has.',
-        hand: 'that is the whole idea' },
+      { k: 'The user', h: 'A class of sixty. One teacher.',
+        p: 'Nobody gets one-to-one feedback. A student with a learning gap copies the answer off the board and never finds out which of their own six lines broke. <b>That</b> is the thing this fixes.',
+        hand: 'point the camera at the page →' },
       { k: 'The premise', h: 'Bad internet is the country.',
         p: 'Not "no internet" — that is a niche. One bar, 2G fallback, a data pack that ran out on the 20th. Apps do not fail cleanly there. They hang.',
         svg: () => { seed(5); let s = '';
@@ -472,8 +472,8 @@ const NOTES = {
     ],
     right: [
       { k: 'Try it', h: 'This is not a screenshot.',
-        p: 'Tap the <b>connectivity strip</b> at the top of the phone to cycle T0 → T1 → T2 and watch the app refuse to degrade. Then open any of the four tiles.',
-        hand: 'everything below is live →' },
+        p: 'Open <b>Tutor</b> and tap <b>Scan the page</b> — that is the MVP path end to end. Then tap the <b>connectivity strip</b> to cycle T0 → T1 → T2 and watch nothing degrade.',
+        hand: 'everything here is live' },
       { k: 'The architecture', h: 'Four surfaces, one runtime.',
         p: 'Tutor, Notebook, Quiz and Classroom are not four apps. They are four sets of tool definitions over the same local agent runtime — which is why a full system fits in a hackathon.',
         svg: () => { seed(9); let s = '';
@@ -483,31 +483,42 @@ const NOTES = {
             s += hLine(37 + i * 68, 40, 140, 64, { cls: 'dd--thin dd--ghost', d: 300 + i * 60 });
           });
           s += hRect(58, 66, 164, 32, { r: 5, cls: 'dd--amber dd--bold', d: 560 });
-          s += txt(140, 87, 'EduQoo Core runtime', { anchor: 'middle', cls: 'ddt--sm ddt--amber', d: 640 });
+          s += txt(140, 87, 'one local runtime', { anchor: 'middle', cls: 'ddt--sm ddt--amber', d: 640 });
           return s; } },
     ],
   },
 
   tutor: {
     left: [
-      { k: 'The method', h: 'It does not know methods.',
-        p: 'It checks whether line <i>n</i> is algebraically equivalent to line <i>n−1</i>. The first line where equivalence breaks is the error. That is one code path for arithmetic, trigonometry, calculus and matrices.',
-        hand: 'difficulty is free' },
-      { k: 'The receipt', h: 'Every check shows its working.',
-        p: 'Tap any line to see the literal Symja call the verifier ran and what came back. <b>Simplify[…] ≠ 0</b> is not an opinion.',
+      { k: 'Stage 01–02', h: 'The camera is the front door.',
+        p: 'Photograph the working. ML Kit reads each handwritten step on the device and hands back a line plus a confidence. A student who cannot type <b>25/3</b> can still photograph the page they already wrote.',
+        hand: 'no typing, no data, no account' },
+      { k: 'Stage 03', h: 'Under 90%, it stops and asks.',
+        p: 'Every line carries a confidence score. Anything below the threshold halts the pipeline and asks the student to confirm the reading. <b>The machine never judges work it is not sure it read.</b>',
         svg: () => { seed(13); let s = '';
-          s += hRect(8, 8, 264, 46, { r: 5, cls: 'dd--red' });
-          s += txt(18, 30, 'Simplify[(x²+3x) − (x²+3x+C)]', { cls: 'ddt--sm', d: 120 });
-          s += txt(18, 48, '→  −C   ≠ 0', { cls: 'ddt--sm ddt--red', d: 300 });
-          s += hArrow(140, 60, 140, 74, 140, 84, { cls: 'dd--red', d: 420 });
-          s += txt(150, 92, 'line 3 is where it broke', { anchor: 'middle', cls: 'ddt--sm ddt--red', d: 500 });
+          s += hRect(8, 8, 264, 40, { r: 5, cls: 'dd--green' });
+          s += txt(18, 34, '3x + 5 = 20', { cls: 'ddt--sm' });
+          s += txt(232, 34, '97%', { cls: 'ddt--sm ddt--green', d: 120 });
+          s += hRect(8, 54, 264, 40, { r: 5, cls: 'dd--amber dd--bold', d: 200 });
+          s += txt(18, 80, 'x = 25/3', { cls: 'ddt--sm', d: 260 });
+          s += txt(232, 80, '71%', { cls: 'ddt--sm ddt--amber', d: 300 });
+          s += hArrow(150, 100, 150, 112, 150, 122, { cls: 'dd--amber', d: 420 });
           return s; } },
     ],
     right: [
-      { k: 'The guarantee', h: 'The model never adjudicates maths.',
-        p: 'A computer algebra system decides what is true. The model only phrases the explanation. This is the sentence to say out loud: <b>we will not hallucinate at a child learning calculus.</b>' },
-      { k: 'The audio', h: 'Rendered from the trace, not generated.',
-        p: 'Every animation frame comes from the CAS solution trace, so it <i>cannot</i> show a wrong step. Android TTS speaks it in Tamil or Hindi. Try the language switch.',
+      { k: 'Stage 04', h: 'Not "is the answer right".',
+        p: 'The solver asks one question per line: is step <i>n</i> still algebraically equal to step <i>n−1</i>? The first break is the error, and it gets a red boundary drawn straight onto the photo.',
+        svg: () => { seed(17); let s = '';
+          s += hRect(8, 6, 190, 26, { r: 4, cls: 'dd--green' });
+          s += txt(16, 25, '3x + 5 = 20', { cls: 'ddt--sm' });
+          s += hRect(8, 38, 190, 26, { r: 4, cls: 'dd--red dd--bold', d: 180 });
+          s += txt(16, 57, '3x = 25', { cls: 'ddt--sm ddt--red', d: 240 });
+          s += hX(215, 51, 12, { cls: 'dd--red dd--bold', d: 340 });
+          s += txt(240, 57, 'error', { cls: 'ddt--sm ddt--red', d: 400 });
+          s += txt(8, 88, '+5 moved across without changing sign', { cls: 'ddt--sm', d: 480 });
+          return s; } },
+      { k: 'Stage 05', h: 'Then it says it out loud.',
+        p: 'Gemma-2-2B gets the solver trace and writes one sentence per step. It phrases; it does not adjudicate. Android TTS speaks it from a voice pack on the device — try the language switch.',
         hand: 'press play ▸' },
     ],
   },

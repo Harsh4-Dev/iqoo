@@ -35,8 +35,16 @@
     cls: null,
   };
 
-  function resetTutor() {
-    S.tutor = { pid: 'p1', checked: false, running: false, kb: false, draft: '', playing: false, step: -1, fixed: false, why: false };
+  function resetTutor(pid) {
+    const id = pid || 'p0';
+    const p = D.problems.find(x => x.id === id);
+    S.tutor = {
+      pid: id,
+      mode: p && p.scan ? 'idle' : 'work',   // scannable problems open on the camera
+      scanned: false, ocr: null, badFound: false,
+      checked: false, running: false, kb: false, draft: '',
+      playing: false, step: -1, fixed: false, why: false,
+    };
   }
   function resetNb() {
     S.nb = { src: 'ncert-12-ch7', indexed: { 'ncert-12-ch7': true, 'board-0912': false }, indexing: null, thread: [], openCite: null };
@@ -161,7 +169,7 @@
      ============================================================ */
   const TILES = {
     student: [
-      { id: 'tutor',     ic: 'chat',   t: 'Tutor',     s: 'Paste your working. It finds the line you went wrong on.', tint: 'tint-amber',  b: 'CAS-verified' },
+      { id: 'tutor',     ic: 'camera', t: 'Tutor',     s: 'Photograph your working. It finds the line you went wrong on.', tint: 'tint-amber',  b: 'Camera · on-device' },
       { id: 'notebook',  ic: 'book',   t: 'Notebook',  s: 'Ask today’s chapter. Answers cite the line.',              tint: 'tint-violet', b: 'Grounded' },
       { id: 'quiz',      ic: 'check2', t: 'Quiz',      s: 'Live from the teacher, or take it offline.',               tint: 'tint-green',  b: 'Graded on-device' },
       { id: 'classroom', ic: 'users',  t: 'Classroom', s: 'Notes and worksheets pushed to your browser.',             tint: 'tint-blue',   b: 'No install' },
@@ -170,7 +178,7 @@
       { id: 'classroom', ic: 'users',  t: 'Classroom', s: 'Raise the hotspot. Show the QR. Push anything.',           tint: 'tint-blue',   b: 'You are the server' },
       { id: 'quiz',      ic: 'check2', t: 'Quiz',      s: 'Auto-generate, review, push live, read the heatmap.',      tint: 'tint-green',  b: 'CSV export' },
       { id: 'notebook',  ic: 'book',   t: 'Notebook',  s: 'Index a chapter once. The whole class queries it.',        tint: 'tint-violet', b: 'On-device index' },
-      { id: 'tutor',     ic: 'chat',   t: 'Tutor',     s: 'Check a student’s working, then push the walkthrough.',    tint: 'tint-amber',  b: 'CAS-verified' },
+      { id: 'tutor',     ic: 'camera', t: 'Tutor',     s: 'Scan a student’s page, then push the walkthrough.',         tint: 'tint-amber',  b: 'Camera · on-device' },
     ],
   };
 
@@ -206,10 +214,81 @@
   /* ============================================================
      SCREEN · TUTOR
      ============================================================ */
-  V.tutor = () => {
+  /** the viewfinder: a photo of the page, with a detection box per read step */
+  function scanFrame(found, bad) {
     const p = D.problems.find(x => x.id === S.tutor.pid);
-    const t = S.tutor;
+    const lines = p.scan ? D.scan.read.map(r => r.t) : p.lines.map(l => l.x);
+    return `<div class="scan ${found >= lines.length ? 'is-done' : ''}" id="scanBox">
+      <div class="scan__frame">
+        <span class="scan__corners"><i></i><i></i><i></i><i></i></span>
+        <div class="scan__ink">${lines.map((txt, i) => `
+          <span class="${i < found ? 'is-found' : ''}${bad === i ? ' is-bad' : ''}">${esc(txt)}
+            <i class="scan__box"></i>
+            <i class="scan__tag">${bad === i ? 'error' : 'step ' + (i + 1)}</i>
+          </span>`).join('')}</div>
+      </div>
+      <div class="scan__hud">${I('camera')}
+        <span>${found ? Math.min(found, lines.length) + ' steps found' : 'hold steady…'}</span>
+        <span class="spacer"></span><b>on-device</b>
+      </div>
+    </div>`;
+  }
 
+  V.tutor = () => {
+    const t = S.tutor;
+    const p = D.problems.find(x => x.id === t.pid);
+
+    const chips = `<div class="chips" style="margin:0 0 12px">
+        ${D.problems.map(x => `<button class="chip ${x.id === t.pid ? 'chip--hot' : ''}" data-act="prob" data-v="${x.id}">${x.title}</button>`).join('')}
+      </div>`;
+
+    /* ---- camera first ---- */
+    if (t.mode === 'idle') {
+      return `${head('Tutor', p.level)}${chips}
+        <div class="empty" style="padding:22px 12px">${I('camera')}
+          <b>Point it at the page</b>
+          <small>Photograph the working. The handwriting is read on the device, then every step is checked against the one above it.</small>
+        </div>
+        <div class="actions">
+          <button class="abtn" data-act="kb">${I('edit')}Type it instead</button>
+          <button class="abtn abtn--go" data-act="scan">${I('camera')}Scan the page</button>
+        </div>
+        ${t.kb ? mathKeyboard() : ''}
+        <p class="hint" style="margin-top:14px">${I('info')}<span>Camera first, keyboard as the fallback. Handwritten fractions and superscripts are where plain OCR breaks, which is why every scan ends in a confirm step before anything is judged.</span></p>`;
+    }
+
+    /* ---- reading the page ---- */
+    if (t.mode === 'scanning') {
+      return `${head('Tutor', 'Reading the page')}
+        ${scanFrame(0, -1)}
+        <div id="scanSteps" style="margin-top:12px"></div>`;
+    }
+
+    /* ---- confirm what we read ---- */
+    if (t.mode === 'confirm') {
+      const low = t.ocr.filter(r => r.c < D.scan.confirmBelow);
+      return `${head('Tutor', 'Confirm what we read')}
+        ${scanFrame(t.ocr.length, -1)}
+        <div class="divider"><span>Is this what you wrote?</span><i></i></div>
+        <div class="ocr">${t.ocr.map((r, i) => `
+          <div class="ocr__row ${r.c < D.scan.confirmBelow ? 'is-low' : ''}">
+            <span class="ocr__n">${i + 1}</span>
+            <span class="ocr__t">${esc(r.t)}</span>
+            <span class="ocr__c">${Math.round(r.c * 100)}%</span>
+            <button class="ocr__edit" data-act="kb" title="Fix this line">${I('edit')}</button>
+          </div>`).join('')}
+        </div>
+        ${t.kb ? mathKeyboard() : ''}
+        <div class="actions">
+          <button class="abtn" data-act="scan">${I('cycle')}Rescan</button>
+          <button class="abtn abtn--go" data-act="confirmScan">${I('check')}Yes, check it</button>
+        </div>
+        <p class="hint" style="margin-top:12px">${I('shield')}<span>${low.length
+          ? 'Line ' + (t.ocr.indexOf(low[0]) + 1) + ' came back at ' + Math.round(low[0].c * 100) + '%, under the ' + Math.round(D.scan.confirmBelow * 100) + '% threshold, so it is flagged for you to check. Nothing is judged until you say we read it right.'
+          : 'Every line cleared the confidence threshold. Confirm anyway — nothing is judged until you say we read it right.'}</span></p>`;
+    }
+
+    /* ---- the check itself ---- */
     const lines = p.lines.map((l, i) => `
       <div class="line" data-i="${i}">
         <span class="line__n">${i + 1}</span>
@@ -219,27 +298,69 @@
           : I('check')}</span>
       </div>`).join('');
 
-    return `${head('Tutor', p.level)}
-      <div class="chips" style="margin:0 0 12px">
-        ${D.problems.map(x => `<button class="chip ${x.id === t.pid ? 'chip--hot' : ''}" data-act="prob" data-v="${x.id}">${x.title}</button>`).join('')}
-      </div>
+    return `${head('Tutor', p.level)}${chips}
+
+      ${t.scanned ? scanFrame(p.lines.length, t.badFound ? p.badLine : -1) + '<div style="height:12px"></div>' : ''}
 
       <div class="work" id="work">
-        <div class="work__h"><span>Your working</span><span class="mono">${p.lines.length} lines</span></div>
+        <div class="work__h"><span>${t.scanned ? 'What we read' : 'Your working'}</span><span class="mono">${p.lines.length} lines</span></div>
         ${lines}
       </div>
 
       ${t.kb ? mathKeyboard() : ''}
 
       <div class="actions">
-        <button class="abtn" data-act="kb">${I('edit')}${t.kb ? 'Hide keyboard' : 'Math keyboard'}</button>
+        <button class="abtn" data-act="${p.scan ? 'scan' : 'kb'}">${I(p.scan ? 'camera' : 'edit')}${p.scan ? 'Rescan' : (t.kb ? 'Hide keyboard' : 'Math keyboard')}</button>
         <button class="abtn abtn--go" data-act="check" ${t.running ? 'disabled' : ''}>${I('shield')}${t.checked ? 'Check again' : 'Check my working'}</button>
       </div>
 
       <div id="tutorOut"></div>
 
-      <p class="hint" style="margin-top:14px">${I('info')}<span>The keyboard is the primary input path on purpose — handwritten fractions and integral signs break plain-text OCR. Camera capture always ends in a confirm-what-we-read step.</span></p>`;
+      <p class="hint" style="margin-top:14px">${I('info')}<span>The model is not asked whether the maths is right. A symbolic solver checks whether each line is still equivalent to the one above it, and the first break is the error.</span></p>`;
   };
+
+  function runScan() {
+    const t = S.tutor;
+    t.mode = 'scanning'; t.checked = false; t.badFound = false; t.why = false;
+    render();
+
+    const box = $('#scanSteps');
+    if (!box) return;
+    box.innerHTML = `<div class="ingest">
+        <div class="ingest__t">On the device</div>
+        <div class="ingest__steps">${D.scan.pipeline.map((s, i) =>
+          `<div class="istep" data-i="${i}"><i>${I('check')}</i>${s[0]}<span class="n">${s[1]}</span></div>`).join('')}</div>
+      </div>`;
+
+    Trace.reset();
+    Trace.add('ocr', 'page.jpg → ML Kit Digital Ink', 610, true);
+    Trace.spend('working', 60);
+
+    let d = 260;
+    D.scan.pipeline.forEach((s, i) => {
+      after(d, () => { const e = $(`.istep[data-i="${i}"]`, box); if (e) e.classList.add('is-on'); });
+      after(d + 640, () => {
+        const e = $(`.istep[data-i="${i}"]`, box);
+        if (e) { e.classList.remove('is-on'); e.classList.add('is-done'); }
+        // reveal one detection box per parsing step
+        const spans = $$('#scanBox .scan__ink span');
+        if (spans[i]) spans[i].classList.add('is-found');
+        const hud = $('#scanBox .scan__hud span');
+        if (hud) hud.textContent = Math.min(i + 1, spans.length) + ' steps found';
+      });
+      d += 720;
+    });
+
+    after(d + 300, () => {
+      $$('#scanBox .scan__ink span').forEach(e => e.classList.add('is-found'));
+      t.ocr = D.scan.read.slice();
+      t.mode = 'confirm';
+      Trace.add('parse', t.ocr.length + ' steps → expressions', 34, true);
+      Trace.say({ k: 'warn', t: 'confirm before judging', d: 'One line came back under the confidence threshold. The student is asked to confirm the reading before any of it is marked — the machine never judges work it is not sure it read.' }, 0.71);
+      toast(t.ocr.length + ' steps read on-device. Check we got them right.', 'camera');
+      render();
+    });
+  }
 
   function mathKeyboard() {
     const rows = [
@@ -300,7 +421,17 @@
           </div>`);
         node.after(row);
 
-        if (!l.ok) finishCheck(p);
+        if (!l.ok) {
+          // draw the red boundary straight onto the photo of the page
+          S.tutor.badFound = true;
+          const spans = $$('#scanBox .scan__ink span');
+          if (spans[i]) {
+            spans[i].classList.add('is-bad');
+            const tag = spans[i].querySelector('.scan__tag');
+            if (tag) tag.textContent = 'error';
+          }
+          finishCheck(p);
+        }
       });
 
       delay += 900;
@@ -342,10 +473,20 @@
     if (row && row.classList.contains('casrow')) {
       row.innerHTML = '<b>Symja</b> re-checked after edit<br>→ <span class="yes">0</span> — equivalent to line ' + p.badLine;
     }
+    // clear the red boundary on the photo too
+    S.tutor.badFound = false;
+    const span = $$('#scanBox .scan__ink span')[p.badLine];
+    if (span) {
+      span.classList.remove('is-bad');
+      span.childNodes[0].nodeValue = p.fix + ' ';
+      const tag = span.querySelector('.scan__tag');
+      if (tag) tag.textContent = 'fixed';
+    }
+
     Trace.add('cas.check', 'line ' + (p.badLine + 1) + ' (edited)', 41, true);
-    Trace.add('progress.write', D.student.name + ' · constant of integration', 12, true);
-    Trace.say({ k: 'ok', t: 'all lines equivalent', d: 'The correction was verified the same way the error was. The weak concept was written to this student’s long-term memory.' }, 0.99);
-    toast('Line ' + (p.badLine + 1) + ' fixed and re-verified. Logged as a weak concept.', 'check');
+    Trace.add('progress.write', D.student.name + ' · ' + (p.concept || 'transposing a term'), 12, true);
+    Trace.say({ k: 'ok', t: 'all lines equivalent', d: 'The correction was verified the same way the error was. The concept was written to this student’s record so the teacher dashboard can aggregate it.' }, 0.99);
+    toast('Line ' + (p.badLine + 1) + ' fixed and re-verified. Logged for the teacher.', 'check');
   }
 
   function showWhy() {
@@ -902,7 +1043,7 @@
      ============================================================ */
   const TABS = [
     { id: 'home',      ic: 'home',   t: 'Home' },
-    { id: 'tutor',     ic: 'chat',   t: 'Tutor' },
+    { id: 'tutor',     ic: 'camera', t: 'Tutor' },
     { id: 'notebook',  ic: 'book',   t: 'Notebook' },
     { id: 'quiz',      ic: 'check2', t: 'Quiz' },
     { id: 'classroom', ic: 'users',  t: 'Class' },
@@ -1022,8 +1163,16 @@
     closeSheet: () => toggleSheet(false),
 
     /* tutor */
-    prob: (v) => { resetTutor(); S.tutor.pid = v; render(); },
+    prob: (v) => { resetTutor(v); render(); },
     kb:   () => { S.tutor.kb = !S.tutor.kb; render(); },
+    scan: () => runScan(),
+    confirmScan: () => {
+      const t = S.tutor;
+      t.mode = 'work'; t.scanned = true; t.kb = false;
+      Trace.add('cas.check', 'confirmed by the student', 8, true);
+      render();
+      after(260, runCheck);
+    },
     check: () => { render(); after(30, runCheck); },
     fix:  () => applyFix(),
     why:  () => showWhy(),
@@ -1150,9 +1299,10 @@
   /* site chrome: theme, nav, reveal */
   function site() {
     const root = document.documentElement;
+    // Light (notebook paper) is the default the demo is designed around.
+    // We only leave it if the visitor asked for the blackboard themselves.
     const saved = (() => { try { return localStorage.getItem('eduqoo-theme'); } catch (e) { return null; } })();
-    if (saved) root.setAttribute('data-theme', saved);
-    else if (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) root.setAttribute('data-theme', 'dark');
+    root.setAttribute('data-theme', saved === 'dark' ? 'dark' : 'light');
 
     const setIcon = () => {
       const b = $('#themeBtn');
