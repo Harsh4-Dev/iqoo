@@ -1063,7 +1063,86 @@
     Trace.paint();
   }
 
-  function go(name, push) {
+  /* ============================================================
+     SCROLLY — the page scroll walks the phone through its screens
+     ============================================================ */
+  const SCROLLY = {
+    track: null, on: false, idx: 0, lock: 0, raf: 0,
+
+    init() {
+      this.track = $('#stageTrack');
+      if (!this.track) return;
+      this.track.style.setProperty('--screens', TABS.length);
+
+      const dots = $('#stageDots');
+      if (dots) dots.innerHTML = TABS.map((t, i) =>
+        `<button class="sdot${i === 0 ? ' is-on' : ''}" data-act="seek" data-v="${i}"
+                 aria-label="Go to ${t.t}"><i></i><span>${t.t}</span></button>`).join('');
+
+      const pin = $('.stage__pin');
+      if (pin && !$('.stage__nudge')) {
+        pin.appendChild(h(`<div class="stage__nudge">${I('arrowDown')}<span>keep scrolling</span></div>`));
+      }
+
+      this.measure();
+      addEventListener('scroll', () => this.tick(), { passive: true });
+      addEventListener('resize', () => { this.measure(); this.tick(); }, { passive: true });
+      this.tick();
+    },
+
+    measure() {
+      this.on = window.matchMedia
+        ? matchMedia('(min-width: 1041px) and (min-height: 700px)').matches
+        : false;
+    },
+
+    /** 0 → 1 across the scrollable part of the track */
+    progress() {
+      const r = this.track.getBoundingClientRect();
+      const total = this.track.offsetHeight - innerHeight;
+      if (total <= 0) return 0;
+      return Math.min(1, Math.max(0, -r.top / total));
+    },
+
+    tick() {
+      if (!this.on || !this.track || this.raf) return;
+      this.raf = requestAnimationFrame(() => {
+        this.raf = 0;
+        const p = this.progress();
+        const nudge = $('.stage__nudge');
+        if (nudge) nudge.classList.toggle('is-gone', p > 0.03);
+
+        const i = Math.min(TABS.length - 1, Math.floor(p * TABS.length));
+        if (i === this.idx) return;
+        this.idx = i;
+        this.paint();
+        if (Date.now() < this.lock) return;
+        go(TABS[i].id, true);
+      });
+    },
+
+    paint() {
+      $$('.sdot').forEach((b, i) => b.classList.toggle('is-on', i === this.idx));
+    },
+
+    /** scroll the page so `name` becomes the pinned screen */
+    seek(name) {
+      if (!this.on || !this.track) return;
+      const i = TABS.findIndex(t => t.id === name);
+      if (i < 0 || i === this.idx) return;
+      this.idx = i;
+      this.paint();
+      this.lock = Date.now() + 1200;
+      const total = this.track.offsetHeight - innerHeight;
+      if (total <= 0) return;
+      const docTop = this.track.getBoundingClientRect().top + window.scrollY;
+      const top = docTop + ((i + 0.5) / TABS.length) * total;
+      try { scrollTo({ top: Math.round(top), behavior: 'smooth' }); }
+      catch (e) { scrollTo(0, Math.round(top)); }
+    },
+  };
+
+  function go(name, fromScroll) {
     if (!V[name]) return;
     stopTimers();
     const vp = $('#viewport');
@@ -1086,7 +1165,11 @@
     setScene(name);
     setNotes(name);
     Trace.paint();
-    if (history.replaceState) history.replaceState(null, '', '#' + name);
+
+    if (!fromScroll) {
+      SCROLLY.seek(name);
+      if (history.replaceState) history.replaceState(null, '', '#' + name);
+    }
   }
 
   function scrollBottom() {
@@ -1142,6 +1225,7 @@
      ============================================================ */
   const ACT = {
     go:   (v) => go(v),
+    seek: (v) => go(TABS[Number(v)].id),
     back: () => go('home'),
 
     tier: () => {
@@ -1267,6 +1351,7 @@
 
     buildScenes();
     updateSignal();
+    SCROLLY.init();
 
     /* delegated clicks */
     document.addEventListener('click', (e) => {

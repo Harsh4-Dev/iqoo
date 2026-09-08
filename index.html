@@ -18,10 +18,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Caveat:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="assets/css/tokens.css?v=14">
-<link rel="stylesheet" href="assets/css/site.css?v=14">
-<link rel="stylesheet" href="assets/css/phone.css?v=14">
-<link rel="stylesheet" href="assets/css/doodle.css?v=14">
+<link rel="stylesheet" href="assets/css/tokens.css?v=17">
+<link rel="stylesheet" href="assets/css/site.css?v=17">
+<link rel="stylesheet" href="assets/css/phone.css?v=17">
+<link rel="stylesheet" href="assets/css/doodle.css?v=17">
 </head>
 <body>
 
@@ -43,7 +43,7 @@
       <a class="nav__link" href="#pipeline">How it works</a>
       <a class="nav__link" href="#runtime">The runtime</a>
       <a class="nav__link" href="#hardware">The phone</a>
-      <a class="nav__link" href="#scoring">Scoring</a>
+      <a class="nav__link" href="#scope">Scope</a>
     </nav>
     <button class="icon-btn" id="themeBtn" aria-label="Toggle blackboard mode" title="Notebook / blackboard"></button>
     <a class="btn btn--primary" href="https://github.com/Harsh4-Dev/iqoo" target="_blank" rel="noopener">
@@ -77,7 +77,10 @@
 
 <!-- ========================= THE PROTOTYPE ========================= -->
 <section class="stage" id="prototype">
-  <div class="stage__grid">
+ <div class="stage__track" id="stageTrack">
+  <div class="stage__pin">
+   <nav class="stage__dots" id="stageDots" aria-label="App screens"></nav>
+   <div class="stage__grid">
     <div class="doodle-layer" id="doodles" aria-hidden="true"></div>
 
     <aside class="rail rail--left"></aside>
@@ -130,13 +133,15 @@
       </div>
 
       <p class="stage__caption">
-        Fully interactive — nothing here is a screenshot. Start in <b>Tutor</b> and tap <b>Scan the page</b>.
-        Keys: <kbd>1</kbd>–<kbd>5</kbd> switch tabs, <kbd>T</kbd> cycles the connectivity tier, <kbd>R</kbd> flips student / teacher.
+        <b>Keep scrolling to move through the app</b> — or tap the tabs. Nothing here is a screenshot.
+        <kbd>1</kbd>–<kbd>5</kbd> jump between screens, <kbd>T</kbd> cycles the connectivity tier, <kbd>R</kbd> flips student / teacher.
       </p>
     </div>
 
     <aside class="rail rail--right"></aside>
+   </div>
   </div>
+ </div>
 </section>
 
 <!-- ============================ PIPELINE ============================ -->
@@ -394,47 +399,6 @@
   </div>
 </section>
 
-<!-- ============================ SCORING ============================ -->
-<section class="section section--alt" id="scoring">
-  <div class="wrap">
-    <div class="section__head reveal">
-      <span class="eyebrow">Against the published rubric</span>
-      <h2>Six dimensions. 100%.</h2>
-      <p class="lede">The official iQOO Hackathon 2026 scoring, and what in this build answers each one. Two of the six are measured from device telemetry rather than judged — which is exactly why the camera, the voice and the on-device model are load-bearing here rather than decorative.</p>
-    </div>
-
-    <dl class="spec reveal">
-      <div class="spec__row">
-        <dt>End product quality <code>30%</code></dt>
-        <dd><b>Jury.</b> One complete path that works every time: photograph a page, get the wrong line circled, hear why. Five things that work beat twelve that stutter, so the scope is one flow polished rather than four half-built.</dd>
-      </div>
-      <div class="spec__row">
-        <dt>Novelty and impact <code>20%</code></dt>
-        <dd><b>Jury.</b> Line-level error localisation is a different product from an answer checker, and it is the difference between a grade and a lesson. The user is a child in a class of sixty who currently gets no feedback at all.</dd>
-      </div>
-      <div class="spec__row">
-        <dt>Creative phone use <code>15%</code></dt>
-        <dd><b>Device data — HackTracker.</b> The rubric names camera, voice and on-device AI. All three sit in the critical path: CameraX captures, ML Kit reads, the NPU runs the model, Android TTS speaks. The telemetry is real because the architecture requires it.</dd>
-      </div>
-      <div class="spec__row">
-        <dt>Technical depth <code>15%</code></dt>
-        <dd><b>Jury.</b> A typed tool registry, two-pass execution, a context budgeter and a verifier layer — inspectable live from the chip on the phone. The runtime trace is a feature, not a debug screen.</dd>
-      </div>
-      <div class="spec__row">
-        <dt>Office Kit usage <code>10%</code></dt>
-        <dd><b>Device data — HackTracker.</b> Used through the build for mirror, clipboard and file transfer across both Red Light windows, and used <em>in the demo</em> to pull the class diagnostic CSV to the laptop.</dd>
-      </div>
-      <div class="spec__row">
-        <dt>Demo and presentation <code>10%</code></dt>
-        <dd><b>Jury, 3–5 minutes.</b> Opens on airplane mode, closes on the CSV landing in the teacher's spreadsheet. Rehearsed aloud and timed, with the network kill as the first beat.</dd>
-      </div>
-    </dl>
-
-    <p class="lede reveal" style="margin-top:28px;max-width:70ch">
-      A local or open-source model at the core earns brownie points under the rules. Here it isn't a bonus — remove it and there is no product, because there is no network for a hosted model to sit behind.
-    </p>
-  </div>
-</section>
 
 <!-- ============================ SCOPE ============================ -->
 <section class="section" id="scope">
@@ -469,10 +433,10 @@
 
 </main>
 
-<script src="assets/js/data.js?v=14"></script>
-<script src="assets/js/qr.js?v=14"></script>
-<script src="assets/js/icons.js?v=14"></script>
-<script src="assets/js/doodles.js?v=14"></script>
-<script src="assets/js/app.js?v=14"></script>
+<script src="assets/js/data.js?v=17"></script>
+<script src="assets/js/qr.js?v=17"></script>
+<script src="assets/js/icons.js?v=17"></script>
+<script src="assets/js/doodles.js?v=17"></script>
+<script src="assets/js/app.js?v=17"></script>
 </body>
 </html>

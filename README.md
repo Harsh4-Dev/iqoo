@@ -55,6 +55,10 @@ allowed to write the sentence — never the verdict.
 
 ## What to try in the prototype
 
+**Scroll the page and the phone walks through its screens** — Home, Tutor, Notebook, Quiz,
+Classroom — with the annotations and the background sketch changing with it. The rail on the
+right jumps straight to any screen, as do the tabs, the tiles, and keys <kbd>1</kbd>–<kbd>5</kbd>.
+
 1. **Tutor → Scan the page.** The whole MVP path: the viewfinder reads three handwritten
    steps, one comes back at 71% confidence and the app stops to ask you to confirm it, then a
    red boundary lands on line two. Tap **Show me why** for the spoken walkthrough and switch
@@ -65,7 +69,7 @@ allowed to write the sentence — never the verdict.
 4. **Quiz →** switch to **Teacher** and export the CSV. It is a real download.
 5. **Classroom →** start the class. The QR is genuinely scannable.
 
-Keyboard: <kbd>1</kbd>–<kbd>5</kbd> switch tabs, <kbd>T</kbd> cycles the tier,
+Keyboard: <kbd>1</kbd>–<kbd>5</kbd> jump between screens, <kbd>T</kbd> cycles the tier,
 <kbd>R</kbd> flips student/teacher, <kbd>Esc</kbd> closes the trace.
 
 ---
@@ -85,21 +89,6 @@ Keyboard: <kbd>1</kbd>–<kbd>5</kbd> switch tabs, <kbd>T</kbd> cycles the tier,
 | Bridge | iQOO Office Kit — mirror, clipboard, file transfer |
 
 See [`ARCHITECTURE.md`](ARCHITECTURE.md) for the module graph, stage contracts and threading model.
-
----
-
-## Scoring
-
-The published rubric, and what answers each dimension.
-
-| Dimension | Weight | Source | Answered by |
-|---|---|---|---|
-| End product quality | 30% | Jury | One complete path that works every time |
-| Novelty and impact | 20% | Jury | Line-level error localisation, not answer checking |
-| Creative phone use | 15% | HackTracker | Camera, voice and on-device AI, all in the critical path |
-| Technical depth | 15% | Jury | Typed tool registry, two-pass executor, verifier — inspectable live |
-| Office Kit usage | 10% | HackTracker | The teacher CSV pull, in the demo and through both Red Light windows |
-| Demo and presentation | 10% | Jury | 3–5 minutes, opening on airplane mode |
 
 ---
 

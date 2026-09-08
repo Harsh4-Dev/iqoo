@@ -1071,3 +1071,10 @@
 }
 .ocr__edit svg { width: 11px; height: 11px; }
 .ocr__edit:hover { background: var(--paper-2); color: var(--ink); }
+
+/* fit the device to the pinned viewport on the scroll-driven stage.
+   Lives here, not in site.css, because phone.css loads later and would
+   otherwise win with the plain `.phone { --w: 372px }` above. */
+@media (min-width: 1041px) and (min-height: 700px) {
+  .stage__pin .phone { --w: min(372px, calc((100vh - 236px) / 2.1290)); }
+}
