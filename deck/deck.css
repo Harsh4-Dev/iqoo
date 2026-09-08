@@ -71,6 +71,7 @@ html, body {
 .block[data-pos="tl"]     { left: 132px; top: 132px; max-width: 900px; }
 .block[data-pos="midl"]   { left: 556px; top: 46%; transform: translateY(-50%); max-width: 400px; }
 .block[data-pos="tl2"]    { left: 132px; top: 120px; max-width: 500px; }
+.block[data-pos="cover"]  { left: 132px; top: 50%; transform: translateY(-50%); max-width: 950px; }
 .block[data-pos="bl"]     { left: 132px; bottom: 132px; max-width: 900px; }
 
 /* every line animates in on its own */
@@ -128,6 +129,25 @@ html, body {
 .stage16[data-mood="ink"] .kchip { background: rgba(255,255,255,.05); border-color: rgba(255,255,255,.14); color: var(--paper); }
 .kchip--on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 .stage16[data-mood="ink"] .kchip--on { background: var(--amber); color: #12100a; border-color: var(--amber); }
+
+/* ---- the opening title card, also the video thumbnail ---- */
+.cover-mark { display: flex; align-items: center; gap: 16px; margin-bottom: 30px; }
+.cover-mark .mark-dot {
+  width: 28px; height: 28px;
+  box-shadow: 0 0 0 10px color-mix(in srgb, var(--amber) 18%, transparent);
+}
+.cover-mark .mark-word { font-size: 48px; letter-spacing: -.03em; }
+
+.badge {
+  display: inline-flex; align-items: center;
+  padding: 9px 18px; border-radius: 999px;
+  border: 1.5px solid rgba(255, 255, 255, .20);
+  font-size: 18px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase;
+  color: rgba(234, 242, 240, .72);
+}
+.block[data-pos="cover"] .badge { margin-bottom: 32px; }
+.block[data-pos="cover"] .title { font-size: 116px; line-height: .98; }
+.block[data-pos="cover"] .sub { max-width: 30ch; }
 
 /* the wordmark */
 .mark-lock { display: flex; align-items: center; gap: 26px; justify-content: center; }

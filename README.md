@@ -50,7 +50,7 @@ allowed to write the sentence — never the verdict.
 | [`VIDEO_SCRIPT.md`](VIDEO_SCRIPT.md) | The launch film: timecoded edit, voice-over, b-roll shot list |
 | [`NARRATION.md`](NARRATION.md) | How to record the deck, and the ~8 minute narration script written for ElevenLabs |
 | [`docs/EduQoo-Architecture.pdf`](docs/EduQoo-Architecture.pdf) | The architecture reference as a print-ready PDF |
-| [`deck/`](deck/) | The presentation deck, 1920×1080, self-running, built to be screen-recorded |
+| [`deck/`](deck/) | The presentation deck, 1920×1080, self-running, built to be screen-recorded. Slide 1 is a title card that doubles as the video thumbnail. |
 | [`SlateAI_iQOO_Pitch.md`](SlateAI_iQOO_Pitch.md) · [`SlateAI_Feature_Spec.md`](SlateAI_Feature_Spec.md) | Earlier design documents. They predate the current name and scope and still use the working names **SlateAI** / **SlateCore**; the runtime is now **EduQoo Core**. |
 
 ---

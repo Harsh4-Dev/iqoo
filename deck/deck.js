@@ -557,6 +557,15 @@
 
   const SLIDES = [
 
+    /* ---------------- TITLE CARD — hold this frame for the thumbnail ---------------- */
+    S({ mood: 'ink', t: 7000, dd: 'blank', phone: { s: 1.0, x: 470, y: 0 }, scr: 'tutor',
+        cover: true,
+        badge: 'iQOO Hackathon 2026 · Track 02 · Smart Education',
+        title: "It finds the line<br>you got <mark>wrong</mark>.",
+        sub: "An on-device math tutor for classrooms with no internet. Camera in, spoken correction out, in the child's own language.",
+        chips: ['Gemma-2-2B, on the NPU', 'Camera + voice', 'Zero network requests'],
+        cc: "" }),
+
     /* ---------------- ACT I — the page she handed in ---------------- */
     S({ mood: 'ink', t: 8500, dd: 'notebook', pos: 'left',
         title: "She wrote<br><mark>3x = 25</mark>.",
@@ -721,6 +730,22 @@
   }
 
   function slideHTML(s) {
+    /* the opening title card — also the frame you grab for the thumbnail */
+    if (s.cover) {
+      let d = 100;
+      const line = (html, cls) => {
+        const o = `<div class="ln ${cls}" style="--d:${d}ms">${html}</div>`;
+        d += 240; return o;
+      };
+      return '<div class="block" data-pos="cover">'
+        + line('<span class="mark-dot"></span><span class="mark-word">EduQoo</span>', 'cover-mark')
+        + line(`<span class="badge">${s.badge}</span>`, '')
+        + line(s.title, 'title')
+        + line(s.sub, 'sub')
+        + (s.chips ? line(s.chips.map(c => `<span class="kchip">${c}</span>`).join(''), 'chiprow') : '')
+        + '</div>';
+    }
+
     if (s.wordmark) {
       return `<div class="block" data-pos="center">
         <div class="ln mark-lock" style="--d:120ms"><span class="mark-dot"></span><span class="mark-word">EduQoo</span></div>

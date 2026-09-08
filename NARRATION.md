@@ -68,17 +68,30 @@ Three inserts are worth capturing on their own:
   timings, context budget, verifier verdict. Crop tight.
 - **The walkthrough.** *Show me why*, with Tamil selected.
 
-## 1.4 Slide timings
+## 1.4 The thumbnail
+
+Slide 1 is a title card built to be grabbed as a still: wordmark, the track badge, the
+headline, and the phone showing the red boundary. It carries no narration.
+
+To export it: open the deck, press <kbd>F</kbd> then <kbd>H</kbd> then <kbd>C</kbd>, press
+<kbd>R</kbd> to restart, let the lines finish animating in — about two seconds — then take a
+full-screen screenshot. At 1080p that is a 1920 × 1080 frame, which is exactly what YouTube
+and most submission forms want.
+
+If you would rather pull it from the footage, the card holds for seven seconds at the top of
+the recording, so any frame after 00:02 is clean.
+
+## 1.5 Slide timings
 
 Each slide's dwell is the `t:` value in `deck/deck.js`. The narration takes below are
 written to sit inside those, not the other way around — if a take runs long, lengthen the
 slide rather than rushing the read.
 
-## 1.5 Checklist before the take
+## 1.6 Checklist before the take
 
 - [ ] Fullscreen, controls hidden, captions decided
 - [ ] Notifications off, taskbar hidden
-- [ ] Deck restarted from slide 1
+- [ ] Deck restarted from slide 1 (the title card)
 - [ ] Recording at 1080p / 60
 - [ ] A test capture of ten seconds, played back, before the real run
 
@@ -109,6 +122,52 @@ Model **`eleven_multilingual_v2`** — needed for the Tamil and Hindi pickups in
 | Style exaggeration | **0.10** | Anything higher starts performing. |
 | Speaker boost | **On** | |
 | Speed | **0.95** | The single setting that decides whether this reads as a keynote or an advert. |
+
+### Step by step
+
+1. **Sign in** at [elevenlabs.io](https://elevenlabs.io) and open **Voices → Voice Library**.
+
+2. **Find a voice.** Filter to *English*, use case *Narration* or *Informative*. Look for a
+   middle-aged, lower-pitched voice described as calm, measured or documentary. Avoid
+   anything tagged energetic, upbeat, commercial or promo — those read as an advert no
+   matter what you do with the sliders.
+
+3. **Audition before you commit.** Shortlist two or three, and generate **`vo_03`** with each
+   — it is only 156 characters, so it costs almost nothing and it contains the product name.
+   Pick the one that sounds like it is telling you something rather than selling it.
+
+4. Click **Add to My Voices** on the winner.
+
+5. Open **Text to Speech**, select that voice, and set the model to
+   **Eleven Multilingual v2**.
+
+6. **Set the sliders once**, to the values in the table above, and then do not touch them
+   again. Different settings between takes is the single most common reason a set of
+   generations will not cut together — the tone drifts audibly between clips.
+
+7. **Paste one take. Generate. Download.** Rename it `vo_01`, `vo_02` … `vo_14` immediately,
+   into one folder. Do not batch several takes into one generation.
+
+8. **Listen before moving on.** Two adjustments cover almost everything:
+   - Rushing, or eating the pauses → drop **Speed** to 0.92.
+   - Tone wandering mid-take → raise **Stability** to 0.55.
+   Change it, regenerate that take, and put the setting back for the rest only if the
+   problem was specific to that take.
+
+9. **If a take is 90% right, regenerate rather than edit the text.** The wording is timed to
+   the slides; rewriting it to chase a delivery problem will cost you the sync.
+
+10. **Export** as WAV if your plan allows it, otherwise the highest-bitrate MP3 available
+    (192 kbps or better), 44.1 kHz.
+
+11. **The regional lines in §2.4** need a voice that actually speaks Tamil or Hindi — most
+    English library voices will mangle them. Easier and more convincing: record the phone's
+    own Android TTS output instead.
+
+**Budget.** The full script is **5,231 characters**. Allow roughly three times that —
+about **16,000** — for auditions and retakes. That fits inside most paid monthly
+allowances; on the free tier, plan to spread it over two months or generate the two longest
+takes last.
 
 **Render each take as its own file** — `vo_01.wav` through `vo_14.wav`. Do not paste the
 whole script as one generation. You will want to nudge individual takes 200–400 ms against
