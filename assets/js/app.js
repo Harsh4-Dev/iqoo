@@ -1079,7 +1079,7 @@
   ];
 
   const SCROLLY = {
-    track: null, on: false, idx: 0, lock: 0, raf: 0,
+    track: null, on: false, idx: 0, lock: 0,
 
     init() {
       this.track = $('#stageTrack');
@@ -1110,14 +1110,24 @@
         Scaling beats narrowing the device: the in-app type is fixed-px, so
         a narrower frame would crush the layout inside it. */
     fit() {
-      const grid = $('.stage__grid'), pin = $('.stage__pin');
+      const grid = $('.stage__grid'), pin = $('.stage__pin'), cap = $('.stage__caption');
       if (!grid || !pin) return;
-      if (!this.on) { grid.style.removeProperty('--fit'); return; }
-      const avail = pin.clientHeight - 120;   // nav clearance + caption band
-      const natural = grid.offsetHeight;      // transforms do not affect layout
+      if (!this.on) {
+        grid.style.removeProperty('--fit');
+        pin.style.removeProperty('--band-shift');
+        return;
+      }
+      /* The usable band runs from the bottom of the sticky nav to the top of
+         the caption. Measure the caption rather than guessing at it — it
+         wraps to two or three lines depending on width. */
+      const NAV = 62, GAP = 14;
+      const capH = (cap ? cap.offsetHeight : 40) + 12;   // + its bottom inset
+      const avail = pin.clientHeight - NAV - capH - GAP * 2;
+      const natural = grid.offsetHeight;                 // transforms do not affect layout
       if (natural < 200) return;
-      const k = Math.max(0.5, Math.min(1, avail / natural));
-      grid.style.setProperty('--fit', k.toFixed(4));
+      grid.style.setProperty('--fit', Math.max(0.5, Math.min(1, avail / natural)).toFixed(4));
+      // centre on the band, not on the viewport
+      pin.style.setProperty('--band-shift', ((NAV - capH) / 2).toFixed(1) + 'px');
     },
 
     /** 0 → 1 across the scrollable part of the track */
@@ -1128,19 +1138,28 @@
       return Math.min(1, Math.max(0, -r.top / total));
     },
 
+    /* Decided synchronously on the scroll event, deliberately.
+       requestAnimationFrame gets starved when the page is not otherwise
+       animating, which left each screen change waiting for the *next*
+       scroll to force a repaint — the screens then landed a segment late.
+       The body is one rect read and an early return unless the segment
+       actually changed, so this is cheap enough to run inline. */
     tick() {
-      if (!this.on || !this.track || this.raf) return;
-      this.raf = requestAnimationFrame(() => {
-        this.raf = 0;
-        const i = Math.min(FLOW.length - 1, Math.floor(this.progress() * FLOW.length));
-        if (i === this.idx) return;
-        this.idx = i;
-        this.paint();
-        if (Date.now() < this.lock) return;
-        const f = FLOW[i];
-        S.role = f.role;
-        go(f.id, true);
-      });
+      if (!this.on || !this.track) return;
+      const p = this.progress();
+      const cap = $('.stage__caption');
+      if (cap) cap.classList.toggle('is-moved', p > 0.04);
+
+      // a click-driven smooth scroll owns the page until it lands
+      if (Date.now() < this.lock) return;
+
+      const i = Math.min(FLOW.length - 1, Math.floor(p * FLOW.length));
+      if (i === this.idx) return;
+      this.idx = i;
+      this.paint();
+      const f = FLOW[i];
+      S.role = f.role;
+      go(f.id, true);
     },
 
     paint() {
@@ -1172,14 +1191,23 @@
     if (!V[name]) return;
     stopTimers();
     const vp = $('#viewport');
-    const old = vp ? vp.querySelector('.view') : null;
+    if (!vp) return;
+
+    /* A fast scroll can call go() several times inside one 320ms exit
+       transition. querySelector only ever returned the first view, so the
+       ones in the middle were never scheduled for removal and piled up.
+       Hard-drop anything already stale, and keep at most two. */
+    const views = $$('.view', vp);
+    while (views.length > 1) views.shift().remove();
+    const old = views[0] || null;
+
     const back = TABS.findIndex(t => t.id === name) < TABS.findIndex(t => t.id === S.screen);
     S.screen = name;
 
     if (old) {
       old.classList.remove('is-active');
       if (back) old.classList.add('is-back');
-      setTimeout(() => old.remove(), 320);
+      setTimeout(() => { if (old.parentNode) old.remove(); }, 320);
     }
     const v = h(`<section class="view${back ? ' is-back' : ''}">${V[name]()}</section>`);
     vp.appendChild(v);

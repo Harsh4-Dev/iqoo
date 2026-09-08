@@ -256,6 +256,8 @@ p  { margin: 0; }
 .stage__track { position: relative; }
 .stage__pin   { position: relative; }
 
+.stage__cue { display: none; }
+
 /* the screen rail */
 .stage__dots {
   position: absolute; right: 18px; top: 50%; transform: translateY(-50%);
@@ -299,7 +301,9 @@ p  { margin: 0; }
    1041px the grid stacks and there is nothing to hold still. */
 @media (min-width: 1041px) and (min-height: 520px) {
   .stage { padding: 0; min-height: 0; }
-  .stage__track { height: calc(100vh + var(--screens, 8) * 50vh); }
+  /* 65vh per segment: one wheel gesture is ~400px, so a segment has to be
+     comfortably longer than that or a single flick skips a screen. */
+  .stage__track { height: calc(100vh + var(--screens, 8) * 65vh); }
 
   .stage__pin {
     position: sticky; top: 0;
@@ -313,7 +317,7 @@ p  { margin: 0; }
     position: absolute; left: 50%;
     /* centred in the band between the sticky nav and the caption,
        not in the raw viewport */
-    top: calc(50% + 10px);
+    top: calc(50% + var(--band-shift, 0px));
     width: min(1330px, calc(100% - 104px));
     align-items: center;
     transform: translate(-50%, -50%) scale(var(--fit, 1));
@@ -327,6 +331,18 @@ p  { margin: 0; }
     position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%);
     z-index: 4; max-width: 620px; font-size: .76rem;
   }
+  /* the scroll cue, which fades as soon as the stage starts moving */
+  .stage__cue {
+    display: block; width: 15px; height: 15px;
+    margin: 0 auto 5px; color: var(--amber-2);
+    transition: opacity var(--dur-3) var(--ease);
+  }
+  .stage__cue svg { width: 100%; height: 100%; animation: cueBob 1.9s var(--ease-soft) infinite; }
+  @keyframes cueBob {
+    0%, 100% { transform: translateY(-2px); opacity: .5; }
+    50%      { transform: translateY(3px);  opacity: 1; }
+  }
+  .stage__caption.is-moved .stage__cue { opacity: 0; }
 }
 
 /* big hand-drawn scene behind everything */

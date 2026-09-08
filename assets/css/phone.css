@@ -124,7 +124,11 @@
 .view {
   position: absolute; inset: 0;
   overflow-y: auto; overflow-x: hidden;
-  overscroll-behavior: contain;
+  /* auto, not contain: the phone sits dead centre of the pinned stage, so
+     `contain` swallowed the wheel and the page would not scroll on. Once a
+     screen reaches its end the scroll chains out to the page again. */
+  overscroll-behavior-y: auto;
+  overscroll-behavior-x: contain;
   padding: 6px 18px 62px;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
