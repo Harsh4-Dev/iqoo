@@ -116,7 +116,7 @@ One narrator. No second voice, no interview, no testimonial.
 
 ## 2.2 ElevenLabs settings
 
-Model **`eleven_multilingual_v2`** — needed for the Tamil and Hindi pickups in §2.4.
+Model **`eleven_multilingual_v2`** — needed for the Tamil and Hindi pickups in §2.5.
 
 | Setting | Value | Why |
 |---|---|---|
@@ -163,7 +163,7 @@ Model **`eleven_multilingual_v2`** — needed for the Tamil and Hindi pickups in
 10. **Export** as WAV if your plan allows it, otherwise the highest-bitrate MP3 available
     (192 kbps or better), 44.1 kHz.
 
-11. **The regional lines in §2.4** need a voice that actually speaks Tamil or Hindi — most
+11. **The regional lines in §2.5** need a voice that actually speaks Tamil or Hindi — most
     English library voices will mangle them. Easier and more convincing: record the phone's
     own Android TTS output instead.
 
@@ -180,7 +180,49 @@ any ElevenLabs plan.
 The punctuation is direction, not grammar. The em dashes are breaths and the short
 sentences are holds. Do not tidy them.
 
-## 2.3 The takes
+## 2.3 Paste-ready text
+
+**[`docs/elevenlabs-takes.txt`](docs/elevenlabs-takes.txt)** is the script normalised for
+the speech engine. Use that file when you generate, not §2.4 — §2.4 is written for a human
+reading the page, the txt is written for the model reading it aloud. The words are
+identical; the spelling and the pauses are not.
+
+Three things it does that raw text does not:
+
+**Break tags for the holds.** Multilingual v2 supports `<break time="1.0s" />`. The holds in
+this script are load-bearing — the pause before *"So we built EduQoo"* is the reveal — and
+punctuation alone will not reliably produce them. Keep the tags between 0.4 s and 1.2 s and
+do not add more than a handful per take; a stack of long breaks makes the model unstable
+and it starts inventing breaths.
+
+**Initialisms spelled out.** `A.P.I.`, `N.P.U.`, `M.L. Kit`, `L.L.M.`, `C.S.V.`, `Q.R.` and
+`Gemma two, two B`. Without the periods, TTS engines guess, and "Gemma-2-2B" tends to come
+out as *"Gemma dash two dash two bee"*.
+
+**The two names respelled.** `EduQoo` → **EduKoo**, `iQOO` → **eye-koo**. These are
+best-guess spellings — I have not heard your chosen voice say them. **Audition the product
+name before you commit to a voice:** generate `vo_03`, which contains it, and if it comes
+out wrong try `Eddoo-Koo` or `Edu Koo` until it lands. Getting your own product name wrong
+across an eight-minute film is the one error a jury will definitely notice.
+
+### Short takes drift — give them a run-up
+
+`vo_03` and `vo_14` are the two shortest takes, and short generations wander in tone because
+the model has no context to settle into. Both are marked **LEAD-IN** in the txt: they begin
+with a sentence repeated from the take before. Generate the whole block, then trim back to
+the marked line in your editor. The repeated sentence is never used.
+
+If you are driving the API rather than the web UI, use `previous_text` instead — same effect,
+no trimming.
+
+### A note on v3 and audio tags
+
+Eleven v3 accepts inline direction like `[calm]` or `[thoughtful]`. **Multilingual v2 does
+not** — paste a tag into v2 and it will read the word "calm" out loud. Stay on v2 for this
+script: it is steadier over long-form narration, which matters more here than expressive
+range. Everything in the txt is written for v2.
+
+## 2.4 The takes
 
 Fourteen takes, **7 min 21 s** of speech at 135 wpm — about **7:47** once you leave two
 seconds between them. Every take is under 600 characters, so all of them fit inside a single
@@ -328,7 +370,7 @@ generation on any ElevenLabs plan.
 
 ---
 
-## 2.4 Regional pickups
+## 2.5 Regional pickups
 
 Only needed if you want a polished alternative to the phone's own Android TTS in the
 walkthrough insert. **Use the phone's real audio if you can** — it is less pretty and far
@@ -339,7 +381,7 @@ more convincing, because it is the thing you are claiming works.
 | **ta** | இடது பக்கம் 5 நீங்குகிறது. வலது பக்கம் 15 ஆகும், 25 அல்ல. |
 | **hi** | बाईं ओर से 5 हट जाता है। दाईं ओर 15 बचता है, 25 नहीं। |
 
-## 2.5 Assembly
+## 2.6 Assembly
 
 1. Lay all fourteen takes on the timeline first, in order, with roughly two seconds between them.
 2. Drop the deck capture underneath and stretch each slide to meet its take.

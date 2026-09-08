@@ -1,0 +1,95 @@
+EduQoo — narration, paste-ready for ElevenLabs
+Model: Eleven Multilingual v2 · Stability 0.45 · Similarity 0.80 · Style 0.10 · Speaker boost on · Speed 0.95
+
+Paste ONE take at a time. Generate, download, rename vo_01 … vo_14, next take.
+Do not change the voice or the sliders between takes.
+
+Names and initialisms below are spelled for the speech engine, not for the page.
+"EduKoo" and "eye-koo" are how EduQoo and iQOO should sound — audition these two
+before committing to a voice, and adjust the spelling if your voice says them oddly.
+
+Takes marked LEAD-IN start with a sentence repeated from the previous take. Short
+takes drift in tone; the lead-in gives the model somewhere to settle. Generate the
+whole block, then trim everything before the marked line in your editor.
+
+═══════════════════════════════════════════════════════════════════════════════
+vo_01 · The page
+═══════════════════════════════════════════════════════════════════════════════
+She wrote three x equals twenty-five. <break time="1.0s" /> The line above it was three x plus five equals twenty. She moved the five across the equals sign and added it instead of subtracting it. Every line after that is wrong, and none of it is really her fault. <break time="0.8s" /> She will get the book back with a cross next to the answer, and no mark at all against line two.
+
+═══════════════════════════════════════════════════════════════════════════════
+vo_02 · The room
+═══════════════════════════════════════════════════════════════════════════════
+This is a classroom of sixty, with one teacher and forty minutes. Nobody in that room has time to find the exact line where each child lost it. So the gap does not get closed. It compounds, quietly, for years. <break time="1.0s" /> And you cannot fix it by calling an A.P.I. Out here there is one bar of signal and a data pack that ran out on the twentieth. Anything that needs a round trip is a tutor that spins.
+
+═══════════════════════════════════════════════════════════════════════════════
+vo_03 · The reveal          [LEAD-IN — trim before "So we built EduKoo."]
+═══════════════════════════════════════════════════════════════════════════════
+Anything that needs a round trip is a tutor that spins. <break time="1.2s" /> So we built EduKoo. <break time="0.8s" /> It reads the page, finds the wrong step, and says why — out loud, in the language the child actually thinks in. All of it on one phone.
+
+═══════════════════════════════════════════════════════════════════════════════
+vo_04 · No server
+═══════════════════════════════════════════════════════════════════════════════
+Before anything else, the thing that makes this different. There is no server. <break time="0.4s" /> No A.P.I. key. <break time="0.4s" /> Not one network request. Everything you are about to see happens between the camera and the silicon. <break time="1.0s" /> Airplane mode goes on at the start of this demo, and it stays on. Not as a party trick. The classrooms we are building for do not have a network to fall back on, so we removed the assumption entirely.
+
+═══════════════════════════════════════════════════════════════════════════════
+vo_05 · The model
+═══════════════════════════════════════════════════════════════════════════════
+What is actually running is Gemma two, two B. Two billion parameters, quantised down to four bits, loaded through MediaPipe L.L.M. Inference and kept warm in memory so the first answer is not the slow one. The weights ship inside the app. <break time="0.9s" /> Two billion is small, and that is deliberate. A bigger model would not survive the thermal envelope of a phone that has been working all day. We do not need one — because the model is not the thing deciding whether the maths is right.
+
+═══════════════════════════════════════════════════════════════════════════════
+vo_06 · The silicon
+═══════════════════════════════════════════════════════════════════════════════
+This is where the eye-koo earns its place in the project. The phone here is not the screen. It is the compute. <break time="0.8s" /> Inference targets the Snapdragon N.P.U., so decoding runs on silicon built for it instead of grinding the C.P.U. flat. That is the difference between an answer in two seconds and an answer in twenty — and on a device a child is holding, twenty seconds is the same as never. <break time="0.8s" /> It is also why we only ever run one inference at a time. Heat is real, and a demo that ignores it dies on stage.
+
+═══════════════════════════════════════════════════════════════════════════════
+vo_07 · Constrained decoding
+═══════════════════════════════════════════════════════════════════════════════
+Here is the trick that makes a small model enough. We do not ask it nicely for a valid answer and hope. We mask the decoder to a grammar as it generates, so a malformed answer is not unlikely — it is unreachable. The wrong token is deleted before the model can reach for it. <break time="1.0s" /> There is a catch. Turn on schema constraints and tool calling in the same pass, and the mask puts the tool tokens out of reach as well. The model quietly stops calling tools, the output still validates, and nothing looks broken. <break time="0.6s" /> So we split it in two. Pass one runs the tools. Pass two writes the answer.
+
+═══════════════════════════════════════════════════════════════════════════════
+vo_08 · The scan
+═══════════════════════════════════════════════════════════════════════════════
+Now, the product itself. Point the camera at the page. <break time="0.8s" /> M.L. Kit reads each handwritten step on the device and hands back a confidence score for every line. Here, line three came back at seventy-one per cent, under our threshold, so the app stops and asks her to confirm what it read before it judges anything. <break time="0.8s" /> That confirm step is not an apology for the recognition. It is the correct order of operations. The machine should never mark work it is not sure it read.
+
+═══════════════════════════════════════════════════════════════════════════════
+vo_09 · The red boundary
+═══════════════════════════════════════════════════════════════════════════════
+And then this. <break time="1.0s" /> Not a cross next to the answer. A red boundary drawn on the exact step where her working stopped being true. Line two. <break time="0.9s" /> That is the whole product, really. The difference between a grade and a lesson is knowing which line.
+
+═══════════════════════════════════════════════════════════════════════════════
+vo_10 · Who decided
+═══════════════════════════════════════════════════════════════════════════════
+Notice who decided that. A symbolic solver, running on the phone, asking one question per line: is this step still algebraically equal to the one above it? The first place that stops being true is the error. <break time="0.9s" /> The language model never gets a vote on whether the maths is right. It only writes the sentence that explains it. That split is the entire safety argument — a wrong correction on a child's homework is not a bad output, it is a harm.
+
+═══════════════════════════════════════════════════════════════════════════════
+vo_11 · The voice
+═══════════════════════════════════════════════════════════════════════════════
+Then it explains itself out loud, in Tamil. <break time="0.9s" /> The model turns the solver's trace into one short sentence per step, and Android text to speech reads it from a voice pack sitting on the device. A child who is behind in maths is very often behind in English too. An explanation in a second language is not an explanation.
+
+═══════════════════════════════════════════════════════════════════════════════
+vo_12 · The teacher
+═══════════════════════════════════════════════════════════════════════════════
+Every line we flag is also a data point. Each error writes a concept tag to a local record, the class aggregates into a heatmap by concept, and the teacher pulls the whole thing to a laptop as a C.S.V. over Office Kit. <break time="0.8s" /> She walks out of that room knowing that two thirds of her class cannot transpose a term yet. That is the part that changes what happens tomorrow.
+
+═══════════════════════════════════════════════════════════════════════════════
+vo_13 · The system around it
+═══════════════════════════════════════════════════════════════════════════════
+The same runtime, pointed at a chapter instead of a page, gives you a notebook you can question — where every answer cites the line it came from, and it refuses anything outside the source. <break time="0.8s" /> And when there are thirty students, the phone raises an access point with nothing behind it and serves the whole class from its own storage. They scan a Q.R. code and they are in, in whatever browser they already have. <break time="0.5s" /> No install. No account. No data plan.
+
+═══════════════════════════════════════════════════════════════════════════════
+vo_14 · Close              [LEAD-IN — trim before "One phone. One page."]
+═══════════════════════════════════════════════════════════════════════════════
+No install. No account. No data plan. <break time="1.2s" /> One phone. One page. The exact line she got wrong, and why, in the language she thinks in. <break time="0.9s" /> No server. No signal. No account. <break time="1.0s" /> It was never the point.
+
+═══════════════════════════════════════════════════════════════════════════════
+Regional pickups — only if you are not using the phone's own Android TTS.
+Same model (Eleven Multilingual v2), but you need a voice that actually speaks
+the language. Most English library voices will mangle these.
+═══════════════════════════════════════════════════════════════════════════════
+
+Tamil:
+இடது பக்கம் 5 நீங்குகிறது. வலது பக்கம் 15 ஆகும், 25 அல்ல.
+
+Hindi:
+बाईं ओर से 5 हट जाता है। दाईं ओर 15 बचता है, 25 नहीं।
