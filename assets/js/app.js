@@ -1064,25 +1064,34 @@
   }
 
   /* ============================================================
-     SCROLLY — the page scroll walks the phone through its screens
+     SCROLLY — the page scroll walks the phone through every screen,
+     student run first, then the teacher run.
      ============================================================ */
+  const FLOW = [
+    { id: 'home',      role: 'student', t: 'Home' },
+    { id: 'tutor',     role: 'student', t: 'Tutor' },
+    { id: 'notebook',  role: 'student', t: 'Notebook' },
+    { id: 'quiz',      role: 'student', t: 'Quiz' },
+    { id: 'classroom', role: 'student', t: 'Class' },
+    { id: 'home',      role: 'teacher', t: 'Teacher' },
+    { id: 'quiz',      role: 'teacher', t: 'Review' },
+    { id: 'classroom', role: 'teacher', t: 'Hotspot' },
+  ];
+
   const SCROLLY = {
     track: null, on: false, idx: 0, lock: 0, raf: 0,
 
     init() {
       this.track = $('#stageTrack');
       if (!this.track) return;
-      this.track.style.setProperty('--screens', TABS.length);
+      this.track.style.setProperty('--screens', FLOW.length);
 
       const dots = $('#stageDots');
-      if (dots) dots.innerHTML = TABS.map((t, i) =>
-        `<button class="sdot${i === 0 ? ' is-on' : ''}" data-act="seek" data-v="${i}"
-                 aria-label="Go to ${t.t}"><i></i><span>${t.t}</span></button>`).join('');
-
-      const pin = $('.stage__pin');
-      if (pin && !$('.stage__nudge')) {
-        pin.appendChild(h(`<div class="stage__nudge">${I('arrowDown')}<span>keep scrolling</span></div>`));
-      }
+      if (dots) dots.innerHTML = FLOW.map((f, i) => {
+        const split = f.role === 'teacher' && FLOW[i - 1] && FLOW[i - 1].role !== 'teacher';
+        return `<button class="sdot${i === 0 ? ' is-on' : ''}${split ? ' sdot--split' : ''}"
+                 data-act="seek" data-v="${i}" aria-label="${f.role}: ${f.t}"><i></i><span>${f.t}</span></button>`;
+      }).join('');
 
       this.measure();
       addEventListener('scroll', () => this.tick(), { passive: true });
@@ -1092,8 +1101,23 @@
 
     measure() {
       this.on = window.matchMedia
-        ? matchMedia('(min-width: 1041px) and (min-height: 700px)').matches
+        ? matchMedia('(min-width: 1041px) and (min-height: 520px)').matches
         : false;
+      this.fit();
+    },
+
+    /** scale the whole stage so the composition fits the pinned viewport.
+        Scaling beats narrowing the device: the in-app type is fixed-px, so
+        a narrower frame would crush the layout inside it. */
+    fit() {
+      const grid = $('.stage__grid'), pin = $('.stage__pin');
+      if (!grid || !pin) return;
+      if (!this.on) { grid.style.removeProperty('--fit'); return; }
+      const avail = pin.clientHeight - 120;   // nav clearance + caption band
+      const natural = grid.offsetHeight;      // transforms do not affect layout
+      if (natural < 200) return;
+      const k = Math.max(0.5, Math.min(1, avail / natural));
+      grid.style.setProperty('--fit', k.toFixed(4));
     },
 
     /** 0 → 1 across the scrollable part of the track */
@@ -1108,16 +1132,14 @@
       if (!this.on || !this.track || this.raf) return;
       this.raf = requestAnimationFrame(() => {
         this.raf = 0;
-        const p = this.progress();
-        const nudge = $('.stage__nudge');
-        if (nudge) nudge.classList.toggle('is-gone', p > 0.03);
-
-        const i = Math.min(TABS.length - 1, Math.floor(p * TABS.length));
+        const i = Math.min(FLOW.length - 1, Math.floor(this.progress() * FLOW.length));
         if (i === this.idx) return;
         this.idx = i;
         this.paint();
         if (Date.now() < this.lock) return;
-        go(TABS[i].id, true);
+        const f = FLOW[i];
+        S.role = f.role;
+        go(f.id, true);
       });
     },
 
@@ -1125,10 +1147,13 @@
       $$('.sdot').forEach((b, i) => b.classList.toggle('is-on', i === this.idx));
     },
 
-    /** scroll the page so `name` becomes the pinned screen */
-    seek(name) {
+    /** scroll the page so (name, role) becomes the pinned segment.
+        If the pair has no segment — the teacher has no Tutor screen —
+        leave the scroll position alone rather than jumping somewhere wrong. */
+    seek(name, role) {
       if (!this.on || !this.track) return;
-      const i = TABS.findIndex(t => t.id === name);
+      const want = role || S.role;
+      const i = FLOW.findIndex(f => f.id === name && f.role === want);
       if (i < 0 || i === this.idx) return;
       this.idx = i;
       this.paint();
@@ -1136,11 +1161,12 @@
       const total = this.track.offsetHeight - innerHeight;
       if (total <= 0) return;
       const docTop = this.track.getBoundingClientRect().top + window.scrollY;
-      const top = docTop + ((i + 0.5) / TABS.length) * total;
+      const top = docTop + ((i + 0.5) / FLOW.length) * total;
       try { scrollTo({ top: Math.round(top), behavior: 'smooth' }); }
       catch (e) { scrollTo(0, Math.round(top)); }
     },
   };
+
 
   function go(name, fromScroll) {
     if (!V[name]) return;
@@ -1225,7 +1251,7 @@
      ============================================================ */
   const ACT = {
     go:   (v) => go(v),
-    seek: (v) => go(TABS[Number(v)].id),
+    seek: (v) => { const f = FLOW[Number(v)]; S.role = f.role; go(f.id); },
     back: () => go('home'),
 
     tier: () => {
@@ -1241,7 +1267,7 @@
         S.tier === 'T0' ? 'wifiOff' : 'wifi');
     },
 
-    role: (v) => { S.role = v; render(); },
+    role: (v) => { S.role = v; render(); SCROLLY.seek(S.screen, v); },
 
     trace: () => toggleSheet(true),
     closeSheet: () => toggleSheet(false),
@@ -1379,6 +1405,7 @@
     /* first paint */
     const start = (location.hash || '').replace('#', '');
     go(V[start] ? start : 'home');
+    requestAnimationFrame(() => SCROLLY.fit());
   }
 
   /* site chrome: theme, nav, reveal */

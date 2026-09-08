@@ -55,9 +55,17 @@ allowed to write the sentence — never the verdict.
 
 ## What to try in the prototype
 
-**Scroll the page and the phone walks through its screens** — Home, Tutor, Notebook, Quiz,
-Classroom — with the annotations and the background sketch changing with it. The rail on the
-right jumps straight to any screen, as do the tabs, the tiles, and keys <kbd>1</kbd>–<kbd>5</kbd>.
+**Scroll the page and the phone walks through every screen** — the five student screens, then
+it flips to the teacher and walks through those too:
+
+```
+Home → Tutor → Notebook → Quiz → Class   ·   Teacher → Review → Hotspot
+```
+
+The annotations and the background sketch change with it. The rail on the right jumps straight
+to any screen, as do the tabs, the tiles, the role toggle, and keys <kbd>1</kbd>–<kbd>5</kbd>.
+The stage scales itself to whatever window you have, so this works without maximising; below
+1041px wide it falls back to plain scrolling.
 
 1. **Tutor → Scan the page.** The whole MVP path: the viewfinder reads three handwritten
    steps, one comes back at 71% confidence and the app stops to ask you to confirm it, then a

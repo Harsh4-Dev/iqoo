@@ -246,9 +246,12 @@ p  { margin: 0; }
 
 /* ------------------------------------------------------------
    Scroll-driven stage
-   The track gives the scroll distance; the pin holds the phone
-   still while the page moves it through one screen per segment.
-   Only engages where there is room for it — see the media query.
+   The track supplies the scroll distance; the pin holds the stage
+   still while the page walks the phone through every screen.
+
+   The whole grid is scaled to fit the window rather than the device
+   being narrowed — the in-app type is fixed-px, so shrinking the
+   frame alone would crush the layout inside it.
    ------------------------------------------------------------ */
 .stage__track { position: relative; }
 .stage__pin   { position: relative; }
@@ -257,23 +260,22 @@ p  { margin: 0; }
 .stage__dots {
   position: absolute; right: 18px; top: 50%; transform: translateY(-50%);
   z-index: 4;
-  display: none; flex-direction: column; gap: 4px;
+  display: none; flex-direction: column; gap: 2px;
 }
 .sdot {
   position: relative;
   display: flex; align-items: center;
   background: none; border: 0; cursor: pointer;
-  padding: 7px 2px; color: var(--ink-40);
-  font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  padding: 6px 2px; color: var(--ink-40);
+  font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
   transition: color var(--dur-2) var(--ease);
 }
 .sdot i {
-  width: 22px; height: 2px; border-radius: 999px; flex: none;
+  width: 20px; height: 2px; border-radius: 999px; flex: none;
   background: var(--ink-20);
   transition: background var(--dur-2) var(--ease), width var(--dur-3) var(--ease-out);
 }
-/* the label floats to the left of the bar so the rail itself stays
-   narrow and never reserves width beside the right-hand annotations */
+/* the label floats left of the bar so the rail never reserves width */
 .sdot span {
   position: absolute; right: calc(100% + 10px); top: 50%;
   transform: translateY(-50%) translateX(-5px);
@@ -285,35 +287,46 @@ p  { margin: 0; }
 }
 .sdot:hover { color: var(--ink); }
 .sdot:hover span { opacity: 1; transform: translateY(-50%); }
-.sdot.is-on { color: var(--ink); }
-.sdot.is-on i { background: var(--amber); width: 34px; }
-
-/* a nudge that fades once you have started scrolling the stage */
-.stage__nudge {
-  position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%);
-  z-index: 4; display: none; align-items: center; gap: 8px;
-  font-size: .74rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
-  color: var(--ink-40);
-  transition: opacity var(--dur-3) var(--ease);
+.sdot.is-on i { background: var(--amber); width: 32px; }
+/* the role divider between the student run and the teacher run */
+.sdot--split { margin-top: 12px; }
+.sdot--split::before {
+  content: ""; position: absolute; left: 0; right: 0; top: -7px;
+  height: 1px; background: var(--hairline);
 }
-.stage__nudge svg { width: 14px; height: 14px; animation: nudge 1.8s var(--ease-soft) infinite; }
-@keyframes nudge { 0%,100% { transform: translateY(-2px); } 50% { transform: translateY(3px); } }
-.stage__nudge.is-gone { opacity: 0; }
 
-@media (min-width: 1041px) and (min-height: 700px) {
+/* pin only where the three-column stage actually exists — below
+   1041px the grid stacks and there is nothing to hold still. */
+@media (min-width: 1041px) and (min-height: 520px) {
   .stage { padding: 0; min-height: 0; }
-  .stage__track { height: calc(100vh + var(--screens, 5) * 70vh); }
+  .stage__track { height: calc(100vh + var(--screens, 8) * 50vh); }
+
   .stage__pin {
-    position: sticky; top: 0; height: 100vh;
-    padding-top: 56px;            /* clear the sticky nav */
-    display: flex; align-items: center;
+    position: sticky; top: 0;
+    height: 100vh; height: 100svh;
     overflow: hidden;
   }
-  .stage__grid { width: min(1330px, calc(100% - 96px)); }
+
+  /* absolutely centred rather than flex-centred: an item taller than
+     its flex container gets clamped to the start in some engines. */
+  .stage__pin .stage__grid {
+    position: absolute; left: 50%;
+    /* centred in the band between the sticky nav and the caption,
+       not in the raw viewport */
+    top: calc(50% + 10px);
+    width: min(1330px, calc(100% - 104px));
+    align-items: center;
+    transform: translate(-50%, -50%) scale(var(--fit, 1));
+    transform-origin: center center;
+  }
+
   .stage__dots { display: flex; }
-  .stage__nudge { display: flex; }
-  .rail { min-height: 0; padding-top: 0; justify-content: center; }
-  .stage__caption { font-size: .78rem; }
+  .rail { min-height: 0; padding-top: 0; }
+
+  .stage__caption {
+    position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%);
+    z-index: 4; max-width: 620px; font-size: .76rem;
+  }
 }
 
 /* big hand-drawn scene behind everything */
