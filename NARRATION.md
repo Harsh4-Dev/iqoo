@@ -1,10 +1,13 @@
 # EduQoo — Recording guide & narration script
 
-Everything needed to produce the product film: how to capture the picture, and the
-voice-over written to be pasted straight into ElevenLabs.
+Everything needed to produce the product film: how to capture the picture, the voice-over
+written to be pasted straight into ElevenLabs, and the music and sound cue sheet.
 
-**Runtime: about 8 minutes** of narration — comfortably inside a 10-minute cap.
+**Runtime: 8:06** with the title card and the end card — comfortably inside a 10-minute cap.
 For the tighter 4:20 launch cut and its shot list, see [`VIDEO_SCRIPT.md`](VIDEO_SCRIPT.md).
+Its music map is timed to that cut, not this one; Part 3 below is the map for this cut.
+
+1. [Recording](#part-1--recording) · 2. [The narration script](#part-2--the-narration-script) · 3. [Music and sound](#part-3--music-and-sound)
 
 ---
 
@@ -343,4 +346,103 @@ more convincing, because it is the thing you are claiming works.
 3. Only then add the b-roll and the screen inserts, per [`VIDEO_SCRIPT.md`](VIDEO_SCRIPT.md) §4.
 4. Leave the Tamil audio in the clear. Do not narrate over it — it is the most persuasive
    six seconds you have.
-5. The last cue is silence. Nothing plays over the end card.
+5. Lay the music last, against the cue sheet in Part 3. The final cue is silence —
+   nothing plays over the end card.
+
+---
+
+# Part 3 — Music and sound
+
+The narration cut runs **8:06** with the title card and the end card. This is its cue
+sheet. [`VIDEO_SCRIPT.md`](VIDEO_SCRIPT.md) §6 has a different one — that map is timed to
+the 4:20 launch cut and the two are not interchangeable. Use whichever matches the cut you
+are actually building.
+
+## 3.1 Choosing the track
+
+**One piece, no edits, no drop.** A track that changes character halfway will fight the
+narration, and you cannot fix that in the mix.
+
+Search for: *minimal piano*, *ostinato*, *ambient documentary*, *underscore*. What you want
+is a slow repeating figure with no percussion for the first ninety seconds, and something
+that can sit still for eight minutes without becoming irritating.
+
+Avoid: anything with a build-and-drop structure, anything with a beat that lands on a grid
+you will end up cutting to, and anything described as *corporate*, *inspiring* or
+*technology*. Those all pull the film towards an advert, which is the opposite of the
+register the script is written in.
+
+**Licensing matters for a submission.** Epidemic Sound, Artlist and Musicbed are the paid
+options. Free and safe: the YouTube Audio Library, Pixabay Music, and Kevin MacLeod's
+catalogue under CC-BY — the last one needs the attribution line in your description, so
+read the terms before you commit to a track.
+
+Length: find something at least 8:30 so you are not looping. If you must loop, cross-fade
+over four seconds somewhere the narration is already speaking, never in a gap.
+
+## 3.2 The cue sheet
+
+Levels are relative to a master mastered at −14 LUFS. "Bed" means sitting under the voice
+without competing with it.
+
+| TC | On screen | Music | Note |
+|---|---|---|---|
+| 0:00 | **Title card** | fade in to **−18 dB** | Music alone. It is the only thing playing, so it can carry. |
+| 0:07 | vo_01 · The page | duck to **−24 dB** | Sparse. No percussion yet. |
+| 0:39 | vo_02 · The room | **−24 dB** | Hold. This act is a problem statement, not a build. |
+| 1:14 | *(gap)* | lift to **−19 dB** | Two seconds of music alone before the reveal. |
+| 1:16 | vo_03 · The reveal | **−16 dB** | **The one lift in the film.** Percussion may enter here. |
+| 1:32 | vo_04 · No server | settle to **−23 dB** | |
+| 2:06 | vo_05 · The model | **−23 dB** | Bed for the whole technical act. |
+| 2:45 | vo_06 · The silicon | **−23 dB** | |
+| 3:30 | vo_07 · Constrained decoding | **−25 dB** | The densest take in the script. Give it room. |
+| 4:22 | vo_08 · The scan | **−23 dB** | |
+| 5:02 | vo_09 · The red boundary | **−26 dB** | Pull back. The picture is doing the work. |
+| 5:24 | vo_10 · Who decided | **−23 dB** | |
+| 6:02 | vo_11 · The voice | **−23 dB** | |
+| **6:27** | **Tamil audio, in the clear** | **−32 dB** | **Duck hard.** Six seconds, no narration. Do not talk over it and do not let the score compete. |
+| 6:35 | vo_12 · The teacher | back to **−23 dB** | |
+| 7:08 | vo_13 · The system around it | **−23 dB** | |
+| 7:44 | *(gap)* | **−20 dB** | Let it breathe before the close. |
+| 7:46 | vo_14 · Close | lift to **−18 dB** | |
+| 7:59 | **End card** | fade to silence over 5s | Nothing else plays. |
+
+**Total 8:06.**
+
+## 3.3 Ducking
+
+Do it by hand, not with a sidechain compressor. Fourteen takes with clean gaps between them
+is few enough to keyframe, and manual ducks let you decide *where* the music comes back up —
+which is the whole expressive point of the cue sheet above. An automatic ducker will pump on
+every breath and flatten the two moments that matter (1:16 and 6:27).
+
+Ramp over **400–600 ms** into a duck and **800 ms–1.2 s** back out. Fast in, slow out. A duck
+that snaps back sounds like a mistake.
+
+## 3.4 Sound design
+
+Seven cues for eight minutes. Resist adding more — the restraint is what makes the few you
+keep land.
+
+| TC | Cue |
+|---|---|
+| 0:07 | One soft low tone as the title card gives way to the first slide. |
+| 1:34 | The real airplane-mode toggle click, taken from the B2 footage. Keep the original, do not replace it with a library sound. |
+| 4:26 | Three short UI ticks as the scan detection boxes land, one per line. |
+| 5:04 | **One lower tick** as the red boundary appears. Pitch it below the other three — that is what makes it read as *the error* rather than another step. |
+| 6:40 | A soft file-landing tick as the CSV appears on the laptop. |
+| 7:16 | The real camera-focus confirm from the QR scan shot. |
+| 7:59 | **Nothing.** Silence is the last cue in the film. |
+
+## 3.5 Levels for delivery
+
+| Target | Value |
+|---|---|
+| Master integrated loudness | **−14 LUFS** (YouTube and most submission portals normalise to this) |
+| True peak ceiling | **−1.0 dBTP** |
+| Narration bus | around **−16 LUFS** short-term, so it sits above the bed without limiting |
+| Music bed under VO | **18–22 dB** below the narration |
+| Room tone under b-roll | **−40 dB**, but present — a silent b-roll shot between two scored ones sounds broken |
+
+Check the whole thing once on laptop speakers and once on phone speakers before you export.
+Most juries will watch it on one of those two, not on monitors.
