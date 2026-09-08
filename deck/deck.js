@@ -345,7 +345,7 @@
   DS.hardware = () => {
     seed(139); let s = '';
     const pins = [
-      [470, 512, 'left',  'On-device model', 'Gemma 4 E2B · LiteRT-LM'],
+      [470, 512, 'left',  'On-device model', 'Gemma-2-2B · 4-bit'],
       [470, 666, 'left',  'Constrained decoding', 'grammar-masked at the decoder'],
       [470, 820, 'left',  'Camera + ML Kit OCR', 'board → text, on the device'],
       [1450, 512, 'right', 'Hotspot radio', 'an AP with no uplink'],
@@ -405,7 +405,7 @@
     seed(223); let s = '';
     const x = 1080, y = 250;
     s += hRect(x, y, 620, 640, { r: 18, cls: 'dd--bold', d: 120 });
-    s += txt(x + 34, y + 76, 'Gemma 4 E2B', { cls: 'ddt--lg ddt--amber', d: 220 });
+    s += txt(x + 34, y + 76, 'Gemma-2-2B', { cls: 'ddt--lg ddt--amber', d: 220 });
     s += hLine(x + 30, y + 96, x + 330, y + 98, { cls: 'dd--amber', d: 300 });
 
     // the stack of layers
@@ -417,7 +417,7 @@
     const facts = [
       ['~2B', 'parameters'],
       ['4-bit', 'quantised weights'],
-      ['LiteRT-LM', 'runtime, kept warm'],
+      ['MediaPipe', 'LLM Inference, warm'],
       ['on disk', 'ships with the app'],
     ];
     facts.forEach((f, i) => {
@@ -436,7 +436,7 @@
     const boxes = [
       [150, 210, 'your question', ''],
       [410, 190, 'tokenizer', ''],
-      [650, 250, 'LiteRT-LM', 'graph + grammar mask'],
+      [650, 250, 'MediaPipe LLM', 'graph + grammar mask'],
       [950, 300, 'the accelerator', 'GPU / NPU delegate'],
       [1310, 230, 'tokens back', ''],
     ];

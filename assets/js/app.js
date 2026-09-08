@@ -208,7 +208,7 @@
           ? 'Students join from any browser over your own access point — no installs, no data plan, no accounts. Flip the strip above to prove nothing degrades.'
           : 'Your homework never leaves the device. Flip the connectivity strip above and ask again — the answers are identical.'}
       </div>
-      <p class="hint" style="margin-top:12px">${I('cpu')}<span>Gemma 4 E2B via LiteRT-LM · Symja CAS · 768-dim SQLite vector store. Tap the chip at the bottom right to watch the runtime work.</span></p>`;
+      <p class="hint" style="margin-top:12px">${I('cpu')}<span>Gemma-2-2B via MediaPipe LLM Inference · symbolic solver · 768-dim SQLite vector store. Tap the chip at the bottom right to watch the runtime work.</span></p>`;
   };
 
   /* ============================================================

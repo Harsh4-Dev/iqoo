@@ -211,8 +211,8 @@ SCENES.tutor = () => {
   s += txt(940, 648, 'a CAS decides it.', { cls: 'ddt--lg ddt--red', d: 240 });
 
   s += hRect(930, 690, 130, 62, { d: 360 });
-  s += txt(995, 720, 'Gemma 4', { anchor: 'middle', cls: 'ddt--sm', d: 440 });
-  s += txt(995, 740, 'E2B', { anchor: 'middle', cls: 'ddt--sm', d: 470 });
+  s += txt(995, 720, 'Gemma-2-2B', { anchor: 'middle', cls: 'ddt--sm', d: 440 });
+  s += txt(995, 740, '4-bit', { anchor: 'middle', cls: 'ddt--sm', d: 470 });
 
   s += hRect(1140, 690, 150, 62, { cls: 'dd--red dd--bold', d: 420 });
   s += txt(1215, 718, 'Symja CAS', { anchor: 'middle', cls: 'ddt--red', d: 500 });
@@ -552,7 +552,7 @@ const NOTES = {
   quiz: {
     left: [
       { k: 'The generation', h: 'Schema-constrained, not parsed and hoped.',
-        p: 'The decoder is grammar-masked to the question schema, so a malformed option is not merely unlikely — it is <b>unreachable</b>. Measured on Gemma 4 edge builds, that is worth roughly a model generation of reliability.',
+        p: 'The decoder is grammar-masked to the question schema, so a malformed option is not merely unlikely — it is <b>unreachable</b>. On small edge models that is worth roughly a model generation of reliability.',
         hand: '+0.90 on JSON tasks' },
       { k: 'The review', h: 'A human sees every question first.',
         p: 'The teacher approves or kills each one before a child sees it. Keep this screen in the demo — it reads as responsibility, not weakness.',
