@@ -51,6 +51,7 @@ allowed to write the sentence — never the verdict.
 | [`NARRATION.md`](NARRATION.md) | Full production doc: how to record, the 8:06 narration script, ElevenLabs steps, and the music and sound cue sheet |
 | [`docs/elevenlabs-takes.txt`](docs/elevenlabs-takes.txt) | The 14 takes normalised for the speech engine — break tags, spelled-out initialisms, paste one at a time |
 | [`docs/EduQoo-Architecture.pdf`](docs/EduQoo-Architecture.pdf) | The architecture reference as a print-ready PDF |
+| [`docs/submission-copy.md`](docs/submission-copy.md) | Ready-to-paste form copy — tagline, 100/50/25-word descriptions, problem statement, technical approach |
 | [`deck/`](deck/) | The presentation deck, 1920×1080, self-running, built to be screen-recorded. Slide 1 is a title card that doubles as the video thumbnail. |
 | [`SlateAI_iQOO_Pitch.md`](SlateAI_iQOO_Pitch.md) · [`SlateAI_Feature_Spec.md`](SlateAI_Feature_Spec.md) | Earlier design documents. They predate the current name and scope and still use the working names **SlateAI** / **SlateCore**; the runtime is now **EduQoo Core**. |
 
