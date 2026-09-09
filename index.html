@@ -18,10 +18,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Caveat:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="assets/css/tokens.css?v=26">
-<link rel="stylesheet" href="assets/css/site.css?v=26">
-<link rel="stylesheet" href="assets/css/phone.css?v=26">
-<link rel="stylesheet" href="assets/css/doodle.css?v=26">
+<link rel="stylesheet" href="assets/css/tokens.css?v=29">
+<link rel="stylesheet" href="assets/css/site.css?v=29">
+<link rel="stylesheet" href="assets/css/phone.css?v=29">
+<link rel="stylesheet" href="assets/css/doodle.css?v=29">
 </head>
 <body>
 
@@ -44,6 +44,7 @@
       <a class="nav__link" href="#runtime">The runtime</a>
       <a class="nav__link" href="#hardware">The phone</a>
       <a class="nav__link" href="#scope">Scope</a>
+      <a class="nav__link" href="#film">Film</a>
     </nav>
     <button class="icon-btn" id="themeBtn" aria-label="Toggle blackboard mode" title="Notebook / blackboard"></button>
     <a class="btn btn--primary" href="https://github.com/Harsh4-Dev/iqoo" target="_blank" rel="noopener">
@@ -423,12 +424,43 @@
   </div>
 </section>
 
+<!-- ============================ THE FILM ============================ -->
+<section class="section section--alt" id="film">
+  <div class="wrap">
+    <div class="section__head section__head--center reveal">
+      <span class="eyebrow">Watch it work</span>
+      <h2>The product film.</h2>
+      <p class="lede">Eight minutes: the page she handed in, the model that reads it, the solver that decides, and the correction spoken back in her own language. Airplane mode is on the whole way through.</p>
+    </div>
+
+    <div class="film reveal">
+      <button class="film__facade" data-act="playFilm" aria-label="Play the EduQoo product film on YouTube">
+        <img class="film__poster"
+             src="https://i.ytimg.com/vi/Yf32r-_AuBY/maxresdefault.jpg"
+             onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/Yf32r-_AuBY/hqdefault.jpg'"
+             alt="EduQoo — the product film" width="1280" height="720" fetchpriority="low" decoding="async">
+        <span class="film__scrim"></span>
+        <span class="film__play">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5 19.5 12 7 19.5z"/></svg>
+        </span>
+        <span class="film__label">Play &middot; 8 min</span>
+      </button>
+    </div>
+
+    <p class="film__note reveal">
+      Nothing loads from YouTube until you press play. Prefer to watch it there?
+      <a href="https://youtu.be/Yf32r-_AuBY" target="_blank" rel="noopener">Open on YouTube</a>.
+    </p>
+  </div>
+</section>
+
 <!-- ============================ FOOTER ============================ -->
 <footer class="footer">
   <div class="wrap footer__in">
     <span class="brand" style="font-size:.95rem"><span class="brand__dot"></span>EduQoo</span>
     <span>Interactive prototype · iQOO Hackathon 2026 · Track 02 Smart Education · Chennai City Battle.</span>
     <span class="nav__spacer"></span>
+    <a href="https://youtu.be/Yf32r-_AuBY" target="_blank" rel="noopener">Film</a>
     <a href="https://github.com/Harsh4-Dev/iqoo">Source</a>
     <a href="https://github.com/Harsh4-Dev/iqoo/blob/main/ARCHITECTURE.md">Architecture</a>
     <a href="https://iqoo.reskilll.com/guide" target="_blank" rel="noopener">Rules</a>
@@ -437,10 +469,10 @@
 
 </main>
 
-<script src="assets/js/data.js?v=26"></script>
-<script src="assets/js/qr.js?v=26"></script>
-<script src="assets/js/icons.js?v=26"></script>
-<script src="assets/js/doodles.js?v=26"></script>
-<script src="assets/js/app.js?v=26"></script>
+<script src="assets/js/data.js?v=29"></script>
+<script src="assets/js/qr.js?v=29"></script>
+<script src="assets/js/icons.js?v=29"></script>
+<script src="assets/js/doodles.js?v=29"></script>
+<script src="assets/js/app.js?v=29"></script>
 </body>
 </html>

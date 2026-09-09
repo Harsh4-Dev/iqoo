@@ -1368,6 +1368,18 @@
     capture: () => capture(),
     pushnotes: () => pushNotes(),
     pdf: () => toast('notes.pdf saved. It opens with no network, forever.', 'download'),
+
+    /* the film: nothing is fetched from YouTube until this runs */
+    playFilm: () => {
+      const wrap = $('.film');
+      if (!wrap || wrap.querySelector('iframe')) return;
+      wrap.innerHTML =
+        '<iframe src="https://www.youtube-nocookie.com/embed/Yf32r-_AuBY' +
+        '?autoplay=1&rel=0&modestbranding=1&playsinline=1" ' +
+        'title="EduQoo — the product film" ' +
+        'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" ' +
+        'referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
+    },
   };
 
   function toggleSheet(up) {

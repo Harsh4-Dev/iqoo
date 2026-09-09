@@ -77,6 +77,7 @@ field allows. Nothing here claims anything the prototype does not show.
 
 | Field | Value |
 |---|---|
+| Video | https://youtu.be/Yf32r-_AuBY |
 | Prototype | https://harsh4-dev.github.io/iqoo/ |
 | Repository | https://github.com/Harsh4-Dev/iqoo |
 | Deck | https://harsh4-dev.github.io/iqoo/deck/ |

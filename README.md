@@ -10,6 +10,15 @@ Chennai City Battle (12–13 Sept 2026).
 
 ---
 
+## Watch the film
+
+[![EduQoo — the product film](https://i.ytimg.com/vi/Yf32r-_AuBY/maxresdefault.jpg)](https://youtu.be/Yf32r-_AuBY "Play on YouTube · 8 min")
+
+Eight minutes: the page she handed in, the model that reads it, the solver that decides, and
+the correction spoken back in her own language. Airplane mode is on the whole way through.
+
+---
+
 ## The product
 
 Photograph a student's handwritten working. On-device ink recognition reads each step, a
@@ -53,6 +62,7 @@ allowed to write the sentence — never the verdict.
 | [`docs/EduQoo-Architecture.pdf`](docs/EduQoo-Architecture.pdf) | The architecture reference as a print-ready PDF |
 | [`docs/submission-copy.md`](docs/submission-copy.md) | Ready-to-paste form copy — tagline, 100/50/25-word descriptions, problem statement, technical approach |
 | [`deck/`](deck/) | The presentation deck, 1920×1080, self-running, built to be screen-recorded. Slide 1 is a title card that doubles as the video thumbnail. |
+| [Film ↗](https://youtu.be/Yf32r-_AuBY) | The finished eight-minute product film on YouTube |
 | [`SlateAI_iQOO_Pitch.md`](SlateAI_iQOO_Pitch.md) · [`SlateAI_Feature_Spec.md`](SlateAI_Feature_Spec.md) | Earlier design documents. They predate the current name and scope and still use the working names **SlateAI** / **SlateCore**; the runtime is now **EduQoo Core**. |
 
 ---

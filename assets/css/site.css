@@ -575,3 +575,83 @@ p  { margin: 0; }
   .nav__links { display: none; }
   .hero__stats { gap: 18px 30px; }
 }
+
+/* ------------------------------------------------------------
+   The film
+   A click-to-load facade rather than a bare iframe: the YouTube
+   player is ~1MB and sets third-party cookies on sight, which is
+   a poor look on a page whose whole argument is that nothing
+   phones home. Nothing loads until you press play.
+   ------------------------------------------------------------ */
+.film {
+  position: relative;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--sh-3);
+  background: var(--ink);
+  aspect-ratio: 16 / 9;
+}
+
+.film__facade {
+  position: absolute; inset: 0;
+  display: block; width: 100%; height: 100%;
+  padding: 0; border: 0; cursor: pointer;
+  background: var(--ink);
+  overflow: hidden;
+}
+
+.film__poster {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-4) var(--ease-out), filter var(--dur-3) var(--ease);
+}
+.film__facade:hover .film__poster { transform: scale(1.02); }
+
+.film__scrim {
+  position: absolute; inset: 0;
+  background: radial-gradient(60% 60% at 50% 50%, rgba(6, 16, 15, .18), rgba(6, 16, 15, .52));
+  transition: opacity var(--dur-3) var(--ease);
+}
+.film__facade:hover .film__scrim { opacity: .8; }
+
+.film__play {
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: 84px; height: 84px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--amber);
+  color: #12100a;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, .38), 0 0 0 0 color-mix(in srgb, var(--amber) 45%, transparent);
+  transition: transform var(--dur-2) var(--ease-out), box-shadow var(--dur-3) var(--ease);
+}
+.film__play svg { width: 32px; height: 32px; margin-left: 4px; }
+.film__facade:hover .film__play {
+  transform: translate(-50%, -50%) scale(1.06);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, .38), 0 0 0 14px color-mix(in srgb, var(--amber) 22%, transparent);
+}
+.film__facade:active .film__play { transform: translate(-50%, -50%) scale(.97); }
+
+.film__label {
+  position: absolute; left: 18px; bottom: 16px;
+  padding: 7px 13px; border-radius: 999px;
+  background: rgba(6, 16, 15, .62);
+  backdrop-filter: blur(10px);
+  color: #fff; font-size: .76rem; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase;
+}
+
+.film iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+.film__note {
+  margin-top: 16px; text-align: center;
+  font-size: .82rem; color: var(--ink-40);
+}
+.film__note a { color: var(--ink-60); border-bottom: 1px solid var(--hairline); text-decoration: none; }
+.film__note a:hover { color: var(--ink); border-color: currentColor; }
+
+@media (max-width: 560px) {
+  .film__play { width: 62px; height: 62px; }
+  .film__play svg { width: 24px; height: 24px; }
+  .film__label { display: none; }
+}
